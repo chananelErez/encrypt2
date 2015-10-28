@@ -5,9 +5,9 @@ interface EncryptionAlgorithm {
 	
 	void setKey(int newKey);
 	
-	String getCypher();
+	String getCipher();
 	
-	void setCypher(String newcypher);
+	void setCipher(String newcypher);
 	
 	void Encrypt();
 	

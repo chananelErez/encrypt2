@@ -15,7 +15,7 @@ public class DoubleEncryptionTest {
 		tester.setKey(1);
 		tester.setAnotherKey(2);
 		tester.Encrypt();
-		assertEquals(tester.getCypher(),"DEFGH");
+		assertEquals(tester.getCipher(),"DEFGH");
 		
 		EncryptionAlgorithm algor=new ShiftMultiplyEncryption();
 		DoubleEncryption tester2=new DoubleEncryption(algor);
@@ -23,14 +23,14 @@ public class DoubleEncryptionTest {
 		tester2.setKey(2);
 		tester2.setAnotherKey(1);
 		tester2.Encrypt();
-		assertEquals(tester2.getCypher(),"BHJL");
+		assertEquals(tester2.getCipher(),"BHJL");
 	}
 
 	@Test
 	public void testDecrypt() {
 		EncryptionAlgorithm algo=new ShiftUpEncryption();
 		DoubleEncryption tester=new DoubleEncryption(algo);
-		tester.setCypher("DEFGH");
+		tester.setCipher("DEFGH");
 		tester.setKey(1);
 		tester.setAnotherKey(2);
 		tester.Decrypt();
@@ -38,7 +38,7 @@ public class DoubleEncryptionTest {
 		
 		EncryptionAlgorithm algor=new ShiftMultiplyEncryption();
 		DoubleEncryption tester2=new DoubleEncryption(algor);
-		tester2.setCypher("BHJL");
+		tester2.setCipher("BHJL");
 		tester2.setKey(2);
 		tester2.setAnotherKey(1);
 		tester2.Decrypt();

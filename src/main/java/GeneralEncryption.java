@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class GeneralEncryption implements EncryptionAlgorithm{
 
 	private String plainText;
-	private String cypherText;
+	private String cipherText;
 	private int key;
 	MathOperation encryptMethod=new MyAddition();
 	MathOperation decryptMethod=new MySubstraction();
@@ -26,9 +26,9 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 		return key;
 	}
 	
-	public String getCypher() {
+	public String getCipher() {
 		
-		return cypherText;
+		return cipherText;
 	}
 	public void Encrypt() {
 		char[] buffer = plainText.toCharArray();
@@ -44,11 +44,11 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 		    buffer[i] = letter;
 		}
 		// Return final string.
-		cypherText=new String(buffer);
+		cipherText=new String(buffer);
 		
 	}
 	public void Decrypt() {
-		char[] buffer = cypherText.toCharArray();
+		char[] buffer = cipherText.toCharArray();
 
 		// Loop over characters.
 		for (int i = 0; i < buffer.length; i++) {
@@ -80,8 +80,8 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 	public void setEncryptMethod(MathOperation EncryptMethod) {
 		encryptMethod = EncryptMethod;
 	}
-	public void setCypher(String newcypher) {
-		cypherText=newcypher;
+	public void setCipher(String newcypher) {
+		cipherText=newcypher;
 		
 	}
 

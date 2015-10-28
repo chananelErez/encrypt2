@@ -13,14 +13,14 @@ public class GeneralEncryptionTest {
 		tester.setPlainText("ABCDE");
 		tester.setKey(3);
 		tester.Encrypt();
-		assertEquals(tester.getCypher(),"DEFGH");
+		assertEquals(tester.getCipher(),"DEFGH");
 		
 	}
 
 	@Test
 	public void testDecrypt() {
 		EncryptionAlgorithm tester=new GeneralEncryption();
-		tester.setCypher("DEFGH");
+		tester.setCipher("DEFGH");
 		tester.setKey(3);
 		tester.Decrypt();
 		assertEquals(tester.getPlainText(),"ABCDE");

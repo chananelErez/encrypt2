@@ -22,15 +22,15 @@ public class FileEncryptor{
 		Algo.generateKey();
 		Algo.printKeyToFile();
 		Algo.Encrypt();
-		String cypher=Algo.getCypher();
-		writeFile(cypher,"encrypted" ,outputFilePath);
+		String cipher=Algo.getCipher();
+		writeFile(cipher,"encrypted" ,outputFilePath);
 		
 	}
 	
 	public void decryptFile(String encryptedFilePath,String outputFilePath)
 			throws IOException{
 		String content=readFile(encryptedFilePath, StandardCharsets.UTF_8);
-		Algo.setCypher(content);
+		Algo.setCipher(content);
 		Algo.setUserKey();
 		Algo.Decrypt();
 		String plain=Algo.getPlainText();

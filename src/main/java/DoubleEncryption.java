@@ -4,7 +4,7 @@ public class DoubleEncryption extends GeneralEncryption implements EncryptionAlg
 	EncryptionAlgorithm Algo;
 	private int anotherKey;
 	private String plainText1;
-	private String cypherText1;
+	private String cipherText1;
 	
 	public DoubleEncryption(EncryptionAlgorithm algo) {
 		Algo=algo;
@@ -29,12 +29,12 @@ public class DoubleEncryption extends GeneralEncryption implements EncryptionAlg
 		this.plainText1 = plainText1;
 	}
 
-	public String getCypherText1() {
-		return cypherText1;
+	public String getCipherText1() {
+		return cipherText1;
 	}
 
-	public void setCypherText1(String cypherText1) {
-		this.cypherText1 = cypherText1;
+	public void setCipherText1(String cypherText1) {
+		this.cipherText1 = cypherText1;
 	}
 	
 	
@@ -71,21 +71,21 @@ public class DoubleEncryption extends GeneralEncryption implements EncryptionAlg
 		Algo.setPlainText(plain);
 		Algo.setKey(getKey());
 		Algo.Encrypt();
-		setPlainText1(Algo.getCypher());
+		setPlainText1(Algo.getCipher());
 		Algo.setPlainText(getPlainText1());
 		Algo.setKey(getAnotherKey());
 		Algo.Encrypt();
-		setCypher(Algo.getCypher());
+		setCipher(Algo.getCipher());
 		
 	}
 	
 	public void Decrypt() {
-		String cypher=getCypher();
-		Algo.setCypher(cypher);
+		String cipher=getCipher();
+		Algo.setCipher(cipher);
 		Algo.setKey(getAnotherKey());
 		Algo.Decrypt();
-		setCypherText1(Algo.getPlainText());
-		Algo.setCypher(getCypherText1());
+		setCipherText1(Algo.getPlainText());
+		Algo.setCipher(getCipherText1());
 		Algo.setKey(getKey());
 		Algo.Decrypt();
 		setPlainText(Algo.getPlainText());

@@ -12,13 +12,13 @@ public class ShiftMultiplyEncryptionTest {
 		assertEquals(tester.getEncryptMethod().Operate(4, 5),20);
 		
 		tester.Encrypt();
-		assertEquals(tester.getCypher(),"c");
+		assertEquals(tester.getCipher(),"c");
 		tester.setPlainText("$");
 		tester.Encrypt();
-		assertEquals(tester.getCypher(),"l");
+		assertEquals(tester.getCipher(),"l");
 		
 		assertEquals(tester.getDecryptMethod().Operate(200, 5),40);
-		tester.setCypher("c");
+		tester.setCipher("c");
 		tester.setKey(3);
 		tester.Decrypt();
 		assertEquals(tester.getPlainText(),"!");
