@@ -1,22 +1,18 @@
 
 interface EncryptionAlgorithm {
-	
+
 	void setPlainText(String plaintext);
 	
 	void setKey(int newKey);
 	
-	String getCypher();
+	String getCipher();
 	
-	void setCypher(String newcypher);
+	void setCipher(String newcypher);
 	
 	void Encrypt();
 	
 	void Decrypt();
 	
-	void setDecryptMethod(MathOperation decryptMethod);
-	
-	void setEncryptMethod(MathOperation encryptMethod);
-
 	String getPlainText();
 
 	void generateKey();
@@ -24,6 +20,10 @@ interface EncryptionAlgorithm {
 	void printKeyToFile();
 
 	void setUserKey();
+	
+	int getKey();
+	
+	MathOperation getEncryptMethod();
 	
 	
 
