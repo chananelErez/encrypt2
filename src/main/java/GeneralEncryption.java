@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class GeneralEncryption implements EncryptionAlgorithm{
 
 	private String plainText;
-	private String cypherText;
+	private String cipherText;
 	private int key;
 	MathOperation encryptMethod=new MyAddition();
 	MathOperation decryptMethod=new MySubstraction();
@@ -26,9 +26,9 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 		return key;
 	}
 	
-	public String getCypher() {
+	public String getCipher() {
 		
-		return cypherText;
+		return cipherText;
 	}
 	public void Encrypt() {
 		char[] buffer = plainText.toCharArray();
@@ -44,11 +44,11 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 		    buffer[i] = letter;
 		}
 		// Return final string.
-		cypherText=new String(buffer);
+		cipherText=new String(buffer);
 		
 	}
 	public void Decrypt() {
-		char[] buffer = cypherText.toCharArray();
+		char[] buffer = cipherText.toCharArray();
 
 		// Loop over characters.
 		for (int i = 0; i < buffer.length; i++) {
@@ -66,15 +66,9 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 		
 	}
 	
-	public void setDecryptMethod(MathOperation decryptMethod) {
-		this.decryptMethod = decryptMethod;
-	}
 	
-	public void setEncryptMethod(MathOperation encryptMethod) {
-		this.encryptMethod = encryptMethod;
-	}
-	public void setCypher(String newcypher) {
-		cypherText=newcypher;
+	public void setCipher(String newcypher) {
+		cipherText=newcypher;
 		
 	}
 
@@ -86,7 +80,7 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 
 	@Override
 	public void printKeyToFile() {
-		FileEncryptor.writeFile(String.valueOf(key), "key", "C:/key.txt");
+		FileEncryptor.writeFile(String.valueOf(key), "key", "C:\\key.txt");
 		
 	}
 
@@ -98,6 +92,12 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 		setKey(Key);
 		user_input.close();
 		
+	}
+
+	@Override
+	public MathOperation getEncryptMethod() {
+		// TODO Auto-generated method stub
+		return encryptMethod;
 	}
 	
 	

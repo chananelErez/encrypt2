@@ -22,15 +22,15 @@ public class FileEncryptor{
 		Algo.generateKey();
 		Algo.printKeyToFile();
 		Algo.Encrypt();
-		String cypher=Algo.getCypher();
-		writeFile(cypher,"encrypted" ,outputFilePath);
+		String cipher=Algo.getCipher();
+		writeFile(cipher,"encrypted" ,outputFilePath);
 		
 	}
 	
 	public void decryptFile(String encryptedFilePath,String outputFilePath)
 			throws IOException{
 		String content=readFile(encryptedFilePath, StandardCharsets.UTF_8);
-		Algo.setCypher(content);
+		Algo.setCipher(content);
 		Algo.setUserKey();
 		Algo.Decrypt();
 		String plain=Algo.getPlainText();
@@ -58,14 +58,14 @@ public class FileEncryptor{
 		return convertName;
 		
 	}
-	
+	// from http://stackoverflow.com/questions/326390/how-to-create-a-java-string-from-the-contents-of-a-file
 	static String readFile(String path, Charset encoding) 
 			  throws IOException 
 			{
 			  byte[] encoded = Files.readAllBytes(Paths.get(path));
 			  return new String(encoded, encoding);
 			}
-	
+	// from http://www.mkyong.com/java/how-to-write-to-file-in-java-fileoutputstream-example/
 	public static void writeFile(String content,String name,String path) {
 
 		File file = new File(path);
@@ -89,7 +89,7 @@ public class FileEncryptor{
 			e.printStackTrace();
 		}
 	}
-
+	
 	public static void main(String[] args) throws IOException {
 		
 		EncryptionAlgorithm algo=new ShiftUpEncryption();
