@@ -7,20 +7,10 @@ public class ShiftMultiplyEncryptionTest {
 	@Test
 	public void testShiftMulitiplyEncryption() {
 		EncryptionAlgorithm tester=new ShiftMultiplyEncryption();
-		tester.setPlainText("!");
 		tester.setKey(3);
-
-		
-		tester.Encrypt();
-		assertEquals(tester.getCipher(),"c");
-		tester.setPlainText("$");
-		tester.Encrypt();
-		assertEquals(tester.getCipher(),"l");
-		
-		tester.setCipher("c");
-		tester.setKey(3);
-		tester.Decrypt();
-		assertEquals(tester.getPlainText(),"!");
+		assertEquals(tester.Encrypt("!"),"c");
+		assertEquals(tester.Encrypt("$"),"l");
+		assertEquals(tester.Decrypt("c"),"!");
 		
 		
 	}

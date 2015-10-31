@@ -2,20 +2,9 @@ import java.util.Scanner;
 
 public class GeneralEncryption implements EncryptionAlgorithm{
 
-	private String plainText;
-	private String cipherText;
 	private int key;
 	MathOperation encryptMethod=new MyAddition();
 	MathOperation decryptMethod=new MySubstraction();
-	
-	public void setPlainText(String plaintext) {
-		plainText=plaintext;
-		
-	}
-	
-	public String getPlainText(){
-		return plainText;
-	}
 	
 	public void setKey(int newKey) {
 		key=newKey;
@@ -26,12 +15,9 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 		return key;
 	}
 	
-	public String getCipher() {
-		
-		return cipherText;
-	}
-	public void Encrypt() {
-		char[] buffer = plainText.toCharArray();
+
+	public String Encrypt(String plain) {
+		char[] buffer = plain.toCharArray();
 
 		// Loop over characters.
 		for (int i = 0; i < buffer.length; i++) {
@@ -44,11 +30,12 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 		    buffer[i] = letter;
 		}
 		// Return final string.
-		cipherText=new String(buffer);
-		
+		String cipher=new String(buffer);
+		return cipher;
 	}
-	public void Decrypt() {
-		char[] buffer = cipherText.toCharArray();
+	
+	public String Decrypt(String cipher) {
+		char[] buffer = cipher.toCharArray();
 
 		// Loop over characters.
 		for (int i = 0; i < buffer.length; i++) {
@@ -62,14 +49,8 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 		    buffer[i] = letter;
 		}
 		// Return final string.
-		plainText=new String(buffer);
-		
-	}
-	
-	
-	public void setCipher(String newcypher) {
-		cipherText=newcypher;
-		
+		String plain=new String(buffer);
+		return plain;
 	}
 
 	@Override
@@ -99,8 +80,9 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 		// TODO Auto-generated method stub
 		return encryptMethod;
 	}
-	
-	
+
+
+		
 
 }
 

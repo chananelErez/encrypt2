@@ -1,19 +1,11 @@
 
 interface EncryptionAlgorithm {
-
-	void setPlainText(String plaintext);
 	
 	void setKey(int newKey);
 	
-	String getCipher();
+	String Encrypt(String plain);
 	
-	void setCipher(String newcypher);
-	
-	void Encrypt();
-	
-	void Decrypt();
-	
-	String getPlainText();
+	String Decrypt(String cipher);
 
 	void generateKey();
 

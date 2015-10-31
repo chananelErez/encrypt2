@@ -27,8 +27,10 @@ public class DoubleEncryption extends GeneralEncryption implements EncryptionAlg
 	
 	public void printKeyToFile() {
 		int key1=getKey();
-		FileEncryptor.writeFile(String.valueOf(key1), "key1", "C:\\key1.txt");
-		FileEncryptor.writeFile(String.valueOf(anotherKey), "key2", "C:\\key2.txt");
+		FileEncryptor.writeFile(String.valueOf(key1), "key1", 
+				"C:\\key1.txt");
+		FileEncryptor.writeFile(String.valueOf(anotherKey), "key2",
+				"C:\\key2.txt");
 		
 	}
 	
@@ -45,21 +47,17 @@ public class DoubleEncryption extends GeneralEncryption implements EncryptionAlg
 		
 	}
 	
-	public void Encrypt() {
-		String plain=getPlainText();
-		Algo.setPlainText(plain);
+	public String Encrypt(String plain) {
 		Algo.setKey(Algo.getEncryptMethod().Operate(getKey(), anotherKey));
-		Algo.Encrypt();
-		setCipher(Algo.getCipher());
+		String cipher=Algo.Encrypt(plain);
+		return cipher;
 		
 	}
 	
-	public void Decrypt() {
-		String cipher=getCipher();
-		Algo.setCipher(cipher);
+	public String Decrypt(String cipher) {
 		Algo.setKey(Algo.getEncryptMethod().Operate(getKey(), anotherKey));
-		Algo.Decrypt();
-		setPlainText(Algo.getPlainText());
+		String plain=Algo.Decrypt(cipher);
+		return plain;
 		
 	}
 

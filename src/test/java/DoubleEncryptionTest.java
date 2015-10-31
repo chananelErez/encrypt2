@@ -11,38 +11,30 @@ public class DoubleEncryptionTest {
 	public void testEncrypt() {
 		EncryptionAlgorithm algo=new ShiftUpEncryption();
 		DoubleEncryption tester=new DoubleEncryption(algo);
-		tester.setPlainText("ABCDE");
 		tester.setKey(1);
 		tester.setAnotherKey(2);
-		tester.Encrypt();
-		assertEquals(tester.getCipher(),"DEFGH");
+		assertEquals(tester.Encrypt("ABCDE"),"DEFGH");
 		
 		EncryptionAlgorithm algor=new ShiftMultiplyEncryption();
 		DoubleEncryption tester2=new DoubleEncryption(algor);
-		tester2.setPlainText("!$%&");
 		tester2.setKey(2);
 		tester2.setAnotherKey(1);
-		tester2.Encrypt();
-		assertEquals(tester2.getCipher(),"BHJL");
+		assertEquals(tester2.Encrypt("!$%&"),"BHJL");
 	}
 
 	@Test
 	public void testDecrypt() {
 		EncryptionAlgorithm algo=new ShiftUpEncryption();
 		DoubleEncryption tester=new DoubleEncryption(algo);
-		tester.setCipher("DEFGH");
 		tester.setKey(1);
 		tester.setAnotherKey(2);
-		tester.Decrypt();
-		assertEquals(tester.getPlainText(),"ABCDE");
+		assertEquals(tester.Decrypt("DEFGH"),"ABCDE");
 		
 		EncryptionAlgorithm algor=new ShiftMultiplyEncryption();
 		DoubleEncryption tester2=new DoubleEncryption(algor);
-		tester2.setCipher("BHJL");
 		tester2.setKey(2);
 		tester2.setAnotherKey(1);
-		tester2.Decrypt();
-		assertEquals(tester2.getPlainText(),"!$%&");
+		assertEquals(tester2.Decrypt("BHJL"),"!$%&");
 	}
 
 	@Test

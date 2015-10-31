@@ -18,11 +18,9 @@ public class FileEncryptor{
 	public void encrtptFile(String originalFilePath,String outputFilePath)
 			throws IOException{
 		String content=readFile(originalFilePath, StandardCharsets.UTF_8);
-		Algo.setPlainText(content);
 		Algo.generateKey();
 		Algo.printKeyToFile();
-		Algo.Encrypt();
-		String cipher=Algo.getCipher();
+		String cipher=Algo.Encrypt(content);
 		writeFile(cipher,"encrypted" ,outputFilePath);
 		
 	}
@@ -30,10 +28,8 @@ public class FileEncryptor{
 	public void decryptFile(String encryptedFilePath,String outputFilePath)
 			throws IOException{
 		String content=readFile(encryptedFilePath, StandardCharsets.UTF_8);
-		Algo.setCipher(content);
 		Algo.setUserKey();
-		Algo.Decrypt();
-		String plain=Algo.getPlainText();
+		String plain=Algo.Decrypt(content);
 		writeFile(plain,"decrypted" ,outputFilePath);
 		
 	}
