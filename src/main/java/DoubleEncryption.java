@@ -35,13 +35,29 @@ public class DoubleEncryption extends GeneralEncryption implements EncryptionAlg
 	}
 	
 	
-	public void setUserKey() {
+	public void setUserKey() throws invalidEncryptionKeyException {
 		Scanner user_input=new Scanner(System.in);
 		System.out.println("please insert the first key: ");
+		if(!user_input.hasNextInt()){
+			user_input.close();
+			throw new invalidEncryptionKeyException();
+		}
 		int Key=Integer.parseInt(user_input.next());
+		if(Key<=0){
+			user_input.close();
+			throw new invalidEncryptionKeyException();
+		}
 		setKey(Key);
 		System.out.println("please insert the second key: ");
+		if(!user_input.hasNextInt()){
+			user_input.close();
+			throw new invalidEncryptionKeyException();
+		}
 		int AnotherKey=Integer.parseInt(user_input.next());
+		if(Key<=0){
+			user_input.close();
+			throw new invalidEncryptionKeyException();
+		}
 		setAnotherKey(AnotherKey);
 		user_input.close();
 		

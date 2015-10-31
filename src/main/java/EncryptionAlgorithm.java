@@ -11,7 +11,7 @@ interface EncryptionAlgorithm {
 
 	void printKeyToFile();
 
-	void setUserKey();
+	void setUserKey() throws invalidEncryptionKeyException;
 	
 	int getKey();
 	

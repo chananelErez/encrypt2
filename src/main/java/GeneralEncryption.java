@@ -24,7 +24,7 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 
 		    char letter = buffer[i];
 		    int asciiCode=(int)(letter);
-		    int change=encryptMethod.Operate(asciiCode, key);
+		    int change=encryptMethod.Operate(asciiCode, key)%256;
 		    letter = (char) (change);
 		    
 		    buffer[i] = letter;
@@ -43,7 +43,7 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 		    
 		    char letter = buffer[i];
 		    int asciiCode=(int)(letter);
-		    int change=decryptMethod.Operate(asciiCode, key);
+		    int change=(decryptMethod.Operate(asciiCode, key)+256)%256;
 		    letter = (char) (change);
 		    
 		    buffer[i] = letter;
@@ -66,10 +66,18 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 	}
 
 	@Override
-	public void setUserKey() {
+	public void setUserKey() throws invalidEncryptionKeyException {
 		Scanner user_input=new Scanner(System.in);
 		System.out.println("please insert the key: ");
+		if(!user_input.hasNextInt()){
+			user_input.close();
+			throw new invalidEncryptionKeyException();
+		}
 		int Key=Integer.parseInt(user_input.next());
+		if(Key<=0){
+			user_input.close();
+			throw new invalidEncryptionKeyException();
+		}
 		setKey(Key);
 		user_input.close();
 		
