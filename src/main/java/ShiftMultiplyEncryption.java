@@ -5,8 +5,8 @@ implements EncryptionAlgorithm{
 	
 	public ShiftMultiplyEncryption(){
 		
-		setEncryptMethod(new MyMultiply());
-		setDecryptMethod(new MyDivision());
+		encryptMethod=new MyMultiply();
+		decryptMethod=new MyDivision();
 		
 	}
 	

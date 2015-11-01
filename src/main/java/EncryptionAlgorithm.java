@@ -1,35 +1,21 @@
 
 interface EncryptionAlgorithm {
 	
-	void setPlainText(String plaintext);
-	
 	void setKey(int newKey);
 	
-	String getCipher();
+	String Encrypt(String plain);
 	
-	void setCipher(String newcypher);
-	
-	void Encrypt();
-	
-	void Decrypt();
-	
-	void setDecryptMethod(MathOperation decryptMethod);
-	
-	void setEncryptMethod(MathOperation encryptMethod);
-	
-	MathOperation getEncryptMethod();
-	
-	MathOperation getDecryptMethod();
-
-	String getPlainText();
+	String Decrypt(String cipher);
 
 	void generateKey();
 
 	void printKeyToFile();
 
-	void setUserKey();
+	void setUserKey() throws invalidEncryptionKeyException;
 	
 	int getKey();
+	
+	MathOperation getEncryptMethod();
 	
 	
 

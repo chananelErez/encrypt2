@@ -10,20 +10,16 @@ public class GeneralEncryptionTest {
 	@Test
 	public void testEncrypt() {
 		EncryptionAlgorithm tester=new GeneralEncryption();
-		tester.setPlainText("ABCDE");
 		tester.setKey(3);
-		tester.Encrypt();
-		assertEquals(tester.getCipher(),"DEFGH");
+		assertEquals(tester.Encrypt("ABCDE"),"DEFGH");
 		
 	}
 
 	@Test
 	public void testDecrypt() {
 		EncryptionAlgorithm tester=new GeneralEncryption();
-		tester.setCipher("DEFGH");
 		tester.setKey(3);
-		tester.Decrypt();
-		assertEquals(tester.getPlainText(),"ABCDE");
+		assertEquals(tester.Decrypt("DEFGH"),"ABCDE");
 	}
 
 	@Test
@@ -48,7 +44,7 @@ public class GeneralEncryptionTest {
 		EncryptionAlgorithm tester=new GeneralEncryption();
 		tester.setKey(2);
 		tester.printKeyToFile();
-		String k1=FileEncryptor.readFile("C:\\Users\\user\\key.txt",StandardCharsets.UTF_8);
+		String k1=FileEncryptor.readFile("C:\\key.txt",StandardCharsets.UTF_8);
 		assertEquals(k1,"2");
 	}
 

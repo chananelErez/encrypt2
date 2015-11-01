@@ -11,38 +11,30 @@ public class DoubleEncryptionTest {
 	public void testEncrypt() {
 		EncryptionAlgorithm algo=new ShiftUpEncryption();
 		DoubleEncryption tester=new DoubleEncryption(algo);
-		tester.setPlainText("ABCDE");
 		tester.setKey(1);
 		tester.setAnotherKey(2);
-		tester.Encrypt();
-		assertEquals(tester.getCipher(),"DEFGH");
+		assertEquals(tester.Encrypt("ABCDE"),"DEFGH");
 		
 		EncryptionAlgorithm algor=new ShiftMultiplyEncryption();
 		DoubleEncryption tester2=new DoubleEncryption(algor);
-		tester2.setPlainText("!$%&");
 		tester2.setKey(2);
 		tester2.setAnotherKey(1);
-		tester2.Encrypt();
-		assertEquals(tester2.getCipher(),"BHJL");
+		assertEquals(tester2.Encrypt("!$%&"),"BHJL");
 	}
 
 	@Test
 	public void testDecrypt() {
 		EncryptionAlgorithm algo=new ShiftUpEncryption();
 		DoubleEncryption tester=new DoubleEncryption(algo);
-		tester.setCipher("DEFGH");
 		tester.setKey(1);
 		tester.setAnotherKey(2);
-		tester.Decrypt();
-		assertEquals(tester.getPlainText(),"ABCDE");
+		assertEquals(tester.Decrypt("DEFGH"),"ABCDE");
 		
 		EncryptionAlgorithm algor=new ShiftMultiplyEncryption();
 		DoubleEncryption tester2=new DoubleEncryption(algor);
-		tester2.setCipher("BHJL");
 		tester2.setKey(2);
 		tester2.setAnotherKey(1);
-		tester2.Decrypt();
-		assertEquals(tester2.getPlainText(),"!$%&");
+		assertEquals(tester2.Decrypt("BHJL"),"!$%&");
 	}
 
 	@Test
@@ -70,8 +62,8 @@ public class DoubleEncryptionTest {
 		tester.setAnotherKey(5);
 		tester.setKey(2);
 		tester.printKeyToFile();
-		String k1=FileEncryptor.readFile("C:\\Users\\user\\key1.txt",StandardCharsets.UTF_8);
-		String k2=FileEncryptor.readFile("C:\\Users\\user\\key2.txt",StandardCharsets.UTF_8);
+		String k1=FileEncryptor.readFile("C:\\key1.txt",StandardCharsets.UTF_8);
+		String k2=FileEncryptor.readFile("C:\\key2.txt",StandardCharsets.UTF_8);
 		assertEquals(k1,"2");
 		assertEquals(k2,"5");
 	}

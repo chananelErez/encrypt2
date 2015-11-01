@@ -16,25 +16,37 @@ public class FileEncryptor{
 	}
 	
 	public void encrtptFile(String originalFilePath,String outputFilePath)
-			throws IOException{
-		String content=readFile(originalFilePath, StandardCharsets.UTF_8);
-		Algo.setPlainText(content);
-		Algo.generateKey();
-		Algo.printKeyToFile();
-		Algo.Encrypt();
-		String cipher=Algo.getCipher();
-		writeFile(cipher,"encrypted" ,outputFilePath);
+			{
+		String content;
+		try {
+			content = readFile(originalFilePath, StandardCharsets.UTF_8);
+			Algo.generateKey();
+			Algo.printKeyToFile();
+			String cipher=Algo.Encrypt(content);
+			writeFile(cipher,"encrypted" ,outputFilePath);
+		} catch (IOException e) {
+			System.out.println("Path not founded");
+		}
 		
 	}
 	
 	public void decryptFile(String encryptedFilePath,String outputFilePath)
-			throws IOException{
-		String content=readFile(encryptedFilePath, StandardCharsets.UTF_8);
-		Algo.setCipher(content);
-		Algo.setUserKey();
-		Algo.Decrypt();
-		String plain=Algo.getPlainText();
-		writeFile(plain,"decrypted" ,outputFilePath);
+			{
+		String content;
+		try {
+			content = readFile(encryptedFilePath, StandardCharsets.UTF_8);
+			Algo.setUserKey();
+			String plain=Algo.Decrypt(content);
+			writeFile(plain,"decrypted" ,outputFilePath);
+		} catch (IOException e) {
+			
+			System.out.println("Path not founded");
+		} catch (invalidEncryptionKeyException e) {
+			
+			System.out.println("Invalid key type (it is not a number"
+					+ "or it is negative");
+		}
+		
 		
 	}
 	
