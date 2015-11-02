@@ -44,7 +44,7 @@ public class GeneralEncryptionTest {
 		EncryptionAlgorithm tester=new GeneralEncryption();
 		tester.setKey(2);
 		tester.printKeyToFile();
-		String k1=FileEncryptor.readFile("C:\\key.txt",StandardCharsets.UTF_8);
+		String k1=FileEncryptor.readFile("C:\\Users\\user\\key.txt",StandardCharsets.UTF_8);
 		assertEquals(k1,"2");
 	}
 

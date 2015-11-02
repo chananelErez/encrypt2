@@ -1,8 +1,18 @@
- import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 public class FileEncryptorTest {
+
+	@Test
+	public void testEncrtptFile() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testDecryptFile() {
+		fail("Not yet implemented");
+	}
 
 	@Test
 	public void testNameConvert() {
