@@ -15,8 +15,7 @@ public class FileEncryptor{
 		Algo=algo;
 	}
 	
-	public void encrtptFile(String originalFilePath,String outputFilePath)
-			{
+	public void encrtptFile(String originalFilePath,String outputFilePath) {
 		String content;
 		try {
 			content = readFile(originalFilePath, StandardCharsets.UTF_8);
@@ -77,12 +76,15 @@ public class FileEncryptor{
 			  byte[] encoded = Files.readAllBytes(Paths.get(path));
 			  return new String(encoded, encoding);
 			}
+	
 	// from http://www.mkyong.com/java/how-to-write-to-file-in-java-fileoutputstream-example/
 	public static void writeFile(String content,String name,String path) {
-
-		File file = new File(path);
-
-		try (FileOutputStream fop = new FileOutputStream(file)) {
+		FileOutputStream fop = null;
+		File file;
+		try {
+			
+			file = new File(path);
+			fop = new FileOutputStream(file);
 
 			// if file doesn't exists, then create it
 			if (!file.exists()) {
@@ -99,6 +101,14 @@ public class FileEncryptor{
 
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				if (fop != null) {
+					fop.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

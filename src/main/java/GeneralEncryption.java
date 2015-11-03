@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class GeneralEncryption implements EncryptionAlgorithm{
 
 	private int key;
+	private Scanner user_input;
 	MathOperation encryptMethod=new MyAddition();
 	MathOperation decryptMethod=new MySubstraction();
 	
@@ -61,13 +62,13 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 
 	@Override
 	public void printKeyToFile() {
-		FileEncryptor.writeFile(String.valueOf(key), "key", "C:\\key.txt");
+		FileEncryptor.writeFile(String.valueOf(key), "key", "C:\\Users\\user\\key.txt");
 		
 	}
 
 	@Override
 	public void setUserKey() throws invalidEncryptionKeyException {
-		Scanner user_input=new Scanner(System.in);
+		/*Scanner user_input=new Scanner(System.in);*/
 		System.out.println("please insert the key: ");
 		if(!user_input.hasNextInt()){
 			user_input.close();
@@ -87,6 +88,10 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 	public MathOperation getEncryptMethod() {
 		// TODO Auto-generated method stub
 		return encryptMethod;
+	}
+
+	public void setUser_input(Scanner user_input) {
+		this.user_input = user_input;
 	}
 
 

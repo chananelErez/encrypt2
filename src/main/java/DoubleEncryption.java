@@ -28,9 +28,9 @@ public class DoubleEncryption extends GeneralEncryption implements EncryptionAlg
 	public void printKeyToFile() {
 		int key1=getKey();
 		FileEncryptor.writeFile(String.valueOf(key1), "key1", 
-				"C:\\key1.txt");
+				"C:\\Users\\user\\key1.txt");
 		FileEncryptor.writeFile(String.valueOf(anotherKey), "key2",
-				"C:\\key2.txt");
+				"C:\\Users\\user\\key2.txt");
 		
 	}
 	

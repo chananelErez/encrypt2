@@ -1,17 +1,21 @@
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class FileEncryptorTest {
-
+	
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
+	
 	@Test
-	public void testEncrtptFile() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testDecryptFile() {
-		fail("Not yet implemented");
+	public void testEncrtptFile() throws IOException  {
+		exception.expect(IOException.class);
+		FileEncryptor.readFile("C:\\abc.txt", StandardCharsets.UTF_8);
 	}
 
 	@Test

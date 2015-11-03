@@ -17,9 +17,9 @@ public class DoubleEncryptionTest {
 		
 		EncryptionAlgorithm algor=new ShiftMultiplyEncryption();
 		DoubleEncryption tester2=new DoubleEncryption(algor);
-		tester2.setKey(2);
-		tester2.setAnotherKey(1);
-		assertEquals(tester2.Encrypt("!$%&"),"BHJL");
+		tester2.setKey(3);
+		tester2.setAnotherKey(5);
+		assertEquals(tester2.Encrypt("'()*"),"IXgv");
 	}
 
 	@Test
@@ -32,9 +32,9 @@ public class DoubleEncryptionTest {
 		
 		EncryptionAlgorithm algor=new ShiftMultiplyEncryption();
 		DoubleEncryption tester2=new DoubleEncryption(algor);
-		tester2.setKey(2);
-		tester2.setAnotherKey(1);
-		assertEquals(tester2.Decrypt("BHJL"),"!$%&");
+		tester2.setKey(3);
+		tester2.setAnotherKey(5);
+		assertEquals(tester2.Decrypt("IXgv"),"'()*");
 	}
 
 	@Test
@@ -62,8 +62,8 @@ public class DoubleEncryptionTest {
 		tester.setAnotherKey(5);
 		tester.setKey(2);
 		tester.printKeyToFile();
-		String k1=FileEncryptor.readFile("C:\\key1.txt",StandardCharsets.UTF_8);
-		String k2=FileEncryptor.readFile("C:\\key2.txt",StandardCharsets.UTF_8);
+		String k1=FileEncryptor.readFile("C:\\Users\\user\\key1.txt",StandardCharsets.UTF_8);
+		String k2=FileEncryptor.readFile("C:\\Users\\user\\key2.txt",StandardCharsets.UTF_8);
 		assertEquals(k1,"2");
 		assertEquals(k2,"5");
 	}

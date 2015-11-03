@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 interface EncryptionAlgorithm {
 	
@@ -14,6 +15,8 @@ interface EncryptionAlgorithm {
 	void setUserKey() throws invalidEncryptionKeyException;
 	
 	int getKey();
+	
+	void setUser_input(Scanner user_input);
 	
 	MathOperation getEncryptMethod();
 	
