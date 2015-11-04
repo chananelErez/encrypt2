@@ -20,6 +20,8 @@ interface EncryptionAlgorithm {
 	
 	MathOperation getEncryptMethod();
 	
+	int getKeySrength();
+	
 	
 
 }

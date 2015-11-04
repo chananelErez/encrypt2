@@ -94,6 +94,11 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 		this.user_input = user_input;
 	}
 
+	@Override
+	public int getKeySrength() {
+		return 3;
+	}
+
 
 		
 
