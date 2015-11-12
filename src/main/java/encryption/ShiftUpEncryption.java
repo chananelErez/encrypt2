@@ -1,3 +1,6 @@
+package encryption;
+import mathOperation.MyAddition;
+import mathOperation.MySubstraction;
 
 public class ShiftUpEncryption extends GeneralEncryption implements EncryptionAlgorithm {
 	public ShiftUpEncryption(){

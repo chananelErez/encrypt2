@@ -1,4 +1,4 @@
-
+package mathOperation;
 public class MyRepeatSubstraction extends MathOperation{
 
 	public int n;

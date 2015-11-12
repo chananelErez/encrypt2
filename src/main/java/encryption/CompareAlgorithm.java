@@ -1,4 +1,4 @@
-
+package encryption;
 public class CompareAlgorithm {
 	
 	public EncryptionAlgorithm Comparator(EncryptionAlgorithm a,EncryptionAlgorithm b){

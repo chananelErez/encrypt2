@@ -2,6 +2,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import encryption.EncryptionAlgorithm;
+import encryption.XorEncryption;
+
 public class XorEncryptionTest {
 
 	@Test

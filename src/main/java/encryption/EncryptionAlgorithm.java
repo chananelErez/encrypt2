@@ -1,6 +1,8 @@
+package encryption;
+import mathOperation.MathOperation;
 import java.util.Scanner;
 
-interface EncryptionAlgorithm {
+public interface EncryptionAlgorithm {
 	
 	void setKey(int newKey);
 	

@@ -1,4 +1,9 @@
+package encryption;
 import java.util.Scanner;
+import encryption.EncryptionAlgorithm;
+import encryption.GeneralEncryption;
+import fileOperation.FileEncryptor;
+
 
 public class DoubleEncryption extends GeneralEncryption implements EncryptionAlgorithm {
 	EncryptionAlgorithm Algo;

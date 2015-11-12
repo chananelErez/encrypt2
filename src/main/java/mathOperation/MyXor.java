@@ -1,4 +1,4 @@
-
+package mathOperation;
 public class MyXor extends MathOperation {
 	
 	@Override

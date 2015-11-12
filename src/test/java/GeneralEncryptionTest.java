@@ -8,6 +8,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import encryption.EncryptionAlgorithm;
+import encryption.GeneralEncryption;
+import encryption.invalidEncryptionKeyException;
+import fileOperation.FileEncryptor;
+
 public class GeneralEncryptionTest {
 
 	@Test

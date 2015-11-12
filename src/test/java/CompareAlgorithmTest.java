@@ -2,6 +2,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import encryption.CompareAlgorithm;
+import encryption.EncryptionAlgorithm;
+import encryption.RepeatEncryption;
+import encryption.ShiftUpEncryption;
+
 public class CompareAlgorithmTest {
 
 	@Test

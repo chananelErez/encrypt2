@@ -1,3 +1,9 @@
+package fileOperation;
+
+import encryption.ShiftUpEncryption;
+import encryption.EncryptionAlgorithm;
+import encryption.DoubleEncryption;
+import encryption.invalidEncryptionKeyException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -70,7 +76,7 @@ public class FileEncryptor{
 		
 	}
 	// from http://stackoverflow.com/questions/326390/how-to-create-a-java-string-from-the-contents-of-a-file
-	static String readFile(String path, Charset encoding) 
+	public static String readFile(String path, Charset encoding) 
 			  throws IOException 
 			{
 			  byte[] encoded = Files.readAllBytes(Paths.get(path));

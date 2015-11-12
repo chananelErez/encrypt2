@@ -7,6 +7,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import encryption.EncryptionAlgorithm;
+import encryption.ShiftUpEncryption;
+import fileOperation.FileEncryptor;
+
 public class FileEncryptorTest {
 	
 	@Rule

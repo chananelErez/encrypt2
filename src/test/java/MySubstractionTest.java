@@ -2,6 +2,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import mathOperation.MySubstraction;
+
 public class MySubstractionTest {
 
 	@Test

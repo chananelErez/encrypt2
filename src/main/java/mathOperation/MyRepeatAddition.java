@@ -1,4 +1,4 @@
-
+package mathOperation;
 public class MyRepeatAddition extends MathOperation {
 	public int n;
 	

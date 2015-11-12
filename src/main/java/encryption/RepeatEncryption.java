@@ -1,3 +1,6 @@
+package encryption;
+import mathOperation.MyRepeatAddition;
+import mathOperation.MyRepeatSubstraction;
 
 public class RepeatEncryption extends GeneralEncryption
 implements EncryptionAlgorithm{

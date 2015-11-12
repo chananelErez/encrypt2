@@ -1,4 +1,4 @@
-
+package mathOperation;
 public class MyMultiply extends MathOperation{
 
 	@Override

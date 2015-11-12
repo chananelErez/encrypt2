@@ -1,4 +1,5 @@
-
+package encryption;
+import mathOperation.MyMultiply;
 public class ShiftMultiplyEncryption extends GeneralEncryption
 implements EncryptionAlgorithm{
 	

@@ -5,6 +5,12 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.Test;
 
+import encryption.DoubleEncryption;
+import encryption.EncryptionAlgorithm;
+import encryption.ShiftMultiplyEncryption;
+import encryption.ShiftUpEncryption;
+import fileOperation.FileEncryptor;
+
 public class DoubleEncryptionTest {
 
 	@Test

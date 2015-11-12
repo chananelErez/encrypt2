@@ -1,4 +1,10 @@
+package encryption;
 import java.util.Scanner;
+import mathOperation.MathOperation;
+import mathOperation.MyAddition;
+import mathOperation.MySubstraction;
+import fileOperation.FileEncryptor;
+
 
 public class GeneralEncryption implements EncryptionAlgorithm{
 

@@ -1,4 +1,4 @@
-
+package encryption;
 public class invalidEncryptionKeyException extends Exception {
 
 	

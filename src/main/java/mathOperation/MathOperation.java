@@ -1,4 +1,4 @@
-
+package mathOperation;
 public abstract class MathOperation {
 	int a;
 	int b;
