@@ -55,5 +55,10 @@ implements EncryptionAlgorithm{
 		   return GCD(b,a%b);
 	}
 	
+	@Override
+	public String toString(){
+		return "Shift Multiply Encryption";
+	}
+	
 	
 }

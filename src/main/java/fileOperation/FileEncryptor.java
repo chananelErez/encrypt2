@@ -4,6 +4,7 @@ import encryption.ShiftUpEncryption;
 import encryption.EncryptionAlgorithm;
 import encryption.DoubleEncryption;
 import encryption.invalidEncryptionKeyException;
+import observer.EncryptionObserver;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,9 +12,13 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.LinkedList;
 import java.util.Scanner;
 
-public class FileEncryptor{
+public class FileEncryptor implements ObservableEncryption{
+	
+	private LinkedList<EncryptionObserver> list =
+			                          new LinkedList<EncryptionObserver>();
 	
 	EncryptionAlgorithm Algo=new ShiftUpEncryption();
 	
@@ -133,13 +138,71 @@ public class FileEncryptor{
 		String fileName=user_input.next();
 		String outputPath=Code.NameConvert(fileName, eORd);
 		if (eORd.charAt(0)=='E'){
+			Code.notifyObserver(Code.EncryptionStarted(fileName));
 			Code.encrtptFile(fileName, outputPath);
+			Code.notifyObserver(Code.EncryptionEnded(fileName));
 		}
 		if (eORd.charAt(0)=='D'){
+			Code.notifyObserver(Code.DecryptionStarted(fileName));
 			Code.decryptFile(fileName, outputPath);
-			
+			Code.notifyObserver(Code.DecryptionEnded(fileName));
 		}
 		user_input.close();
+	}
+
+	@Override
+	public void addEncryptionObserver(EncryptionObserver observer) {
+		list.add(observer);
+		
+	}
+
+	@Override
+	public void removeEncryptionbserver(EncryptionObserver observer) {
+		list.remove(observer);
+		
+	}
+
+	@Override
+	public void notifyObserver(EncryptionEvent event) {
+		for(EncryptionObserver observer : list)
+        {
+            observer.update(event);
+        }
+		
+	}
+
+	@Override
+	public EncryptionEvent EncryptionStarted(String file) {
+		String output=NameConvert(file, "E");
+		EncryptionEvent eventES=new EncryptionEvent("Encryption",
+				                    file,Algo.toString(),output,
+				                    System.currentTimeMillis());
+		return eventES;
+	}
+
+	@Override
+	public EncryptionEvent DecryptionStarted(String file) {
+		String output=NameConvert(file, "D");
+		EncryptionEvent eventDS=new EncryptionEvent("Decryption",
+				                    file,Algo.toString(),output,
+				                    System.currentTimeMillis());
+		return eventDS;
+	}
+
+	@Override
+	public EncryptionEvent EncryptionEnded(String file) {
+		EncryptionEvent eventEE=new EncryptionEvent("Encryption",
+                file,null,null,
+                System.currentTimeMillis());
+		return eventEE;
+	}
+
+	@Override
+	public EncryptionEvent DecryptionEnded(String file) {
+		EncryptionEvent eventDE=new EncryptionEvent("Decryption",
+                file,null,null,
+                System.currentTimeMillis());
+		return eventDE;
 	}
 }
 

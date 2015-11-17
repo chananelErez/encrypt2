@@ -7,4 +7,9 @@ public class ShiftUpEncryption extends GeneralEncryption implements EncryptionAl
 		encryptMethod=new MyAddition();
 		decryptMethod=new MySubstraction();
 	}
+	
+	@Override
+	public String toString(){
+		return "Shift Up Encryption";
+	}
 }

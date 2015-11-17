@@ -16,8 +16,8 @@ public class CompareAlgorithmTest {
 		EncryptionAlgorithm tester2= new RepeatEncryption(3);
 		EncryptionAlgorithm tester3= new RepeatEncryption(30);
 		
-		assertEquals(comp.Comparator(tester1, tester2),tester1);
-		assertEquals(comp.Comparator(tester3, tester2),tester2);
+		assertEquals(comp.compare(tester1, tester2),1);
+		assertEquals(comp.compare(tester3, tester2),-1);
 		
 	}
 

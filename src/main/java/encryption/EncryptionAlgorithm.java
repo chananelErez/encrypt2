@@ -24,6 +24,8 @@ public interface EncryptionAlgorithm {
 	
 	int getKeySrength();
 	
+	String toString();
+	
 	
 
 }

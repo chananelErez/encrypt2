@@ -104,6 +104,8 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 	public int getKeySrength() {
 		return 3;
 	}
+	
+	
 
 
 		

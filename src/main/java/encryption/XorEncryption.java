@@ -7,5 +7,9 @@ public class XorEncryption extends GeneralEncryption implements EncryptionAlgori
 		encryptMethod=new MyXor();
 		decryptMethod=new MyXor();
 	}
+	@Override
+	public String toString(){
+		return "Xor Encryption";
+	}
 
 }

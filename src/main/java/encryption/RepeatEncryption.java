@@ -17,4 +17,9 @@ implements EncryptionAlgorithm{
 	public int getKeySrength() {
 		return (int)Math.floor(Math.log10(Math.floorDiv(256, n)))+1;
 	}
+	
+	@Override
+	public String toString(){
+		return "Repeat Encryption";
+	}
 }

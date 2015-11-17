@@ -1,12 +1,16 @@
 package encryption;
-public class CompareAlgorithm {
-	
-	public EncryptionAlgorithm Comparator(EncryptionAlgorithm a,EncryptionAlgorithm b){
-		if(a.getKeySrength()>=b.getKeySrength()){
-			return a;
-		}else{
-			return b;
-		}
+
+import java.util.Comparator;
+
+public class CompareAlgorithm implements Comparator<EncryptionAlgorithm>{
+
+	@Override
+	public int compare(EncryptionAlgorithm o1, EncryptionAlgorithm o2) {
+		
+		if(o1.getKeySrength()>=o2.getKeySrength()){
+			return 1;
+		};
+		return -1;
 		
 	}
 
