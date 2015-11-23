@@ -6,14 +6,16 @@ import fileOperation.EncryptionEvent;
 
 public class EncryptionLogEventArgs {
 	
-	public HashMap<String , EncryptionEvent> databaseE;
-	public HashMap<String , EncryptionEvent> databaseD;
+	HashMap<String , EncryptionEvent> databaseE= 
+			                      new HashMap<String , EncryptionEvent>();
+	HashMap<String , EncryptionEvent> databaseD=
+			                      new HashMap<String , EncryptionEvent>();
 	
 	public void printMessege(EncryptionEvent event){
 		if(event.geteORd()=="Encryption"){
 			if(event.getAlgorithm()!=null){
 				databaseE.put(event.getFile(), event);
-				System.out.println("The Encryption of the file "+event.getFile()
+				System.out.print("The Encryption of the file "+event.getFile()
 				                    +" was started.");
 			}else{
 				EncryptionEvent preEvent=databaseE.get(event.getFile());
@@ -49,5 +51,7 @@ public class EncryptionLogEventArgs {
 			
 		}
 	}
+	
+	
 
 }

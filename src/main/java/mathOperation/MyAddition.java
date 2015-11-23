@@ -1,10 +1,13 @@
 package mathOperation;
 
-public class MyAddition extends MathOperation{
+import keyBuilding.SimpleKey;
+
+public class MyAddition<E> extends MathOperation<SimpleKey>{
 
 	@Override
-	public int Operate(int a, int b) {
-		return a+b;
+	public int Operate(int a, SimpleKey key) {
+		
+		return a+key.getKey();
 	}
 	
 }

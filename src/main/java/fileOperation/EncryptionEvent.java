@@ -15,6 +15,7 @@ public class EncryptionEvent {
 		this.outputFile=outputFile;
 		this.currentTime=currentTime;
 		
+		
 	}
 
 	public String geteORd() {
@@ -35,6 +36,28 @@ public class EncryptionEvent {
 
 	public long getCurrentTime() {
 		return currentTime;
+	}
+	@Override
+	public boolean equals(Object o){
+		if(!(o instanceof EncryptionEvent)){
+			return false;
+		}
+		EncryptionEvent e=(EncryptionEvent)o;
+		
+		return e.algorithm==this.algorithm && e.currentTime==this.currentTime&&
+				e.eORd==this.eORd&&e.file==this.file;
+		
+	}
+	@Override
+	public int hashCode(){
+		int result=17;
+		result=31*result+this.eORd.hashCode();
+		result=31*result+this.file.hashCode();
+		result=31*result+this.algorithm.hashCode();
+		result=31*result+(int)(this.currentTime^(this.currentTime>>>32));
+		return result;
+		
+		
 	}
 	
 

@@ -4,6 +4,9 @@ import encryption.ShiftUpEncryption;
 import encryption.EncryptionAlgorithm;
 import encryption.DoubleEncryption;
 import encryption.invalidEncryptionKeyException;
+import keyBuilding.DoubleKey;
+import keyBuilding.KeyType;
+import keyBuilding.SimpleKey;
 import observer.EncryptionObserver;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,14 +18,14 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-public class FileEncryptor implements ObservableEncryption{
+public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 	
 	private LinkedList<EncryptionObserver> list =
 			                          new LinkedList<EncryptionObserver>();
 	
-	EncryptionAlgorithm Algo=new ShiftUpEncryption();
+	EncryptionAlgorithm<E> Algo;
 	
-	public FileEncryptor(EncryptionAlgorithm algo){
+	public FileEncryptor(EncryptionAlgorithm<E> algo){
 		Algo=algo;
 	}
 	
@@ -30,8 +33,7 @@ public class FileEncryptor implements ObservableEncryption{
 		String content;
 		try {
 			content = readFile(originalFilePath, StandardCharsets.UTF_8);
-			Algo.generateKey();
-			Algo.printKeyToFile();
+			Algo.restartKet();
 			String cipher=Algo.Encrypt(content);
 			writeFile(cipher,"encrypted" ,outputFilePath);
 		} catch (IOException e) {
@@ -40,12 +42,13 @@ public class FileEncryptor implements ObservableEncryption{
 		
 	}
 	
-	public void decryptFile(String encryptedFilePath,String outputFilePath)
+	public void decryptFile(String encryptedFilePath,String outputFilePath,E key)
 			{
 		String content;
 		try {
 			content = readFile(encryptedFilePath, StandardCharsets.UTF_8);
-			Algo.setUserKey();
+			key.setUserKey();
+			Algo.setKey(key);
 			String plain=Algo.Decrypt(content);
 			writeFile(plain,"decrypted" ,outputFilePath);
 		} catch (IOException e) {
@@ -125,9 +128,15 @@ public class FileEncryptor implements ObservableEncryption{
 	
 	public static void main(String[] args) throws IOException {
 		
-		EncryptionAlgorithm algo=new ShiftUpEncryption();
-		EncryptionAlgorithm internalAlgo=new DoubleEncryption(algo);
-		FileEncryptor Code= new FileEncryptor(internalAlgo);
+		EncryptionAlgorithm<SimpleKey> algo=new ShiftUpEncryption();
+		DoubleEncryption<SimpleKey> internalAlgo=
+				                    new DoubleEncryption<SimpleKey>(algo);
+		SimpleKey key1=new SimpleKey();
+		SimpleKey key2=new SimpleKey();
+		DoubleKey<SimpleKey> k= new DoubleKey<SimpleKey>(key1,key2);
+		internalAlgo.setKey(k);
+		FileEncryptor<DoubleKey<SimpleKey>> Code=
+				new FileEncryptor<DoubleKey<SimpleKey>>(internalAlgo);
 		
 		Scanner user_input=new Scanner(System.in);
 		System.out.println("It is encryption algorithm please insert E for "
@@ -144,7 +153,7 @@ public class FileEncryptor implements ObservableEncryption{
 		}
 		if (eORd.charAt(0)=='D'){
 			Code.notifyObserver(Code.DecryptionStarted(fileName));
-			Code.decryptFile(fileName, outputPath);
+			Code.decryptFile(fileName, outputPath, k);
 			Code.notifyObserver(Code.DecryptionEnded(fileName));
 		}
 		user_input.close();
@@ -204,5 +213,11 @@ public class FileEncryptor implements ObservableEncryption{
                 System.currentTimeMillis());
 		return eventDE;
 	}
+	
+	public LinkedList<EncryptionObserver> getList(){
+		return list;
+		
+	}
+	
 }
 

@@ -1,3 +1,5 @@
+package keyBuilding;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -8,31 +10,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import encryption.EncryptionAlgorithm;
-import encryption.GeneralEncryption;
 import encryption.invalidEncryptionKeyException;
 import fileOperation.FileEncryptor;
 
-public class GeneralEncryptionTest {
-
-	@Test
-	public void testEncrypt() {
-		EncryptionAlgorithm tester=new GeneralEncryption();
-		tester.setKey(3);
-		assertEquals(tester.Encrypt("ABCDE"),"DEFGH");
-		
-	}
-
-	@Test
-	public void testDecrypt() {
-		EncryptionAlgorithm tester=new GeneralEncryption();
-		tester.setKey(3);
-		assertEquals(tester.Decrypt("DEFGH"),"ABCDE");
-	}
+public class SimpleKeyTest {
 
 	@Test
 	public void testGenerateKey() {
-		EncryptionAlgorithm tester=new GeneralEncryption();
+		SimpleKey tester=new SimpleKey();
 		tester.generateKey();
 		boolean check=false;
 		if(tester.getKey()>0){
@@ -49,21 +34,20 @@ public class GeneralEncryptionTest {
 
 	@Test
 	public void testPrintKeyToFile() throws IOException {
-		EncryptionAlgorithm tester=new GeneralEncryption();
+		SimpleKey tester=new SimpleKey();
 		tester.setKey(2);
 		tester.printKeyToFile();
 		String k1=FileEncryptor.readFile("C:\\Users\\user\\key.txt",
 				StandardCharsets.UTF_8);
 		assertEquals(k1,"2");
 	}
-	
-	
+
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 	
 	@Test
 	public void testSetUserKey1() throws invalidEncryptionKeyException{
-		EncryptionAlgorithm tester=new GeneralEncryption();
+		SimpleKey tester=new SimpleKey();
 		String num="five";
 		tester.setUser_input(new Scanner(num));
 		
@@ -80,7 +64,7 @@ public class GeneralEncryptionTest {
 	
 	@Test
 	public void testSetUserKey2() throws invalidEncryptionKeyException{
-		EncryptionAlgorithm tester=new GeneralEncryption();
+		SimpleKey tester=new SimpleKey();
 		String num="-5";
 		tester.setUser_input(new Scanner(num));
 		
@@ -89,6 +73,5 @@ public class GeneralEncryptionTest {
 		
 		
 	}
-	
 
 }

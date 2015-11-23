@@ -1,27 +1,14 @@
 package encryption;
-import java.util.Scanner;
 import mathOperation.MathOperation;
-import mathOperation.MyAddition;
-import mathOperation.MySubstraction;
-import fileOperation.FileEncryptor;
+import keyBuilding.KeyType;
 
 
-public class GeneralEncryption implements EncryptionAlgorithm{
+public class GeneralEncryption<E extends KeyType> 
+implements EncryptionAlgorithm<E>{
 
-	private int key;
-	private Scanner user_input;
-	MathOperation encryptMethod=new MyAddition();
-	MathOperation decryptMethod=new MySubstraction();
-	
-	public void setKey(int newKey) {
-		key=newKey;
-		
-	}
-	
-	public int getKey(){
-		return key;
-	}
-	
+	private E key;
+	MathOperation<E> encryptMethod;
+	MathOperation<E> decryptMethod;
 
 	public String Encrypt(String plain) {
 		char[] buffer = plain.toCharArray();
@@ -61,48 +48,41 @@ public class GeneralEncryption implements EncryptionAlgorithm{
 	}
 
 	@Override
-	public void generateKey() {
-		int Key=(int)(Math.random()*13)+1;
-		setKey(Key);
-	}
-
-	@Override
-	public void printKeyToFile() {
-		FileEncryptor.writeFile(String.valueOf(key), "key", "C:\\Users\\user\\key.txt");
-		
-	}
-
-	@Override
-	public void setUserKey() throws invalidEncryptionKeyException {
-		/*Scanner user_input=new Scanner(System.in);*/
-		System.out.println("please insert the key: ");
-		if(!user_input.hasNextInt()){
-			user_input.close();
-			throw new invalidEncryptionKeyException();
-		}
-		int Key=Integer.parseInt(user_input.next());
-		if(Key<=0){
-			user_input.close();
-			throw new invalidEncryptionKeyException();
-		}
-		setKey(Key);
-		user_input.close();
-		
-	}
-
-	@Override
-	public MathOperation getEncryptMethod() {
+	public MathOperation<E> getEncryptMethod() {
 		// TODO Auto-generated method stub
 		return encryptMethod;
-	}
-
-	public void setUser_input(Scanner user_input) {
-		this.user_input = user_input;
 	}
 
 	@Override
 	public int getKeySrength() {
 		return 3;
+	}
+	
+	
+
+	@Override
+	public E getKey() {
+		// TODO Auto-generated method stub
+		return key;
+	}
+
+	@Override
+	public void setKey(E key) {
+		
+		this.key=key;
+	}
+
+	@Override
+	public MathOperation<E> getDecryptMethod() {
+		// TODO Auto-generated method stub
+		return decryptMethod;
+	}
+
+	@Override
+	public void restartKet() {
+		key.generateKey();
+		key.printKeyToFile();
+		
 	}
 	
 	

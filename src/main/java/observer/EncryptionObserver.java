@@ -4,7 +4,9 @@ import fileOperation.EncryptionEvent;
 
 public class EncryptionObserver implements IObserver {
 
-	public EncryptionLogEventArgs Args;
+	
+	EncryptionLogEventArgs Args=new EncryptionLogEventArgs();
+	
 	
 	@Override
 	public void update(EncryptionEvent event) {

@@ -1,16 +1,17 @@
 package encryption;
+import keyBuilding.SimpleKey;
 import mathOperation.MyRepeatAddition;
 import mathOperation.MyRepeatSubstraction;
 
-public class RepeatEncryption extends GeneralEncryption
-implements EncryptionAlgorithm{
+public class RepeatEncryption extends GeneralEncryption<SimpleKey>
+implements EncryptionAlgorithm<SimpleKey>{
 	public int n;
 	
 	public RepeatEncryption(int N){
 		n=N;
 	
-	encryptMethod=new MyRepeatAddition(n);
-	decryptMethod=new MyRepeatSubstraction(n);
+	encryptMethod=new MyRepeatAddition<SimpleKey>(n);
+	decryptMethod=new MyRepeatSubstraction<SimpleKey>(n);
 	}
 	
 	@Override

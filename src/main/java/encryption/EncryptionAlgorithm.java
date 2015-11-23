@@ -1,30 +1,26 @@
 package encryption;
 import mathOperation.MathOperation;
-import java.util.Scanner;
+import keyBuilding.KeyType;
 
-public interface EncryptionAlgorithm {
-	
-	void setKey(int newKey);
+public interface EncryptionAlgorithm<E extends KeyType> {
 	
 	String Encrypt(String plain);
 	
 	String Decrypt(String cipher);
-
-	void generateKey();
-
-	void printKeyToFile();
-
-	void setUserKey() throws invalidEncryptionKeyException;
 	
-	int getKey();
+	MathOperation<E> getEncryptMethod();
 	
-	void setUser_input(Scanner user_input);
-	
-	MathOperation getEncryptMethod();
+	MathOperation<E> getDecryptMethod();
 	
 	int getKeySrength();
 	
 	String toString();
+	
+	E getKey();
+	
+	void setKey(E key);
+	
+	void restartKet();
 	
 	
 

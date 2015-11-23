@@ -1,7 +1,10 @@
 package mathOperation;
-public abstract class MathOperation {
+
+import keyBuilding.KeyType;
+
+public abstract class MathOperation<E extends KeyType> {
 	int a;
-	int b;
-	public abstract int Operate(int a,int b);
+	E key;
+	public abstract int Operate(int a,E key);
 
 }

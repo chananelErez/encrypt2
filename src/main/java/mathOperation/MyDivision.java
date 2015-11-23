@@ -1,9 +1,13 @@
 package mathOperation;
-public class MyDivision extends MathOperation {
+
+import keyBuilding.SimpleKey;
+
+public class MyDivision<E> extends MathOperation<SimpleKey> {
 
 	@Override
-	public int Operate(int a, int b) {
-		return (int)(a/b);
+	public int Operate(int a, SimpleKey key) {
+		// TODO Auto-generated method stub
+		return (int)(a/key.getKey());
 	}
 
 }
