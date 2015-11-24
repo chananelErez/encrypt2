@@ -1,5 +1,3 @@
-package keyBuilding;
-
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -12,6 +10,7 @@ import org.junit.rules.ExpectedException;
 
 import encryption.invalidEncryptionKeyException;
 import fileOperation.FileEncryptor;
+import keyBuilding.SimpleKey;
 
 public class SimpleKeyTest {
 
@@ -32,7 +31,7 @@ public class SimpleKeyTest {
 		assertTrue(check);
 	}
 
-	@Test
+	/*@Test
 	public void testPrintKeyToFile() throws IOException {
 		SimpleKey tester=new SimpleKey();
 		tester.setKey(2);
@@ -41,7 +40,6 @@ public class SimpleKeyTest {
 				StandardCharsets.UTF_8);
 		assertEquals(k1,"2");
 	}
-
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 	
@@ -72,6 +70,6 @@ public class SimpleKeyTest {
 		tester.setUserKey();
 		
 		
-	}
+	}*/
 
 }

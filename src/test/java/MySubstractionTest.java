@@ -14,9 +14,10 @@ public class MySubstractionTest {
 		SimpleKey k2= new SimpleKey();
 		k1.setKey(5);
 		k2.setKey(9);
-		
-		assertEquals(tester.Operate(100, k1),95);
-		assertEquals(tester.Operate(13, k2),4);
+		tester.setKey(k1);
+		assertEquals(tester.Operate(100),95);
+		tester.setKey(k2);
+		assertEquals(tester.Operate(13),4);
 	}
 
 }

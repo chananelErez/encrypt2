@@ -7,7 +7,7 @@ import fileOperation.FileEncryptor;
 
 public class SimpleKey implements KeyType {
 	
-	private int key;
+	private int key=0;
 	private Scanner user_input;
 	
 	public void setUser_input(Scanner user_input) {

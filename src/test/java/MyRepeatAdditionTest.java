@@ -14,9 +14,10 @@ public class MyRepeatAdditionTest {
 		SimpleKey k2= new SimpleKey();
 		k1.setKey(5);
 		k2.setKey(9);
-		
-		assertEquals(tester.Operate(4, k1),24);
-		assertEquals(tester.Operate(3, k2),39);
+		tester.setKey(k1);
+		assertEquals(tester.Operate(4),24);
+		tester.setKey(k2);
+		assertEquals(tester.Operate(3),39);
 	}
 
 }

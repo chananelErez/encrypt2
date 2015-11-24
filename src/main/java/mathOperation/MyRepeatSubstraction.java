@@ -11,9 +11,9 @@ public class MyRepeatSubstraction<E> extends MathOperation<SimpleKey>{
 	}
 
 	@Override
-	public int Operate(int a, SimpleKey key) {
+	public int Operate(int a) {
 		// TODO Auto-generated method stub
-		return a-n*key.getKey();
+		return a-n*getKey().getKey();
 	}
 	
 

@@ -5,9 +5,9 @@ import keyBuilding.SimpleKey;
 public class MyXor<E> extends MathOperation<SimpleKey> {
 
 	@Override
-	public int Operate(int a, SimpleKey key) {
+	public int Operate(int a) {
 		// TODO Auto-generated method stub
-		return a^key.getKey();
+		return a^getKey().getKey();
 	}
 
 }

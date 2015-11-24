@@ -2,21 +2,23 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import keyBuilding.MultiplyKey;
 import keyBuilding.SimpleKey;
-import mathOperation.MyDivision;
+import mathOperation.MyModDivision;
 
 public class MyDivisionTest {
 
 	@Test
 	public void testOperate() {
-		MyDivision<SimpleKey> tester=new MyDivision<SimpleKey>();
-		SimpleKey k1=new SimpleKey();
-		SimpleKey k2= new SimpleKey();
+		MyModDivision<SimpleKey> tester=new MyModDivision<SimpleKey>();
+		MultiplyKey k1=new MultiplyKey();
+		MultiplyKey k2= new MultiplyKey();
 		k1.setKey(5);
 		k2.setKey(3);
-		
-		assertEquals(tester.Operate(10, k1),2);
-		assertEquals(tester.Operate(9, k2),3);
+		tester.setKey( k1);
+		assertEquals(tester.Operate(10),2);
+		tester.setKey(k2);
+		assertEquals(tester.Operate(9),3);
 	}
 
 }

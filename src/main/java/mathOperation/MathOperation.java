@@ -3,8 +3,14 @@ package mathOperation;
 import keyBuilding.KeyType;
 
 public abstract class MathOperation<E extends KeyType> {
-	int a;
-	E key;
-	public abstract int Operate(int a,E key);
+	private E key;
+	public abstract int Operate(int a);
+	
+	public E getKey() {
+		return key;
+	}
+	public void setKey(E key) {
+		this.key = key;
+	}
 
 }

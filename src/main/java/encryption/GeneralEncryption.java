@@ -18,7 +18,7 @@ implements EncryptionAlgorithm<E>{
 
 		    char letter = buffer[i];
 		    int asciiCode=(int)(letter);
-		    int change=encryptMethod.Operate(asciiCode, key)%256;
+		    int change=encryptMethod.Operate(asciiCode)%256;
 		    letter = (char) (change);
 		    
 		    buffer[i] = letter;
@@ -37,7 +37,7 @@ implements EncryptionAlgorithm<E>{
 		    
 		    char letter = buffer[i];
 		    int asciiCode=(int)(letter);
-		    int change=(decryptMethod.Operate(asciiCode, key)+256)%256;
+		    int change=(decryptMethod.Operate(asciiCode)+256)%256;
 		    letter = (char) (change);
 		    
 		    buffer[i] = letter;
@@ -68,8 +68,9 @@ implements EncryptionAlgorithm<E>{
 
 	@Override
 	public void setKey(E key) {
-		
 		this.key=key;
+		encryptMethod.setKey(key);
+		decryptMethod.setKey(key);
 	}
 
 	@Override
@@ -81,6 +82,8 @@ implements EncryptionAlgorithm<E>{
 	@Override
 	public void restartKet() {
 		key.generateKey();
+		encryptMethod.setKey(key);
+		decryptMethod.setKey(key);
 		key.printKeyToFile();
 		
 	}

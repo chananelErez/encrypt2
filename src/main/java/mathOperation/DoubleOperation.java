@@ -14,12 +14,14 @@ public class DoubleOperation<T extends SimpleKey> extends MathOperation<DoubleKe
 	}
 
 	@Override
-	public int Operate(int a, DoubleKey<T> key) {
-		List<T> keys=key.getKey();
+	public int Operate(int a) {
+		List<T> keys=getKey().getKey();
 		T key1=keys.get(0);
 		T key2=keys.get(1);
-		
-		return this.operator.Operate(this.operator.Operate(a, key1),key2) ;
+		this.operator.setKey(key1);
+		int tmp=this.operator.Operate(a);
+		this.operator.setKey(key2);
+		return this.operator.Operate(tmp) ;
 	}
 
 	

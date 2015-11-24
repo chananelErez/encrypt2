@@ -14,9 +14,10 @@ public class MyRepeatSubstractionTest {
 		SimpleKey k2= new SimpleKey();
 		k1.setKey(5);
 		k2.setKey(9);
-		
-		assertEquals(tester.Operate(54, k1),29);
-		assertEquals(tester.Operate(103, k2),58);
+		tester.setKey(k1);
+		assertEquals(tester.Operate(54),29);
+		tester.setKey(k2);
+		assertEquals(tester.Operate(103),58);
 	}
 
 }
