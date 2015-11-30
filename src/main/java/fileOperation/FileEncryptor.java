@@ -7,6 +7,7 @@ import encryption.invalidEncryptionKeyException;
 import keyBuilding.DoubleKey;
 import keyBuilding.KeyType;
 import keyBuilding.SimpleKey;
+import logging.EncryptionLog4JLogger;
 import observer.EncryptionObserver;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,7 +19,11 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
+	
+	final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
 	
 	private LinkedList<EncryptionObserver> list =
 			                          new LinkedList<EncryptionObserver>();
@@ -30,40 +35,52 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 	}
 	
 	public void encrtptFile(String originalFilePath,String outputFilePath) {
+		logger.debug("Encryption method start.");
 		String content;
 		try {
 			content = readFile(originalFilePath, StandardCharsets.UTF_8);
+			this.notifyObserver(this.EncryptionStarted(originalFilePath));
 			Algo.restartKet();
 			String cipher=Algo.Encrypt(content);
 			writeFile(cipher,"encrypted" ,outputFilePath);
+			this.notifyObserver(this.EncryptionEnded(originalFilePath));
 		} catch (IOException e) {
+			logger.error("The file does not found.");
 			System.out.println("Path not founded");
+			this.notifyObserver(this.PathNotFound(originalFilePath, "Encryption"));
 		}
+		logger.debug("Encryption method end.");
 		
 	}
 	
-	public void decryptFile(String encryptedFilePath,String outputFilePath,E key)
-			{
+	public void decryptFile(String encryptedFilePath,String outputFilePath){
+		logger.debug("Decryption method start.");
 		String content;
 		try {
 			content = readFile(encryptedFilePath, StandardCharsets.UTF_8);
-			key.setUserKey();
-			Algo.setKey(key);
+			this.notifyObserver(this.DecryptionStarted(encryptedFilePath));
+			Algo.getKey().setUserKey();
+			Algo.setKey(Algo.getKey());
 			String plain=Algo.Decrypt(content);
 			writeFile(plain,"decrypted" ,outputFilePath);
+			this.notifyObserver(this.DecryptionEnded(encryptedFilePath));
 		} catch (IOException e) {
-			
+			logger.error("The file does not found.");
 			System.out.println("Path not founded");
+			this.notifyObserver(this.PathNotFound(encryptedFilePath, "Decryption"));
 		} catch (invalidEncryptionKeyException e) {
-			
+			logger.error("The inserted key was wrong.");
+			this.notifyObserver(this.InvalidKey(encryptedFilePath, "Decryption"));
 			System.out.println("Invalid key type (it is not a number"
 					+ "or it is negative");
 		}
-		
+		logger.debug("Decryption method end.");
+
 		
 	}
 	
 	public String NameConvert(String fileName,String eORd){
+		logger.debug("Converting the file name to the output file.");
 		String convertName="";
 		for(int i=0;i<fileName.length();i++){
 			if (fileName.charAt(i)=='.'){
@@ -80,6 +97,7 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 			}
 			
 		} 
+		logger.debug("The convert process finished.");
 		return convertName;
 		
 	}
@@ -93,6 +111,7 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 	
 	// from http://www.mkyong.com/java/how-to-write-to-file-in-java-fileoutputstream-example/
 	public static void writeFile(String content,String name,String path) {
+		logger.debug("Writing content to file.");
 		FileOutputStream fop = null;
 		File file;
 		try {
@@ -124,20 +143,13 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 				e.printStackTrace();
 			}
 		}
+		logger.debug("The writing process finished.");
 	}
 	
-	public static void main(String[] args) throws IOException {
+	public void EncryptionMenu(FileEncryptor<DoubleKey<SimpleKey>> Code) 
+			throws IOException{
 		
-		EncryptionAlgorithm<SimpleKey> algo=new ShiftUpEncryption();
-		DoubleEncryption<SimpleKey> internalAlgo=
-				                    new DoubleEncryption<SimpleKey>(algo);
-		SimpleKey key1=new SimpleKey();
-		SimpleKey key2=new SimpleKey();
-		DoubleKey<SimpleKey> k= new DoubleKey<SimpleKey>(key1,key2);
-		internalAlgo.setKey(k);
-		FileEncryptor<DoubleKey<SimpleKey>> Code=
-				new FileEncryptor<DoubleKey<SimpleKey>>(internalAlgo);
-		
+		logger.debug("Opening menu.");
 		Scanner user_input=new Scanner(System.in);
 		System.out.println("It is encryption algorithm please insert E for "
 				+ "encryption and D for decryption ");
@@ -147,16 +159,30 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 		String fileName=user_input.next();
 		String outputPath=Code.NameConvert(fileName, eORd);
 		if (eORd.charAt(0)=='E'){
-			Code.notifyObserver(Code.EncryptionStarted(fileName));
 			Code.encrtptFile(fileName, outputPath);
-			Code.notifyObserver(Code.EncryptionEnded(fileName));
 		}
-		if (eORd.charAt(0)=='D'){
-			Code.notifyObserver(Code.DecryptionStarted(fileName));
-			Code.decryptFile(fileName, outputPath, k);
-			Code.notifyObserver(Code.DecryptionEnded(fileName));
+		else if (eORd.charAt(0)=='D'){
+			
+			Code.decryptFile(fileName, outputPath);
+		}else{
+			logger.error("Wrong type of operation was chosen.");
 		}
+		logger.debug("Closing menu.");
 		user_input.close();
+	}
+	
+	public static FileEncryptor<DoubleKey<SimpleKey>> buildOne(){
+		EncryptionAlgorithm<SimpleKey> algo=new ShiftUpEncryption();
+		DoubleEncryption<SimpleKey> internalAlgo=
+				                    new DoubleEncryption<SimpleKey>(algo);
+		SimpleKey key1=new SimpleKey();
+		SimpleKey key2=new SimpleKey();
+		DoubleKey<SimpleKey> k= new DoubleKey<SimpleKey>(key1,key2);
+		internalAlgo.setKey(k);
+		FileEncryptor<DoubleKey<SimpleKey>> Code=
+				new FileEncryptor<DoubleKey<SimpleKey>>(internalAlgo);
+		return Code;
+		
 	}
 
 	@Override
@@ -172,7 +198,7 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 	}
 
 	@Override
-	public void notifyObserver(EncryptionEvent event) {
+	public void notifyObserver(GeneralEvent event) {
 		for(EncryptionObserver observer : list)
         {
             observer.update(event);
@@ -217,6 +243,24 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 	public LinkedList<EncryptionObserver> getList(){
 		return list;
 		
+	}
+
+	@Override
+	public ErrorEvent PathNotFound(String file,String eORd) {
+		ErrorEvent PNF=new ErrorEvent();
+		PNF.setErrorkind("The Path was not found");
+		PNF.setFile(file);
+		PNF.seteORd(eORd);
+		return PNF;
+	}
+
+	@Override
+	public ErrorEvent InvalidKey(String file,String eORd) {
+		ErrorEvent IK=new ErrorEvent();
+		IK.setErrorkind("The Key was not valid");
+		IK.setFile(file);
+		IK.seteORd(eORd);
+		return IK;
 	}
 	
 }

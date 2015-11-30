@@ -1,8 +1,8 @@
 package observer;
 
-import fileOperation.EncryptionEvent;
+import fileOperation.GeneralEvent;
 
 public interface IObserver {
-	void update(EncryptionEvent event);
+	void update(GeneralEvent event);
 
 }

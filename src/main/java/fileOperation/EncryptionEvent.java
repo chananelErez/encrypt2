@@ -1,5 +1,5 @@
 package fileOperation;
-public class EncryptionEvent {
+public class EncryptionEvent implements GeneralEvent {
 	
 	private String eORd;/*Encryption or decryption */
 	private String file;/*where is the plain text file */

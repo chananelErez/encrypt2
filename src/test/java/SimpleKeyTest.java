@@ -1,15 +1,6 @@
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import encryption.invalidEncryptionKeyException;
-import fileOperation.FileEncryptor;
 import keyBuilding.SimpleKey;
 
 public class SimpleKeyTest {

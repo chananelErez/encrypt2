@@ -1,6 +1,6 @@
 package observer;
 
-import fileOperation.EncryptionEvent;
+import fileOperation.GeneralEvent;
 
 public class EncryptionObserver implements IObserver {
 
@@ -9,8 +9,8 @@ public class EncryptionObserver implements IObserver {
 	
 	
 	@Override
-	public void update(EncryptionEvent event) {
-		Args.printMessege(event);
+	public void update(GeneralEvent event) {
+		Args.printMessage(event);
 		
 	}
 

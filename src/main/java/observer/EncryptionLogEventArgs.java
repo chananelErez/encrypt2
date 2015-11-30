@@ -3,6 +3,8 @@ package observer;
 import java.util.HashMap;
 
 import fileOperation.EncryptionEvent;
+import fileOperation.ErrorEvent;
+import fileOperation.GeneralEvent;
 
 public class EncryptionLogEventArgs {
 	
@@ -11,12 +13,27 @@ public class EncryptionLogEventArgs {
 	HashMap<String , EncryptionEvent> databaseD=
 			                      new HashMap<String , EncryptionEvent>();
 	
-	public void printMessege(EncryptionEvent event){
+	public void printErrorMessage(ErrorEvent event){
+		System.out.println("An error occurred during the "+event.geteORd()
+		+" of the file "+event.getFile()+". The error type: "
+				+event.getErrorkind());
+	}
+	
+	public void printMessage(GeneralEvent event){
+		if(event instanceof ErrorEvent){
+			this.printErrorMessage((ErrorEvent) event);
+		}
+		if(event instanceof EncryptionEvent){
+			this.printEncryptionMessage((EncryptionEvent) event);
+		}
+	}
+	
+	public void printEncryptionMessage(EncryptionEvent event){
 		if(event.geteORd()=="Encryption"){
 			if(event.getAlgorithm()!=null){
 				databaseE.put(event.getFile(), event);
 				System.out.print("The Encryption of the file "+event.getFile()
-				                    +" was started.");
+				                    +" was started.\n");
 			}else{
 				EncryptionEvent preEvent=databaseE.get(event.getFile());
 				long t=event.getCurrentTime()-preEvent.getCurrentTime();

@@ -18,6 +18,11 @@ implements EncryptionAlgorithm<DoubleKey<T>> {
 		
 	}
 	
+	@Override
+	public String toString(){
+		return "Double "+Algo.toString()+" Encryption";
+	}
+	
 	
 	
 

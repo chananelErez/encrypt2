@@ -63,7 +63,7 @@ public class FileEncryptorTest {
 				"Algorithm", "out", 1);
 		tester.notifyObserver(event);
 		
-		assertEquals("The Encryption of the file file was started.",
+		assertEquals("The Encryption of the file file was started.\n",
 				outContent.toString());
 		
 		
