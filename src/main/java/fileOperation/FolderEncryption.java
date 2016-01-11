@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
+import encryption.DoubleEncryption;
 import encryption.EncryptionAlgorithm;
 import encryption.ShiftUpEncryption;
 import encryption.invalidEncryptionKeyException;
+import keyBuilding.DoubleKey;
 import keyBuilding.KeyType;
 import keyBuilding.SimpleKey;
 import logging.EncryptionLog4JLogger;
@@ -99,6 +102,44 @@ public class FolderEncryption <E extends KeyType> implements ObservableEncryptio
 		logger.debug("Decryption of folder ends.");
 
 		
+	}
+	
+	public static FolderEncryption<DoubleKey<SimpleKey>> buildOne(){
+		EncryptionAlgorithm<SimpleKey> algo=new ShiftUpEncryption();
+		DoubleEncryption<SimpleKey> internalAlgo=
+				                    new DoubleEncryption<SimpleKey>(algo);
+		SimpleKey key1=new SimpleKey();
+		SimpleKey key2=new SimpleKey();
+		DoubleKey<SimpleKey> k= new DoubleKey<SimpleKey>(key1,key2);
+		internalAlgo.setKey(k);
+		FolderEncryption<DoubleKey<SimpleKey>> Code=
+				new FolderEncryption<DoubleKey<SimpleKey>>(internalAlgo);
+		return Code;
+		
+	}
+	
+	public void EncryptionMenu(FolderEncryption<DoubleKey<SimpleKey>> Code) 
+			throws IOException{
+		
+		logger.debug("Opening menu.");
+		Scanner user_input=new Scanner(System.in);
+		System.out.println("It is encryption algorithm please insert E for "
+				+ "encryption and D for decryption ");
+		String eORd=user_input.next();
+		
+		System.out.println("please insert the folder source path ");
+		String fileName=user_input.next();
+		if (eORd.charAt(0)=='E'){
+			Code.encrtptFolder(fileName);
+		}
+		else if (eORd.charAt(0)=='D'){
+			
+			Code.decryptFolder(fileName);
+		}else{
+			logger.error("Wrong type of operation was chosen.");
+		}
+		logger.debug("Closing menu.");
+		user_input.close();
 	}
 	
 	public void createNewFolder(String eORd){
