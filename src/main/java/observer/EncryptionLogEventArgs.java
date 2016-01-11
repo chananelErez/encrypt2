@@ -16,7 +16,7 @@ public class EncryptionLogEventArgs {
 	public void printErrorMessage(ErrorEvent event){
 		System.out.println("An error occurred during the "+event.geteORd()
 		+" of the file "+event.getFile()+". The error type: "
-				+event.getErrorkind());
+				+event.getErrorKind());
 	}
 	
 	public void printMessage(GeneralEvent event){

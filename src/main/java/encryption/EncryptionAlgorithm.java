@@ -20,7 +20,7 @@ public interface EncryptionAlgorithm<E extends KeyType> {
 	
 	void setKey(E key);
 	
-	void restartKet();
+	void restartKet(String target);
 	
 	
 

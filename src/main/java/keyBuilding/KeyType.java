@@ -6,7 +6,7 @@ public interface KeyType {
 	
 	void generateKey();
 
-	void printKeyToFile();
+	void printKeyToFile(String file);
 
 	void setUserKey() throws invalidEncryptionKeyException;
 	

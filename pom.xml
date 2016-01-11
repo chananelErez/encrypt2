@@ -7,6 +7,8 @@
   <artifactId>Encryptor2</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Encryptor2</name>
+  
+  
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -24,5 +26,6 @@
     	<artifactId>mockito-core</artifactId>
     	<version>2.0.31-beta</version>
  	</dependency>
-  </dependencies> 
+  </dependencies>
+   
 </project>

@@ -49,7 +49,6 @@ implements EncryptionAlgorithm<E>{
 
 	@Override
 	public MathOperation<E> getEncryptMethod() {
-		// TODO Auto-generated method stub
 		return encryptMethod;
 	}
 
@@ -62,7 +61,6 @@ implements EncryptionAlgorithm<E>{
 
 	@Override
 	public E getKey() {
-		// TODO Auto-generated method stub
 		return key;
 	}
 
@@ -75,16 +73,15 @@ implements EncryptionAlgorithm<E>{
 
 	@Override
 	public MathOperation<E> getDecryptMethod() {
-		// TODO Auto-generated method stub
 		return decryptMethod;
 	}
 
 	@Override
-	public void restartKet() {
+	public void restartKet(String target) {
 		key.generateKey();
 		encryptMethod.setKey(key);
 		decryptMethod.setKey(key);
-		key.printKeyToFile();
+		key.printKeyToFile(target);
 		
 	}
 	

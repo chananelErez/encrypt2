@@ -40,7 +40,7 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 		try {
 			content = readFile(originalFilePath, StandardCharsets.UTF_8);
 			this.notifyObserver(this.EncryptionStarted(originalFilePath));
-			Algo.restartKet();
+			Algo.restartKet(originalFilePath);
 			String cipher=Algo.Encrypt(content);
 			writeFile(cipher,"encrypted" ,outputFilePath);
 			this.notifyObserver(this.EncryptionEnded(originalFilePath));
@@ -248,7 +248,7 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 	@Override
 	public ErrorEvent PathNotFound(String file,String eORd) {
 		ErrorEvent PNF=new ErrorEvent();
-		PNF.setErrorkind("The Path was not found");
+		PNF.setErrorKind("The Path was not found");
 		PNF.setFile(file);
 		PNF.seteORd(eORd);
 		return PNF;
@@ -257,7 +257,7 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 	@Override
 	public ErrorEvent InvalidKey(String file,String eORd) {
 		ErrorEvent IK=new ErrorEvent();
-		IK.setErrorkind("The Key was not valid");
+		IK.setErrorKind("The Key was not valid");
 		IK.setFile(file);
 		IK.seteORd(eORd);
 		return IK;

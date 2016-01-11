@@ -13,7 +13,9 @@ public class SimpleKey implements KeyType {
 	public void setUser_input(Scanner user_input) {
 		this.user_input = user_input;
 	}
-	
+	public SimpleKey(){
+		this.setUser_input(new Scanner(System.in));
+	}
 	@Override
 	public void generateKey() {
 		int Key=(int)(Math.random()*13)+1;
@@ -21,8 +23,8 @@ public class SimpleKey implements KeyType {
 	}
 
 	@Override
-	public void printKeyToFile() {
-		FileEncryptor.writeFile(String.valueOf(key), "key", "C:\\Users\\user\\key.txt");
+	public void printKeyToFile(String file) {
+		FileEncryptor.writeFile(String.valueOf(key), "key",file+"\\key.txt");
 		
 	}
 

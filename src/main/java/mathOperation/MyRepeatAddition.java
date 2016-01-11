@@ -11,7 +11,6 @@ public class MyRepeatAddition<E> extends MathOperation<SimpleKey> {
 	
 	@Override
 	public int Operate(int a) {
-		// TODO Auto-generated method stub
 		return a+n*getKey().getKey();
 	}
 	

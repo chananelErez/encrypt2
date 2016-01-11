@@ -31,11 +31,11 @@ public class DoubleKey<T extends SimpleKey> implements KeyType{
 	}
 
 	@Override
-	public void printKeyToFile() {
+	public void printKeyToFile(String file) {
 		FileEncryptor.writeFile(String.valueOf(key1.getKey()), "key1", 
-				"C:\\Users\\user\\key1.txt");
+				file+"\\key1.txt");
 		FileEncryptor.writeFile(String.valueOf(key2.getKey()), "key2",
-				"C:\\Users\\user\\key2.txt");
+				file+"\\key2.txt");
 		
 	}
 
