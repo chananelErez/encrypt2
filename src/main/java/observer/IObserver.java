@@ -1,6 +1,6 @@
 package observer;
 
-import fileOperation.GeneralEvent;
+import listenersEvents.GeneralEvent;
 
 public interface IObserver {
 	void update(GeneralEvent event);

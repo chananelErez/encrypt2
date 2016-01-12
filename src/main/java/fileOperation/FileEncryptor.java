@@ -7,6 +7,9 @@ import encryption.invalidEncryptionKeyException;
 import keyBuilding.DoubleKey;
 import keyBuilding.KeyType;
 import keyBuilding.SimpleKey;
+import listenersEvents.EncryptionEvent;
+import listenersEvents.ErrorEvent;
+import listenersEvents.GeneralEvent;
 import logging.EncryptionLog4JLogger;
 import observer.EncryptionObserver;
 import java.io.File;
@@ -40,7 +43,7 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 		try {
 			content = readFile(originalFilePath, StandardCharsets.UTF_8);
 			this.notifyObserver(this.EncryptionStarted(originalFilePath));
-			Algo.restartKet(originalFilePath);
+			Algo.restartKey(originalFilePath);
 			String cipher=Algo.Encrypt(content);
 			writeFile(cipher,"encrypted" ,outputFilePath);
 			this.notifyObserver(this.EncryptionEnded(originalFilePath));
@@ -262,6 +265,8 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 		IK.seteORd(eORd);
 		return IK;
 	}
+
+
 	
 }
 

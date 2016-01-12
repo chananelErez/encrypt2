@@ -1,4 +1,4 @@
-package fileOperation;
+package listenersEvents;
 
 public interface GeneralEvent {
 

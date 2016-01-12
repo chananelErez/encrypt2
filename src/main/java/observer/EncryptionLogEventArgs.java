@@ -2,9 +2,9 @@ package observer;
 
 import java.util.HashMap;
 
-import fileOperation.EncryptionEvent;
-import fileOperation.ErrorEvent;
-import fileOperation.GeneralEvent;
+import listenersEvents.EncryptionEvent;
+import listenersEvents.ErrorEvent;
+import listenersEvents.GeneralEvent;
 
 public class EncryptionLogEventArgs {
 	

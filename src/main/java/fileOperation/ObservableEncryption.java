@@ -1,5 +1,8 @@
 package fileOperation;
 
+import listenersEvents.EncryptionEvent;
+import listenersEvents.ErrorEvent;
+import listenersEvents.GeneralEvent;
 import observer.EncryptionObserver;
 
 

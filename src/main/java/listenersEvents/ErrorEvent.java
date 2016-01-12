@@ -1,4 +1,4 @@
-package fileOperation;
+package listenersEvents;
 
 public class ErrorEvent implements GeneralEvent {
 	private String errorKind;

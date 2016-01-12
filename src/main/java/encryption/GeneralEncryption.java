@@ -77,7 +77,7 @@ implements EncryptionAlgorithm<E>{
 	}
 
 	@Override
-	public void restartKet(String target) {
+	public void restartKey(String target) {
 		key.generateKey();
 		encryptMethod.setKey(key);
 		decryptMethod.setKey(key);

@@ -19,7 +19,7 @@ implements ObservableEncryption, IDirectoryProcessor {
 
 	public SyncDirectoryProcessor(EncryptionAlgorithm<E> algo) {
 		super(algo);
-		// TODO Auto-generated constructor stub
+		
 	}
 	@Override
 	public void encryptDirectory(String folderName) {
@@ -28,7 +28,7 @@ implements ObservableEncryption, IDirectoryProcessor {
 		this.notifyObserver(this.EncryptionFolderStarted(folderName));
 		final File folder = new File(folderName);
 		ArrayList<String> files=this.listFilesForFolder(folder);
-		Algo.restartKet(folderName+"\\Encrypted");
+		Algo.restartKey(folderName+"\\Encrypted");
 		for (final String fileEntry : files){
 			logger.debug("Encryption of the file "+fileEntry+" starts.");
 			String content;
@@ -86,7 +86,7 @@ implements ObservableEncryption, IDirectoryProcessor {
 		}
 		logger.debug("Decryption of folder ends.");
 
-		
+		this.notifyObserver(this.DecryptionFolderEnded(folderName));
 	}
 
 	public void EncryptionMenu(SyncDirectoryProcessor<DoubleKey<SimpleKey>> Code) 

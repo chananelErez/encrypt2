@@ -1,6 +1,6 @@
 package observer;
 
-import fileOperation.GeneralEvent;
+import listenersEvents.GeneralEvent;
 
 public class EncryptionObserver implements IObserver {
 

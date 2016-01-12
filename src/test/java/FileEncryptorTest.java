@@ -1,4 +1,4 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,9 +13,9 @@ import org.junit.rules.ExpectedException;
 
 import encryption.EncryptionAlgorithm;
 import encryption.ShiftUpEncryption;
-import fileOperation.EncryptionEvent;
 import fileOperation.FileEncryptor;
 import keyBuilding.SimpleKey;
+import listenersEvents.EncryptionEvent;
 import observer.EncryptionObserver;
 
 public class FileEncryptorTest {

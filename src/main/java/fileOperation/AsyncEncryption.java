@@ -1,8 +1,9 @@
 package fileOperation;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
+
 import org.apache.log4j.Logger;
 
 import encryption.EncryptionAlgorithm;
@@ -12,44 +13,96 @@ import listenersEvents.ErrorEvent;
 import listenersEvents.GeneralEvent;
 import logging.EncryptionLog4JLogger;
 import observer.EncryptionObserver;
+import synchronizedStaff.SynchronizedCounter;
 
-/*We want to encrypt entire folder so we have to know how to
-get the names of the folder's files.
-Then we know how to open them ,and we should take care of the writing to new folder. 
-*/
-public class FolderEncryption <E extends KeyType> implements ObservableEncryption{
+public class AsyncEncryption<E extends KeyType>
+implements ObservableEncryption, Runnable {
+	
 	final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
 	private String folderName;
-	
+	private String fileName;
+	private SynchronizedCounter c;
 	
 	private LinkedList<EncryptionObserver> list =
 			                          new LinkedList<EncryptionObserver>();
+	private boolean EorD;
+	public EncryptionAlgorithm<E> Algo;	
 	
-	public EncryptionAlgorithm<E> Algo;
-	
-	public FolderEncryption(EncryptionAlgorithm<E> algo){
-		Algo=algo;
-	}
-	
-	public void createNewFolder(String eORd){
-		Boolean success;
-		success = (new File(this.getFolderName()+eORd)).mkdirs();
-		if (!success) {
-		    logger.error("failed to build subdirectory");
+	public AsyncEncryption(SynchronizedCounter c,
+			String filename, boolean eord,String fName
+			,EncryptionAlgorithm<E> algo,
+			LinkedList<EncryptionObserver> list){
+		this.c=c;
+		this.fileName=filename;
+		this.Algo=algo;
+		this.EorD=eord;
+		this.folderName=fName;
+		this.list=list;
+		for(EncryptionObserver ob:list){
+			this.addEncryptionObserver(ob);
 		}
+		
+	}
+
+	@Override
+	public void run() {
+		try {
+			Thread.sleep(7);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		if(EorD){
+			this.encryptFile();
+		}else{
+			this.decryptFile();
+		}
+		c.increment();
+		 notifyAll();
+
 	}
 	
-	public ArrayList<String> listFilesForFolder(final File folder) {
-		ArrayList<String> files= new ArrayList<String>(); 
-	    for (final File fileEntry : folder.listFiles()) {
-	    	if(fileEntry.getName().toLowerCase().endsWith(".txt")){
-	    		files.add(fileEntry.getName());
-	    	}
-	        
-	    }
-		return files;
+	public void encryptFile() {
+		logger.debug("Encryption of the file "+fileName+" starts.");
+		String content;
+		String originalFilePath=folderName+"\\"+fileName;
+		String outputFilePath=folderName+"\\encrypted\\"+fileName;
+		try {
+			content = FileEncryptor.readFile(originalFilePath, StandardCharsets.UTF_8);
+			this.notifyObserver(this.EncryptionStarted(originalFilePath));
+			String cipher=Algo.Encrypt(content);
+			FileEncryptor.writeFile(cipher,"encrypted" ,outputFilePath);
+			this.notifyObserver(this.EncryptionEnded(originalFilePath));
+		} catch (IOException e) {
+			logger.error("The file does not found.");
+			System.out.println("Path not founded");
+			this.notifyObserver(this.PathNotFound(originalFilePath, "Encryption"));
+		}
+		logger.debug("Encryption of the file "+fileName+"  end.");
+		
 	}
 	
+	public void decryptFile(){
+		logger.debug("Decryption of the file "+fileName+" start.");
+		String content;
+		String encryptedFilePath=folderName+"\\"+fileName;
+		String outputFilePath=folderName+"\\decrypted\\"+fileName;
+		try {
+			content = FileEncryptor.readFile(encryptedFilePath, StandardCharsets.UTF_8);
+			this.notifyObserver(this.DecryptionStarted(encryptedFilePath));
+			String plain=Algo.Decrypt(content);
+			FileEncryptor.writeFile(plain,"decrypted" ,outputFilePath);
+			this.notifyObserver(this.DecryptionEnded(encryptedFilePath));
+		} catch (IOException e) {
+			logger.error("The file does not found.");
+			System.out.println("Path not founded");
+			this.notifyObserver(this.PathNotFound(encryptedFilePath, "Decryption"));
+		}
+		logger.debug("Decryption of the file "+fileName+" end.");
+
+		
+	}
+	
+
 	@Override
 	public void addEncryptionObserver(EncryptionObserver observer) {
 		list.add(observer);
@@ -71,37 +124,7 @@ public class FolderEncryption <E extends KeyType> implements ObservableEncryptio
 		
 	}
 
-	public EncryptionEvent EncryptionFolderStarted(String folder){
-		String output=folder+"\\encrypted";
-		EncryptionEvent eventEFS=new EncryptionEvent("Encryption",
-				folder,Algo.toString(),output,
-				System.currentTimeMillis());
-		return eventEFS;
-		
-	}
 	
-	public EncryptionEvent EncryptionFolderEnded(String folder){
-		EncryptionEvent eventEFE=new EncryptionEvent("Encryption",
-				folder,null,null,
-				System.currentTimeMillis());
-		return eventEFE;
-	}
-	
-	public EncryptionEvent DecryptionFolderStarted(String folder){
-		String output=folder+"\\decrypted";
-		EncryptionEvent eventEFS=new EncryptionEvent("Decryption",
-				folder,Algo.toString(),output,
-				System.currentTimeMillis());
-		return eventEFS;
-		
-	}
-	
-	public EncryptionEvent DecryptionFolderEnded(String folder){
-		EncryptionEvent eventEFE=new EncryptionEvent("Decryption",
-				folder,null,null,
-				System.currentTimeMillis());
-		return eventEFE;
-	}
 	@Override
 	public EncryptionEvent EncryptionStarted(String file) {
 		String output=folderName+"\\encrypted"+file;
@@ -158,14 +181,5 @@ public class FolderEncryption <E extends KeyType> implements ObservableEncryptio
 		IK.seteORd(eORd);
 		return IK;
 	}
-
-	public String getFolderName() {
-		return folderName;
-	}
-
-	public void setFolderName(String folderName) {
-		this.folderName = folderName;
-	}
-	
 
 }
