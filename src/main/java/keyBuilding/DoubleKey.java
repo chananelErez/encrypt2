@@ -11,17 +11,17 @@ public class DoubleKey<T extends SimpleKey> implements KeyType{
 	
 	private T key1;
 	private T key2;
-	private Scanner user_input;
+/*	private Scanner user_input;*/
 	
 	public DoubleKey(T k1,T k2){
 		key1=k1;
 		key2=k2;
 		
 	}
-	
+/*	
 	public void setUser_input(Scanner user_input) {
 		this.user_input = user_input;
-	}
+	}*/
 
 	@Override
 	public void generateKey() {
