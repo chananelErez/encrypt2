@@ -2,7 +2,8 @@ package fileOperation;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import org.apache.log4j.Logger;
 
 import encryption.EncryptionAlgorithm;
@@ -22,8 +23,8 @@ public class FolderEncryption <E extends KeyType> implements ObservableEncryptio
 	private String folderName;
 	
 	
-	private LinkedList<EncryptionObserver> list =
-			                          new LinkedList<EncryptionObserver>();
+	private ConcurrentLinkedQueue<EncryptionObserver> list =
+			                          new ConcurrentLinkedQueue<EncryptionObserver>();
 	
 	public EncryptionAlgorithm<E> Algo;
 	
@@ -136,7 +137,7 @@ public class FolderEncryption <E extends KeyType> implements ObservableEncryptio
 		return eventDE;
 	}
 	
-	public LinkedList<EncryptionObserver> getList(){
+	public ConcurrentLinkedQueue<EncryptionObserver> getList(){
 		return list;
 		
 	}

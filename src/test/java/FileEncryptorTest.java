@@ -59,11 +59,11 @@ public class FileEncryptorTest {
 		tester.addEncryptionObserver(ob);
 		assertEquals(tester.getList().size(),1);
 		
-		EncryptionEvent event=new EncryptionEvent("Encryption", "file",
+		EncryptionEvent event=new EncryptionEvent("Encryption", "file.txt",
 				"Algorithm", "out", 1);
 		tester.notifyObserver(event);
 		
-		assertEquals("The Encryption of the file file was started.\n",
+		assertEquals("The Encryption of the file file.txt was started.\n",
 				outContent.toString());
 		
 		

@@ -2,7 +2,7 @@ package fileOperation;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.log4j.Logger;
 
@@ -23,31 +23,30 @@ implements ObservableEncryption, Runnable {
 	private String fileName;
 	private SynchronizedCounter c;
 	
-	private LinkedList<EncryptionObserver> list =
-			                          new LinkedList<EncryptionObserver>();
+	private ConcurrentLinkedQueue<EncryptionObserver> list =
+			                          new ConcurrentLinkedQueue<EncryptionObserver>();
 	private boolean EorD;
 	public EncryptionAlgorithm<E> Algo;	
 	
 	public AsyncEncryption(SynchronizedCounter c,
 			String filename, boolean eord,String fName
 			,EncryptionAlgorithm<E> algo,
-			LinkedList<EncryptionObserver> list){
+			ConcurrentLinkedQueue<EncryptionObserver> list){
+		logger.debug("Thread was created.");
 		this.c=c;
 		this.fileName=filename;
 		this.Algo=algo;
 		this.EorD=eord;
 		this.folderName=fName;
 		this.list=list;
-		for(EncryptionObserver ob:list){
-			this.addEncryptionObserver(ob);
-		}
+		logger.debug("Thread creation was over.");
 		
 	}
 
 	@Override
 	public void run() {
 		try {
-			Thread.sleep(7);
+			Thread.sleep(20);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -57,7 +56,8 @@ implements ObservableEncryption, Runnable {
 			this.decryptFile();
 		}
 		c.increment();
-		 notifyAll();
+		logger.debug("The counter value is "+String.valueOf(c.value()));
+		
 
 	}
 	
@@ -68,10 +68,10 @@ implements ObservableEncryption, Runnable {
 		String outputFilePath=folderName+"\\encrypted\\"+fileName;
 		try {
 			content = FileEncryptor.readFile(originalFilePath, StandardCharsets.UTF_8);
-			this.notifyObserver(this.EncryptionStarted(originalFilePath));
+			this.notifyObserver(this.EncryptionStarted(fileName));
 			String cipher=Algo.Encrypt(content);
 			FileEncryptor.writeFile(cipher,"encrypted" ,outputFilePath);
-			this.notifyObserver(this.EncryptionEnded(originalFilePath));
+			this.notifyObserver(this.EncryptionEnded(fileName));
 		} catch (IOException e) {
 			logger.error("The file does not found.");
 			System.out.println("Path not founded");
@@ -88,10 +88,10 @@ implements ObservableEncryption, Runnable {
 		String outputFilePath=folderName+"\\decrypted\\"+fileName;
 		try {
 			content = FileEncryptor.readFile(encryptedFilePath, StandardCharsets.UTF_8);
-			this.notifyObserver(this.DecryptionStarted(encryptedFilePath));
+			this.notifyObserver(this.DecryptionStarted(fileName));
 			String plain=Algo.Decrypt(content);
 			FileEncryptor.writeFile(plain,"decrypted" ,outputFilePath);
-			this.notifyObserver(this.DecryptionEnded(encryptedFilePath));
+			this.notifyObserver(this.DecryptionEnded(fileName));
 		} catch (IOException e) {
 			logger.error("The file does not found.");
 			System.out.println("Path not founded");
@@ -101,6 +101,7 @@ implements ObservableEncryption, Runnable {
 
 		
 	}
+	
 	
 
 	@Override
@@ -159,7 +160,7 @@ implements ObservableEncryption, Runnable {
 		return eventDE;
 	}
 	
-	public LinkedList<EncryptionObserver> getList(){
+	public ConcurrentLinkedQueue<EncryptionObserver> getList(){
 		return list;
 		
 	}

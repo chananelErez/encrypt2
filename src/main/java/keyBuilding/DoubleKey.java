@@ -41,7 +41,7 @@ public class DoubleKey<T extends SimpleKey> implements KeyType{
 
 	@Override
 	public void setUserKey() throws invalidEncryptionKeyException {
-/*		Scanner user_input=new Scanner(System.in);*/
+		Scanner user_input=new Scanner(System.in);
 		System.out.println("please insert the first key: ");
 		if(!user_input.hasNextInt()){
 			user_input.close();

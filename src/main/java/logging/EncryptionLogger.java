@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
+import fileOperation.AsyncDirectoryProcessor;
 import fileOperation.FileEncryptor;
-import fileOperation.SyncDirectoryProcessor;
 import keyBuilding.DoubleKey;
 import keyBuilding.SimpleKey;
 import observer.EncryptionObserver;
@@ -23,7 +23,7 @@ public class EncryptionLogger {
 				+ "operation one single file and F for operation on whole folder: ");
 		String ForE=user_input.next();
 		if(ForE.charAt(0)=='F'){
-			SyncDirectoryProcessor<DoubleKey<SimpleKey>> Code=SyncDirectoryProcessor.buildOne();
+			AsyncDirectoryProcessor<DoubleKey<SimpleKey>> Code=AsyncDirectoryProcessor.buildOne();
 			logger.debug("New File Encryptor was built.");
 			Code.addEncryptionObserver(obs);
 			logger.debug("The observer was attached to the Folder Encryptor.");

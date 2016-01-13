@@ -1,6 +1,6 @@
 package observer;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import listenersEvents.EncryptionEvent;
 import listenersEvents.ErrorEvent;
@@ -8,10 +8,10 @@ import listenersEvents.GeneralEvent;
 
 public class EncryptionLogEventArgs {
 	
-	HashMap<String , EncryptionEvent> databaseE= 
-			                      new HashMap<String , EncryptionEvent>();
-	HashMap<String , EncryptionEvent> databaseD=
-			                      new HashMap<String , EncryptionEvent>();
+	ConcurrentHashMap<String , EncryptionEvent> databaseE= 
+			                      new ConcurrentHashMap<String , EncryptionEvent>();
+	ConcurrentHashMap<String , EncryptionEvent> databaseD=
+			                      new ConcurrentHashMap<String , EncryptionEvent>();
 	
 	public void printErrorMessage(ErrorEvent event){
 		System.out.println("An error occurred during the "+event.geteORd()
