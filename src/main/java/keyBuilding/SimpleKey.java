@@ -1,5 +1,7 @@
 package keyBuilding;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import encryption.invalidEncryptionKeyException;
@@ -52,6 +54,16 @@ public class SimpleKey implements KeyType {
 
 	public void setKey(int key) {
 		this.key = key;
+	}
+	@Override
+	public void getKeyFromFile(String KeyPath) {
+		try {
+			String k=FileEncryptor.readFile(KeyPath, StandardCharsets.UTF_8);
+			setKey(Integer.valueOf(k));
+		} catch (IOException e) {
+			System.out.println("Failed to read the key.");
+		}
+		
 	}
 	
 

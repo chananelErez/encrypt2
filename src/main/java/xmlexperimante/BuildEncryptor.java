@@ -10,6 +10,9 @@ public class BuildEncryptor {
 	String KeyPath;
 	String FileName;
 	String Algorithm;
+	String KeyType;
+	Boolean IsDouble;
+	int Repeat;
 	
 	public String getEDOperation() {
 		return EDOperation;
@@ -18,6 +21,15 @@ public class BuildEncryptor {
 	@XmlElement
 	public void setEDOperation(String eDOperation) {
 		this.EDOperation = eDOperation;
+	}
+	
+	public int getRepeat() {
+		return Repeat;
+	}
+
+	@XmlElement
+	public void setRepeat(int Repeat) {
+		this.Repeat = Repeat;
 	}
 	
 	public String getFileORDirec() {
@@ -54,13 +66,33 @@ public class BuildEncryptor {
 	public void setFileName(String FileName) {
 		this.FileName = FileName;
 		
-	}public String getAlgorithm() {
+	}
+	
+	public String getAlgorithm() {
 		return Algorithm;
 	}
 
 	@XmlElement
 	public void setAlgorithm(String Algorithm) {
 		this.Algorithm = Algorithm;
+	}
+	
+	public String getKeyType() {
+		return KeyType;
+	}
+
+	@XmlElement
+	public void setKeyType(String KeyType) {
+		this.KeyType = KeyType;
+	}
+	
+	public Boolean getIsDouble() {
+		return IsDouble;
+	}
+
+	@XmlElement
+	public void setIsDouble(Boolean IsDouble) {
+		this.IsDouble = IsDouble;
 	}
 
 }

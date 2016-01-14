@@ -51,14 +51,19 @@ implements ObservableEncryption, IDirectoryProcessor {
 		logger.debug("Encryption of folder ends.");
 	}
 	@Override
-	public void decryptDirectory(String folderName){
+	public void decryptDirectory(String folderName,String KeyPath){
 		logger.debug("Decryption of folder starts.");
 		this.createNewFolder("\\Decrypted");
 		this.notifyObserver(this.DecryptionFolderStarted(folderName));
 		final File folder = new File(folderName);
 		ArrayList<String> files=this.listFilesForFolder(folder);
 		try {
-			Algo.getKey().setUserKey();
+			if(KeyPath==null){
+				Algo.getKey().setUserKey();
+			}
+			else{
+				Algo.getKey().getKeyFromFile(KeyPath);
+			}
 		} catch (invalidEncryptionKeyException e1) {
 			logger.error("The inserted key was wrong.");
 			this.notifyObserver(this.InvalidKey(folderName, "Decryption"));
@@ -106,7 +111,7 @@ implements ObservableEncryption, IDirectoryProcessor {
 		}
 		else if (eORd.charAt(0)=='D'){
 			
-			Code.decryptDirectory(fileName);
+			Code.decryptDirectory(fileName,null);
 		}else{
 			logger.error("Wrong type of operation was chosen.");
 		}
@@ -127,5 +132,6 @@ implements ObservableEncryption, IDirectoryProcessor {
 		return Code;
 		
 	}
+	
 
 }

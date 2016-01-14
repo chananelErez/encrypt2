@@ -1,5 +1,7 @@
 package keyBuilding;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -78,6 +80,19 @@ public class DoubleKey<T extends SimpleKey> implements KeyType{
 		lst.add(key1);
 		lst.add(key2);
 		return lst;
+	}
+
+	@Override
+	public void getKeyFromFile(String KeyPath) {
+		try {
+			String k=FileEncryptor.readFile(KeyPath, StandardCharsets.UTF_8);
+			String[] arr=(k.split(" "));
+			key1.setKey(Integer.valueOf(arr[0]));
+			key2.setKey(Integer.valueOf(arr[1]));
+		} catch (IOException e) {
+			System.out.println("Failed to read the key.");
+		}
+		
 	}
 
 }

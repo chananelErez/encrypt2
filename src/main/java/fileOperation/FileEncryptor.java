@@ -37,13 +37,14 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 		Algo=algo;
 	}
 	
-	public void encrtptFile(String originalFilePath,String outputFilePath) {
+	public void encrtptFile(String originalFilePath,String outputFilePath,
+			String keyTarget ) {
 		logger.debug("Encryption method start.");
 		String content;
 		try {
 			content = readFile(originalFilePath, StandardCharsets.UTF_8);
 			this.notifyObserver(this.EncryptionStarted(originalFilePath));
-			Algo.restartKey(originalFilePath);
+			Algo.restartKey(keyTarget);
 			String cipher=Algo.Encrypt(content);
 			writeFile(cipher,"encrypted" ,outputFilePath);
 			this.notifyObserver(this.EncryptionEnded(originalFilePath));
@@ -56,14 +57,22 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 		
 	}
 	
-	public void decryptFile(String encryptedFilePath,String outputFilePath){
+	public void decryptFile(String encryptedFilePath,String outputFilePath,
+			String KeyPath){
 		logger.debug("Decryption method start.");
 		String content;
 		try {
 			content = readFile(encryptedFilePath, StandardCharsets.UTF_8);
 			this.notifyObserver(this.DecryptionStarted(encryptedFilePath));
-			Algo.getKey().setUserKey();
-			Algo.setKey(Algo.getKey());
+			if(KeyPath==null){
+				Algo.getKey().setUserKey();
+				Algo.setKey(Algo.getKey());
+			}
+			else{
+				Algo.getKey().getKeyFromFile(KeyPath);
+				Algo.setKey(Algo.getKey());
+			}
+			
 			String plain=Algo.Decrypt(content);
 			writeFile(plain,"decrypted" ,outputFilePath);
 			this.notifyObserver(this.DecryptionEnded(encryptedFilePath));
@@ -104,6 +113,7 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 		return convertName;
 		
 	}
+
 	// from http://stackoverflow.com/questions/326390/how-to-create-a-java-string-from-the-contents-of-a-file
 	public static String readFile(String path, Charset encoding) 
 			  throws IOException 
@@ -162,11 +172,12 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 		String fileName=user_input.next();
 		String outputPath=Code.NameConvert(fileName, eORd);
 		if (eORd.charAt(0)=='E'){
-			Code.encrtptFile(fileName, outputPath);
+			String keypath="C:\\Users\\Public\\Documents\\openingexperiment";
+			Code.encrtptFile(fileName, outputPath,keypath);
 		}
 		else if (eORd.charAt(0)=='D'){
 			
-			Code.decryptFile(fileName, outputPath);
+			Code.decryptFile(fileName, outputPath,null);
 		}else{
 			logger.error("Wrong type of operation was chosen.");
 		}

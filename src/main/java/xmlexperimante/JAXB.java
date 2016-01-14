@@ -14,11 +14,22 @@ public class JAXB {
 
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			BuildEncryptor encrypt = (BuildEncryptor) jaxbUnmarshaller.unmarshal(file);
-			if(encrypt.EDOperation=="Encryption"){
-				this.EncryptXML(encrypt);
+			if(encrypt.KeyType=="SimpleKey"){
+				SimpleKeyAlgorithmBuilder Bu= new SimpleKeyAlgorithmBuilder();
+				Bu.SimpleEncryptorBuilder(encrypt);
 			}
-			if(encrypt.EDOperation=="Decryption"){
-				this.DecryptXML(encrypt);
+			if(encrypt.KeyType=="MultiplyKey"){
+				MultiplyKeyAlgorithmBuilder Bu= new MultiplyKeyAlgorithmBuilder();
+				Bu.MultiplyEncryptorBuilder(encrypt);
+				
+			}
+			if(encrypt.KeyType=="DoubleKey<SimpleKey>"){
+				DoubleSimpleKeyAlgorithmBuilder Bu= new DoubleSimpleKeyAlgorithmBuilder();
+				Bu.DoubleSimpleEncryptorBuilder(encrypt);
+			}
+			if(encrypt.KeyType=="DoubleKey<MultiplyKey>"){
+				DoubleMultiplyKeyAlgorithmBuilder Bu= new DoubleMultiplyKeyAlgorithmBuilder();
+				Bu.DoubleMultiplyEncryptorBuilder(encrypt);
 			}
 
 		  } catch (JAXBException e) {
@@ -28,42 +39,9 @@ public class JAXB {
 		
 
 	}
-	public void EncryptXML(BuildEncryptor encrypt){
-		if(encrypt.FileORDirec=="File"){
-			this.EncryptFile(encrypt);
-		}
-		if(encrypt.FileORDirec=="Directory"){
-			this.EncryptDirectory(encrypt);
-		}
-		
-	}
 	
-	private void EncryptFile(BuildEncryptor encrypt) {
-		
-		
-	}
-	private void EncryptDirectory(BuildEncryptor encrypt) {
-		// TODO Auto-generated method stub
-		
-	}
-	public void DecryptXML(BuildEncryptor encrypt){
-		if(encrypt.FileORDirec=="File"){
-			this.DecryptFile(encrypt);
-		}
-		if(encrypt.FileORDirec=="Directory"){
-			this.DecryptDirectory(encrypt);
-		}
-		
-	}
 	
-	private void DecryptDirectory(BuildEncryptor encrypt) {
-		// TODO Auto-generated method stub
-		
-	}
-	private void DecryptFile(BuildEncryptor encrypt) {
-		// TODO Auto-generated method stub
-		
-	}
+
 	 
 	
 

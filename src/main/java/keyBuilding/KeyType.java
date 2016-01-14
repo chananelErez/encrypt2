@@ -10,5 +10,7 @@ public interface KeyType {
 
 	void setUserKey() throws invalidEncryptionKeyException;
 	
+	void getKeyFromFile(String KeyPath);
+	
 	
 }
