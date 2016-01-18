@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import algoBuilder.BuildEncryptor;
 import encryption.DoubleEncryption;
 import encryption.EncryptionAlgorithm;
 import encryption.ShiftUpEncryption;
@@ -13,7 +14,6 @@ import encryption.invalidEncryptionKeyException;
 import keyBuilding.DoubleKey;
 import keyBuilding.KeyType;
 import keyBuilding.SimpleKey;
-import xmlexperimante.BuildEncryptor;
 import xmlexperimante.WriteXml;
 
 public class SyncDirectoryProcessor<E extends KeyType> extends FolderEncryption<E> 

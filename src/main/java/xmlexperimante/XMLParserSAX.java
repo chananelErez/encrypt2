@@ -10,6 +10,10 @@ import javax.xml.parsers.SAXParserFactory;
  
 import org.xml.sax.SAXException;
 
+import algoBuilder.BuildEncryptor;
+import algoBuilder.EncryptByBuilder;
+import algoBuilder.SaxHandler;
+
 public class XMLParserSAX implements XMLreader{
 	public void ReadXML(String fileN){
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();

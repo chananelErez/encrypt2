@@ -4,6 +4,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import algoBuilder.BuildEncryptor;
+import algoBuilder.EncryptByBuilder;
+
 
 public class JAXB implements XMLreader{
 	public void ReadXML(String fileN){

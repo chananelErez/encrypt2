@@ -1,30 +1,24 @@
-package xmlexperimante;
+package algoBuilder;
 
-import encryption.DoubleEncryption;
 import encryption.EncryptionAlgorithm;
 import encryption.ShiftMultiplyEncryption;
 import fileOperation.AsyncDirectoryProcessor;
 import fileOperation.FileEncryptor;
-import keyBuilding.DoubleKey;
 import keyBuilding.MultiplyKey;
 
-public class DoubleMultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
-
-
-	private DoubleKey<MultiplyKey> key;
-	public DoubleMultiplyKeyAlgorithmBuilder(){
-		MultiplyKey key1=new MultiplyKey();
-		MultiplyKey key2=new MultiplyKey();
-		this.key= new DoubleKey<MultiplyKey>(key1,key2);
+public class MultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
+	private MultiplyKey key;
+	public MultiplyKeyAlgorithmBuilder(){
+		this.key=new MultiplyKey();
 	}
-	
-	public void DoubleMultiplyEncryptorBuilder(BuildEncryptor encrypt) {
-		DoubleEncryption<MultiplyKey> Algo=
-				this.DoubleMultiplyAlgoCreation(encrypt.Algorithm, encrypt.Repeat);
+
+	public void MultiplyEncryptorBuilder(BuildEncryptor encrypt) {
+		
+		EncryptionAlgorithm<MultiplyKey> Algo=
+				this.MultiplyAlgoCreation(encrypt.Algorithm);
 		Algo.setKey(key);
 		if(encrypt.FileORDirec.equals("File")){
-			FileEncryptor<DoubleKey<MultiplyKey>> Code =
-					new FileEncryptor<DoubleKey<MultiplyKey>>(Algo);
+			FileEncryptor<MultiplyKey> Code =new FileEncryptor<MultiplyKey>(Algo);
 
 			if (encrypt.EDOperation.equals("Encryption")){
 				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
@@ -38,8 +32,8 @@ public class DoubleMultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 			}
 
 		}else if(encrypt.FileORDirec.equals("Directory")){
-			AsyncDirectoryProcessor<DoubleKey<MultiplyKey>> Code =
-					new AsyncDirectoryProcessor<DoubleKey<MultiplyKey>>(Algo);
+			AsyncDirectoryProcessor<MultiplyKey> Code =
+					new AsyncDirectoryProcessor<MultiplyKey>(Algo);
 			if (encrypt.EDOperation.equals("Encryption")){
 				String inputF=encrypt.SourceDirectory;
 				Code.encryptDirectory(inputF);
@@ -52,19 +46,16 @@ public class DoubleMultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 		}else{
 			System.out.print("Wrong input!");
 		}
-
+		
 	}
 	
-	public DoubleEncryption<MultiplyKey> DoubleMultiplyAlgoCreation(String Algorithm,
-			int repeat){
+	public EncryptionAlgorithm<MultiplyKey> MultiplyAlgoCreation(String Algorithm){
 		if(Algorithm.equals("ShiftMultiplyEncryption")){
-			EncryptionAlgorithm<MultiplyKey> intAlgo=new ShiftMultiplyEncryption();
-			DoubleEncryption<MultiplyKey> Algo=new DoubleEncryption<MultiplyKey>(intAlgo);
+			EncryptionAlgorithm<MultiplyKey> Algo=new ShiftMultiplyEncryption();
 			return Algo;
 		} else{
-			return null;
+		return null;
 		}
 	}
-		
 
 }

@@ -1,4 +1,4 @@
-package xmlexperimante;
+package algoBuilder;
 
 import encryption.DoubleEncryption;
 import encryption.EncryptionAlgorithm;

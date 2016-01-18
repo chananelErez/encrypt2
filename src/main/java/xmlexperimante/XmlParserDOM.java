@@ -3,6 +3,9 @@ package xmlexperimante;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+import algoBuilder.BuildEncryptor;
+import algoBuilder.EncryptByBuilder;
+
 import javax.xml.parsers.*;
 import java.io.*;
 

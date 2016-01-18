@@ -1,20 +1,5 @@
 package fileOperation;
 
-import encryption.ShiftUpEncryption;
-import encryption.EncryptionAlgorithm;
-import encryption.DoubleEncryption;
-import encryption.invalidEncryptionKeyException;
-import keyBuilding.DoubleKey;
-import keyBuilding.KeyType;
-import keyBuilding.SimpleKey;
-import listenersEvents.EncryptionEvent;
-import listenersEvents.ErrorEvent;
-import listenersEvents.GeneralEvent;
-import logging.EncryptionLog4JLogger;
-import observer.EncryptionObserver;
-import xmlexperimante.BuildEncryptor;
-import xmlexperimante.WriteXml;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,6 +11,21 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
+
+import algoBuilder.BuildEncryptor;
+import encryption.DoubleEncryption;
+import encryption.EncryptionAlgorithm;
+import encryption.ShiftUpEncryption;
+import encryption.invalidEncryptionKeyException;
+import keyBuilding.DoubleKey;
+import keyBuilding.KeyType;
+import keyBuilding.SimpleKey;
+import listenersEvents.EncryptionEvent;
+import listenersEvents.ErrorEvent;
+import listenersEvents.GeneralEvent;
+import logging.EncryptionLog4JLogger;
+import observer.EncryptionObserver;
+import xmlexperimante.WriteXml;
 
 public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 	

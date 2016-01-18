@@ -1,4 +1,4 @@
-package xmlexperimante;
+package algoBuilder;;
 
 public interface AlgorithmBuilder {
 	

@@ -5,18 +5,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import algoBuilder.BuildEncryptor;
 import encryption.DoubleEncryption;
 import encryption.EncryptionAlgorithm;
 import encryption.ShiftUpEncryption;
 import encryption.invalidEncryptionKeyException;
-import fileOperation.FolderEncryption;
-import fileOperation.IDirectoryProcessor;
-import fileOperation.ObservableEncryption;
 import keyBuilding.DoubleKey;
 import keyBuilding.KeyType;
 import keyBuilding.SimpleKey;
 import synchronizedStaff.SynchronizedCounter;
-import xmlexperimante.BuildEncryptor;
 import xmlexperimante.WriteXml;
 
 /*The idea of doing things simultaneously maybe something like this:
