@@ -14,23 +14,7 @@ public class JAXB {
 
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			BuildEncryptor encrypt = (BuildEncryptor) jaxbUnmarshaller.unmarshal(file);
-			if(encrypt.KeyType=="SimpleKey"){
-				SimpleKeyAlgorithmBuilder Bu= new SimpleKeyAlgorithmBuilder();
-				Bu.SimpleEncryptorBuilder(encrypt);
-			}
-			if(encrypt.KeyType=="MultiplyKey"){
-				MultiplyKeyAlgorithmBuilder Bu= new MultiplyKeyAlgorithmBuilder();
-				Bu.MultiplyEncryptorBuilder(encrypt);
-				
-			}
-			if(encrypt.KeyType=="DoubleKey<SimpleKey>"){
-				DoubleSimpleKeyAlgorithmBuilder Bu= new DoubleSimpleKeyAlgorithmBuilder();
-				Bu.DoubleSimpleEncryptorBuilder(encrypt);
-			}
-			if(encrypt.KeyType=="DoubleKey<MultiplyKey>"){
-				DoubleMultiplyKeyAlgorithmBuilder Bu= new DoubleMultiplyKeyAlgorithmBuilder();
-				Bu.DoubleMultiplyEncryptorBuilder(encrypt);
-			}
+			EncryptByBuilder.Encrypt(encrypt);
 
 		  } catch (JAXBException e) {
 			e.printStackTrace();
@@ -39,7 +23,10 @@ public class JAXB {
 		
 
 	}
-	
+	public static void main(String[] Args ){
+		JAXB j=new JAXB();
+		j.EncryptionFromJAXB();
+	}
 	
 
 	 

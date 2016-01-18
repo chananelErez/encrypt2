@@ -23,29 +23,29 @@ public class DoubleSimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 		DoubleEncryption<SimpleKey> Algo=
 				this.DoubleSimpleAlgoCreation(encrypt.Algorithm, encrypt.Repeat);
 		Algo.setKey(key);
-		if(encrypt.FileORDirec=="File"){
+		if(encrypt.FileORDirec.equals("File")){
 			FileEncryptor<DoubleKey<SimpleKey>> Code =
 					new FileEncryptor<DoubleKey<SimpleKey>>(Algo);
 
-			if (encrypt.EDOperation=="Encryption"){
+			if (encrypt.EDOperation.equals("Encryption")){
 				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
 				String outputF=Code.NameConvert(inputF, "E");
 				Code.encrtptFile(inputF,outputF,encrypt.KeyPath);
 			}
-			else if (encrypt.EDOperation=="Decryption"){
+			else if (encrypt.EDOperation.equals("Decryption")){
 				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
 				String outputF=Code.NameConvert(inputF, "D");
 				Code.decryptFile(inputF,outputF,encrypt.KeyPath);
 			}
 
-		}else if(encrypt.FileORDirec=="Directory"){
+		}else if(encrypt.FileORDirec.equals("Directory")){
 			AsyncDirectoryProcessor<DoubleKey<SimpleKey>> Code =
 					new AsyncDirectoryProcessor<DoubleKey<SimpleKey>>(Algo);
-			if (encrypt.EDOperation=="Encryption"){
+			if (encrypt.EDOperation.equals("Encryption")){
 				String inputF=encrypt.SourceDirectory;
 				Code.encryptDirectory(inputF);
 			}
-			if (encrypt.EDOperation=="Decryption"){
+			if (encrypt.EDOperation.equals("Decryption")){
 				String inputF=encrypt.SourceDirectory;
 				Code.decryptDirectory(inputF,encrypt.KeyPath);
 			}
@@ -58,15 +58,15 @@ public class DoubleSimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 	
 	public DoubleEncryption<SimpleKey> DoubleSimpleAlgoCreation(String Algorithm,
 			int repeat){
-		if(Algorithm=="ShiftUpEncryption"){
+		if(Algorithm.equals("ShiftUpEncryption")){
 			EncryptionAlgorithm<SimpleKey> intAlgo=new ShiftUpEncryption();
 			DoubleEncryption<SimpleKey> Algo=new DoubleEncryption<SimpleKey>(intAlgo);
 			return Algo;
-		}else if(Algorithm=="XorEncryption"){
+		}else if(Algorithm.equals("XorEncryption")){
 			EncryptionAlgorithm<SimpleKey> intAlgo=new XorEncryption();
 			DoubleEncryption<SimpleKey> Algo=new DoubleEncryption<SimpleKey>(intAlgo);
 			return Algo;
-		}else if(Algorithm=="RepeatEncryption"){
+		}else if(Algorithm.equals("RepeatEncryption")){
 			EncryptionAlgorithm<SimpleKey> intAlgo=new RepeatEncryption(repeat);
 			DoubleEncryption<SimpleKey> Algo=new DoubleEncryption<SimpleKey>(intAlgo);
 			return Algo;

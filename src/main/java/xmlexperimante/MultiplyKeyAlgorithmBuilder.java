@@ -17,28 +17,28 @@ public class MultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 		EncryptionAlgorithm<MultiplyKey> Algo=
 				this.MultiplyAlgoCreation(encrypt.Algorithm);
 		Algo.setKey(key);
-		if(encrypt.FileORDirec=="File"){
+		if(encrypt.FileORDirec.equals("File")){
 			FileEncryptor<MultiplyKey> Code =new FileEncryptor<MultiplyKey>(Algo);
 
-			if (encrypt.EDOperation=="Encryption"){
+			if (encrypt.EDOperation.equals("Encryption")){
 				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
 				String outputF=Code.NameConvert(inputF, "E");
 				Code.encrtptFile(inputF,outputF,encrypt.KeyPath);
 			}
-			else if (encrypt.EDOperation=="Decryption"){
+			else if (encrypt.EDOperation.equals("Decryption")){
 				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
 				String outputF=Code.NameConvert(inputF, "D");
 				Code.decryptFile(inputF,outputF,encrypt.KeyPath);
 			}
 
-		}else if(encrypt.FileORDirec=="Directory"){
+		}else if(encrypt.FileORDirec.equals("Directory")){
 			AsyncDirectoryProcessor<MultiplyKey> Code =
 					new AsyncDirectoryProcessor<MultiplyKey>(Algo);
-			if (encrypt.EDOperation=="Encryption"){
+			if (encrypt.EDOperation.equals("Encryption")){
 				String inputF=encrypt.SourceDirectory;
 				Code.encryptDirectory(inputF);
 			}
-			if (encrypt.EDOperation=="Decryption"){
+			if (encrypt.EDOperation.equals("Decryption")){
 				String inputF=encrypt.SourceDirectory;
 				Code.decryptDirectory(inputF,encrypt.KeyPath);
 			}
@@ -50,7 +50,7 @@ public class MultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 	}
 	
 	public EncryptionAlgorithm<MultiplyKey> MultiplyAlgoCreation(String Algorithm){
-		if(Algorithm=="ShiftMultiplyEncryption"){
+		if(Algorithm.equals("ShiftMultiplyEncryption")){
 			EncryptionAlgorithm<MultiplyKey> Algo=new ShiftMultiplyEncryption();
 			return Algo;
 		} else{
