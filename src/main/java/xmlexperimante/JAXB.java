@@ -5,11 +5,11 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 
-public class JAXB {
-	public void EncryptionFromJAXB(){
+public class JAXB implements XMLreader{
+	public void ReadXML(String fileN){
 		try {
 
-			File file = new File("C:\\Users\\Public\\Documents\\openingexperiment\\justfolder\\exec7.xml");
+			File file = new File(fileN);
 			JAXBContext jaxbContext = JAXBContext.newInstance(BuildEncryptor.class);
 
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -25,7 +25,8 @@ public class JAXB {
 	}
 	public static void main(String[] Args ){
 		JAXB j=new JAXB();
-		j.EncryptionFromJAXB();
+		j.ReadXML("C:\\Users\\Public\\Documents"
+				+ "\\openingexperiment\\justfolder\\exec7.xml");
 	}
 	
 

@@ -10,14 +10,13 @@ import javax.xml.parsers.SAXParserFactory;
  
 import org.xml.sax.SAXException;
 
-public class XMLParserSAX {
-	public void ReadXMLBySax(){
+public class XMLParserSAX implements XMLreader{
+	public void ReadXML(String fileN){
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 		try {
 			SAXParser saxParser = saxParserFactory.newSAXParser();
 			SaxHandler handler = new SaxHandler();
-			saxParser.parse(new File("C:\\Users\\Public\\Documents"
-					+ "\\openingexperiment\\justfolder\\exec7.xml"), handler);
+			saxParser.parse(new File(fileN), handler);
 			List<BuildEncryptor> BuildList = handler.getList();
 			for(BuildEncryptor Bu : BuildList)
 				EncryptByBuilder.Encrypt(Bu);
@@ -29,7 +28,8 @@ public class XMLParserSAX {
 	
 	public static void main(String[] args){
 		XMLParserSAX x=new XMLParserSAX();
-		x.ReadXMLBySax();
+		x.ReadXML("C:\\Users\\Public\\Documents"
+				+ "\\openingexperiment\\justfolder\\exec7.xml");
 	}
 	
 

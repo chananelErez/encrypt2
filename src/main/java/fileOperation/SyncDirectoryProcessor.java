@@ -13,6 +13,8 @@ import encryption.invalidEncryptionKeyException;
 import keyBuilding.DoubleKey;
 import keyBuilding.KeyType;
 import keyBuilding.SimpleKey;
+import xmlexperimante.BuildEncryptor;
+import xmlexperimante.WriteXml;
 
 public class SyncDirectoryProcessor<E extends KeyType> extends FolderEncryption<E> 
 implements ObservableEncryption, IDirectoryProcessor {
@@ -96,6 +98,13 @@ implements ObservableEncryption, IDirectoryProcessor {
 
 	public void EncryptionMenu(SyncDirectoryProcessor<DoubleKey<SimpleKey>> Code) 
 			throws IOException{
+		BuildEncryptor Bu=new BuildEncryptor();
+		Bu.setFileORDirec("Directory");
+		Bu.setAlgorithm("ShiftUpEncryption");
+		Bu.setKeyType("DoubleKey<SimpleKey>");
+		Bu.setIsDouble(true);
+		Bu.setRepeat(0);
+		Bu.setKeyPath("C:\\Users\\Public\\Documents\\openingexperiment");
 		
 		logger.debug("Opening menu.");
 		Scanner user_input=new Scanner(System.in);
@@ -105,12 +114,21 @@ implements ObservableEncryption, IDirectoryProcessor {
 		
 		System.out.println("please insert the folder source path ");
 		String fileName=user_input.next();
+		Bu.setFileName(null);
+		Bu.setSourceDirectory(fileName);
 		Code.setFolderName(fileName);
 		if (eORd.charAt(0)=='E'){
+			Bu.setEDOperation("Encryption");
+			WriteXml.WriteXmlWithJaxb(Bu, 
+					"C:\\Users\\Public\\Documents"
+					+ "\\openingexperiment\\justfolder\\omikoron.xml");
 			Code.encryptDirectory(fileName);
 		}
 		else if (eORd.charAt(0)=='D'){
-			
+			Bu.setEDOperation("Decryption");
+			WriteXml.WriteXmlWithJaxb(Bu, 
+					"C:\\Users\\Public\\Documents"
+					+ "\\openingexperiment\\justfolder\\alpha.xml");
 			Code.decryptDirectory(fileName,null);
 		}else{
 			logger.error("Wrong type of operation was chosen.");

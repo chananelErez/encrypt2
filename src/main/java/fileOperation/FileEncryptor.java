@@ -12,6 +12,9 @@ import listenersEvents.ErrorEvent;
 import listenersEvents.GeneralEvent;
 import logging.EncryptionLog4JLogger;
 import observer.EncryptionObserver;
+import xmlexperimante.BuildEncryptor;
+import xmlexperimante.WriteXml;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -161,7 +164,13 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 	
 	public void EncryptionMenu(FileEncryptor<DoubleKey<SimpleKey>> Code) 
 			throws IOException{
-		
+		BuildEncryptor Bu=new BuildEncryptor();
+		Bu.setFileORDirec("File");
+		Bu.setAlgorithm("ShiftUpEncryption");
+		Bu.setKeyType("DoubleKey<SimpleKey>");
+		Bu.setIsDouble(true);
+		Bu.setRepeat(0);
+		Bu.setKeyPath("C:\\Users\\Public\\Documents\\openingexperiment");
 		logger.debug("Opening menu.");
 		Scanner user_input=new Scanner(System.in);
 		System.out.println("It is encryption algorithm please insert E for "
@@ -170,13 +179,24 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 		
 		System.out.println("please insert the file source path ");
 		String fileName=user_input.next();
+		Bu.setFileName(fileName.substring(fileName.
+				lastIndexOf('\\'),fileName.length()));
+		Bu.setSourceDirectory(fileName.substring(0, fileName.
+				lastIndexOf('\\')));
 		String outputPath=Code.NameConvert(fileName, eORd);
 		if (eORd.charAt(0)=='E'){
+			Bu.setEDOperation("Encryption");
+			WriteXml.WriteXmlWithJaxb(Bu, 
+					"C:\\Users\\Public\\Documents"
+					+ "\\openingexperiment\\justfolder\\gamma.xml");
 			String keypath="C:\\Users\\Public\\Documents\\openingexperiment";
 			Code.encrtptFile(fileName, outputPath,keypath);
 		}
 		else if (eORd.charAt(0)=='D'){
-			
+			Bu.setEDOperation("Decryption");
+			WriteXml.WriteXmlWithJaxb(Bu, 
+					"C:\\Users\\Public\\Documents"
+					+ "\\openingexperiment\\justfolder\\gamma.xml");
 			Code.decryptFile(fileName, outputPath,null);
 		}else{
 			logger.error("Wrong type of operation was chosen.");
@@ -185,6 +205,7 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 		user_input.close();
 	}
 	
+
 	public static FileEncryptor<DoubleKey<SimpleKey>> buildOne(){
 		EncryptionAlgorithm<SimpleKey> algo=new ShiftUpEncryption();
 		DoubleEncryption<SimpleKey> internalAlgo=
@@ -198,6 +219,7 @@ public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 		return Code;
 		
 	}
+	
 
 	@Override
 	public void addEncryptionObserver(EncryptionObserver observer) {

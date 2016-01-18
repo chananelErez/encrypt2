@@ -16,6 +16,8 @@ import keyBuilding.DoubleKey;
 import keyBuilding.KeyType;
 import keyBuilding.SimpleKey;
 import synchronizedStaff.SynchronizedCounter;
+import xmlexperimante.BuildEncryptor;
+import xmlexperimante.WriteXml;
 
 /*The idea of doing things simultaneously maybe something like this:
  * -getting the names of which files we want to encrypt.
@@ -104,6 +106,13 @@ implements IDirectoryProcessor, ObservableEncryption {
 
 	public void EncryptionMenu(AsyncDirectoryProcessor<DoubleKey<SimpleKey>> Code) 
 			throws IOException{
+		BuildEncryptor Bu=new BuildEncryptor();
+		Bu.setFileORDirec("Directory");
+		Bu.setAlgorithm("ShiftUpEncryption");
+		Bu.setKeyType("DoubleKey<SimpleKey>");
+		Bu.setIsDouble(true);
+		Bu.setRepeat(0);
+		Bu.setKeyPath("C:\\Users\\Public\\Documents\\openingexperiment");
 		
 		logger.debug("Opening menu.");
 		Scanner user_input=new Scanner(System.in);
@@ -113,12 +122,21 @@ implements IDirectoryProcessor, ObservableEncryption {
 		
 		System.out.println("please insert the folder source path ");
 		String fileName=user_input.next();
+		Bu.setFileName(null);
+		Bu.setSourceDirectory(fileName);
 		Code.setFolderName(fileName);
 		if (eORd.charAt(0)=='E'){
+			Bu.setEDOperation("Encryption");
+			WriteXml.WriteXmlWithJaxb(Bu, 
+					"C:\\Users\\Public\\Documents"
+					+ "\\openingexperiment\\justfolder\\zetha.xml");
 			Code.encryptDirectory(fileName);
 		}
 		else if (eORd.charAt(0)=='D'){
-			
+			Bu.setEDOperation("Decryption");
+			WriteXml.WriteXmlWithJaxb(Bu, 
+					"C:\\Users\\Public\\Documents"
+					+ "\\openingexperiment\\justfolder\\omega.xml");
 			Code.decryptDirectory(fileName,null);
 		}else{
 			logger.error("Wrong type of operation was chosen.");
