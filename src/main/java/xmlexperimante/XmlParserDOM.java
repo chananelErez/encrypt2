@@ -4,14 +4,12 @@ import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import algoBuilder.BuildEncryptor;
-import algoBuilder.EncryptByBuilder;
-
 import javax.xml.parsers.*;
 import java.io.*;
 
 public class XmlParserDOM implements XMLreader{
 	
-	public void ReadXML(String fileN) {
+	public BuildEncryptor ReadXML(String fileN) {
 		//Get Document Builder
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
@@ -26,45 +24,41 @@ public class XmlParserDOM implements XMLreader{
 			document.getDocumentElement().normalize();
 			 
 			//Here comes the root node
-			Element root = document.getDocumentElement();
-			System.out.println(root.getNodeName());
 			NodeList nList = document.getElementsByTagName("buildEncryptor");
-			for (int temp = 0; temp < nList.getLength(); temp++)
+			Node node = nList.item(0);
+			BuildEncryptor encrypt =new BuildEncryptor();
+			if (node.getNodeType() == Node.ELEMENT_NODE)
 			{
-			 Node node = nList.item(temp);
-			 BuildEncryptor encrypt =new BuildEncryptor();
-			 if (node.getNodeType() == Node.ELEMENT_NODE)
-			 {
-			    //Print each employee's detail
-			    Element eElement = (Element) node;
-			    encrypt.setAlgorithm(eElement.
-			    		getElementsByTagName("algorithm").item(0).
-			    		getTextContent());
-			    encrypt.setEDOperation(eElement.
-			    		getElementsByTagName("EDOperation").item(0).
-			    		getTextContent());
-			    encrypt.setFileName(eElement.
-			    		getElementsByTagName("fileName").item(0).
-			    		getTextContent());
-			    encrypt.setFileORDirec(eElement.
-			    		getElementsByTagName("fileORDirec").item(0)
-			    		.getTextContent());
-			    encrypt.setIsDouble(Boolean.getBoolean(
-			    		eElement.getElementsByTagName("isDouble")
-			    		.item(0).getTextContent()));
-			    encrypt.setKeyPath(eElement.
-			    		getElementsByTagName("keyPath").item(0).
-			    		getTextContent());
-			    encrypt.setKeyType(eElement.
-			    		getElementsByTagName("keyType").item(0).
-			    		getTextContent());
-			    encrypt.setRepeat(Integer.parseInt(eElement.
-			    		getElementsByTagName("repeat").item(0).
-			    		getTextContent()));
-			    encrypt.setSourceDirectory(eElement.getElementsByTagName("sourceDirectory").item(0).getTextContent());
-			    EncryptByBuilder.Encrypt(encrypt);
-			 }
+				//Print each employee's detail
+				Element eElement = (Element) node;
+				encrypt.setAlgorithm(eElement.
+						getElementsByTagName("algorithm").item(0).
+						getTextContent());
+				encrypt.setEDOperation(eElement.
+						getElementsByTagName("EDOperation").item(0).
+						getTextContent());
+				encrypt.setFileName(eElement.
+						getElementsByTagName("fileName").item(0).
+						getTextContent());
+				encrypt.setFileORDirec(eElement.
+						getElementsByTagName("fileORDirec").item(0)
+						.getTextContent());
+				encrypt.setIsDouble(Boolean.getBoolean(
+						eElement.getElementsByTagName("isDouble")
+						.item(0).getTextContent()));
+				encrypt.setKeyPath(eElement.
+						getElementsByTagName("keyPath").item(0).
+						getTextContent());
+				encrypt.setKeyType(eElement.
+						getElementsByTagName("keyType").item(0).
+						getTextContent());
+				encrypt.setRepeat(Integer.parseInt(eElement.
+						getElementsByTagName("repeat").item(0).
+						getTextContent()));
+				encrypt.setSourceDirectory(eElement.getElementsByTagName("sourceDirectory").item(0).getTextContent());
+				return encrypt;
 			}
+			 
 			
 			
 			
@@ -76,12 +70,7 @@ public class XmlParserDOM implements XMLreader{
 		} catch (ParserConfigurationException e1) {
 			e1.printStackTrace();
 		}
-	}
-	
-	public static void main(String[] args){
-		XmlParserDOM prase=new XmlParserDOM();
-		prase.ReadXML("C:\\Users\\Public\\Documents"
-				+ "\\openingexperiment\\justfolder\\exec7.xml");
+		return null;
 	}
 	
 

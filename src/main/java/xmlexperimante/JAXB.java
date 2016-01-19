@@ -5,11 +5,10 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import algoBuilder.BuildEncryptor;
-import algoBuilder.EncryptByBuilder;
 
 
 public class JAXB implements XMLreader{
-	public void ReadXML(String fileN){
+	public BuildEncryptor ReadXML(String fileN){
 		try {
 
 			File file = new File(fileN);
@@ -17,23 +16,14 @@ public class JAXB implements XMLreader{
 
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			BuildEncryptor encrypt = (BuildEncryptor) jaxbUnmarshaller.unmarshal(file);
-			EncryptByBuilder.Encrypt(encrypt);
+			return encrypt;
 
 		  } catch (JAXBException e) {
 			e.printStackTrace();
 		  }
 		
-		
+		return null;
 
 	}
-	public static void main(String[] Args ){
-		JAXB j=new JAXB();
-		j.ReadXML("C:\\Users\\Public\\Documents"
-				+ "\\openingexperiment\\justfolder\\exec7.xml");
-	}
-	
-
-	 
-	
 
 }

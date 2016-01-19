@@ -1,6 +1,8 @@
 package xmlexperimante;
 
+import algoBuilder.BuildEncryptor;
+
 public interface XMLreader {
-	void ReadXML(String fileN);
+	BuildEncryptor ReadXML(String fileN);
 
 }

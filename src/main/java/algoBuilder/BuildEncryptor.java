@@ -2,8 +2,10 @@ package algoBuilder;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import encryptionInfo.GeneralInfo;
+
 @XmlRootElement
-public class BuildEncryptor {
+public class BuildEncryptor implements GeneralInfo{
 	String EDOperation;
 	String FileORDirec;
 	String SourceDirectory;
@@ -19,8 +21,8 @@ public class BuildEncryptor {
 	}
 
 	@XmlElement
-	public void setEDOperation(String eDOperation) {
-		this.EDOperation = eDOperation;
+	public void setEDOperation(String eord) {
+		this.EDOperation = eord;
 	}
 	
 	public int getRepeat() {

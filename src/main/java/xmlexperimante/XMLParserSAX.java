@@ -11,30 +11,21 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 
 import algoBuilder.BuildEncryptor;
-import algoBuilder.EncryptByBuilder;
 import algoBuilder.SaxHandler;
 
 public class XMLParserSAX implements XMLreader{
-	public void ReadXML(String fileN){
+	public BuildEncryptor ReadXML(String fileN){
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 		try {
 			SAXParser saxParser = saxParserFactory.newSAXParser();
 			SaxHandler handler = new SaxHandler();
 			saxParser.parse(new File(fileN), handler);
 			List<BuildEncryptor> BuildList = handler.getList();
-			for(BuildEncryptor Bu : BuildList)
-				EncryptByBuilder.Encrypt(Bu);
+			return BuildList.get(0);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
+		return null;
 
 	}
-	
-	public static void main(String[] args){
-		XMLParserSAX x=new XMLParserSAX();
-		x.ReadXML("C:\\Users\\Public\\Documents"
-				+ "\\openingexperiment\\justfolder\\exec7.xml");
-	}
-	
-
 }
