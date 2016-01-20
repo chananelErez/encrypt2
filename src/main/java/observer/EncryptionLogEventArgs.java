@@ -14,7 +14,8 @@ public class EncryptionLogEventArgs {
 			                      new ConcurrentHashMap<String , EncryptionEvent>();
 	
 	public void printErrorMessage(ErrorEvent event){
-		System.out.println("An error occurred during the "+event.geteORd()
+		System.out.println("An error occurred during the "+
+				event.getFile().getEord()
 		+" of the file "+event.getFile()+". The error type: "
 				+event.getErrorKind());
 	}

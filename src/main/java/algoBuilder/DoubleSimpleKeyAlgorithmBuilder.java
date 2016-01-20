@@ -1,5 +1,7 @@
 package algoBuilder;
 
+import adService.FilePublisher;
+import adService.GeneralPublisher;
 import encryption.DoubleEncryption;
 import encryption.EncryptionAlgorithm;
 import encryption.RepeatEncryption;
@@ -9,33 +11,39 @@ import fileOperation.AsyncDirectoryProcessor;
 import fileOperation.FileEncryptor;
 import keyBuilding.DoubleKey;
 import keyBuilding.SimpleKey;
+import writingFormat.Fileformat;
 
 public class DoubleSimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 
 	private DoubleKey<SimpleKey> key;
-	public DoubleSimpleKeyAlgorithmBuilder(){
+	private GeneralPublisher pub;
+	private Fileformat form;
+	
+	public DoubleSimpleKeyAlgorithmBuilder(GeneralPublisher pub){
 		SimpleKey key1=new SimpleKey();
 		SimpleKey key2=new SimpleKey();
 		this.key= new DoubleKey<SimpleKey>(key1,key2);
+		
+		this.pub=pub;
+		
 	}
 	
 	public void DoubleSimpleEncryptorBuilder(BuildEncryptor encrypt) {
 		DoubleEncryption<SimpleKey> Algo=
 				this.DoubleSimpleAlgoCreation(encrypt.Algorithm, encrypt.Repeat);
+		
 		Algo.setKey(key);
 		if(encrypt.FileORDirec.equals("File")){
+			this.form=new Fileformat(encrypt);
 			FileEncryptor<DoubleKey<SimpleKey>> Code =
-					new FileEncryptor<DoubleKey<SimpleKey>>(Algo);
+					new FileEncryptor<DoubleKey<SimpleKey>>(Algo,
+							(FilePublisher) pub);
 
 			if (encrypt.EDOperation.equals("Encryption")){
-				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
-				String outputF=Code.NameConvert(inputF, "E");
-				Code.encrtptFile(inputF,outputF,encrypt.KeyPath);
+				Code.encrtptFile(form);
 			}
 			else if (encrypt.EDOperation.equals("Decryption")){
-				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
-				String outputF=Code.NameConvert(inputF, "D");
-				Code.decryptFile(inputF,outputF,encrypt.KeyPath);
+				Code.decryptFile(form);
 			}
 
 		}else if(encrypt.FileORDirec.equals("Directory")){

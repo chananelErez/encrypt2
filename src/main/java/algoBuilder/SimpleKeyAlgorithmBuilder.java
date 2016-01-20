@@ -1,5 +1,7 @@
 package algoBuilder;
 
+import adService.FilePublisher;
+import adService.GeneralPublisher;
 import encryption.EncryptionAlgorithm;
 import encryption.RepeatEncryption;
 import encryption.ShiftUpEncryption;
@@ -7,31 +9,36 @@ import encryption.XorEncryption;
 import fileOperation.AsyncDirectoryProcessor;
 import fileOperation.FileEncryptor;
 import keyBuilding.SimpleKey;
+import writingFormat.Fileformat;
 
 public class SimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 	
-	public SimpleKeyAlgorithmBuilder(){
-
+	private GeneralPublisher pub;
+	private Fileformat form;
+	
+	public SimpleKeyAlgorithmBuilder(GeneralPublisher pub){
+		
+		this.pub=pub;
 	}
 	
 
 	public void SimpleEncryptorBuilder(BuildEncryptor encrypt){
 		EncryptionAlgorithm<SimpleKey> Algo=
 				this.SimpleAlgoCreation(encrypt.Algorithm, encrypt.Repeat);
+		
 		SimpleKey key=new SimpleKey();
 		Algo.setKey(key);
 		if(encrypt.FileORDirec.equals("File")){
-			FileEncryptor<SimpleKey> Code =new FileEncryptor<SimpleKey>(Algo);
+			this.form=new Fileformat(encrypt);
+			FileEncryptor<SimpleKey> Code =
+					new FileEncryptor<SimpleKey>(Algo,
+							(FilePublisher) pub);
 
 			if (encrypt.EDOperation.equals("Encryption")){
-				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
-				String outputF=Code.NameConvert(inputF, "E");
-				Code.encrtptFile(inputF,outputF,encrypt.KeyPath);
+				Code.encrtptFile(form);
 			}
 			else if (encrypt.EDOperation.equals("Decryption")){
-				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
-				String outputF=Code.NameConvert(inputF, "D");
-				Code.decryptFile(inputF,outputF,encrypt.KeyPath);
+				Code.decryptFile(form);
 			}
 
 		}else if(encrypt.FileORDirec.equals("Directory")){

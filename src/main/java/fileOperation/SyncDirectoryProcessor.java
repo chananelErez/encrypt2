@@ -4,99 +4,123 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Scanner;
+import org.apache.log4j.Logger;
 
+import adService.DirectoryPublisher;
 import algoBuilder.BuildEncryptor;
-import encryption.DoubleEncryption;
 import encryption.EncryptionAlgorithm;
-import encryption.ShiftUpEncryption;
 import encryption.invalidEncryptionKeyException;
-import keyBuilding.DoubleKey;
 import keyBuilding.KeyType;
-import keyBuilding.SimpleKey;
-import xmlexperimante.WriteXml;
+import logging.EncryptionLog4JLogger;
+import writingFormat.Directoryformat;
+import writingFormat.IntFileformat;
 
 public class SyncDirectoryProcessor<E extends KeyType> extends FolderEncryption<E> 
-implements ObservableEncryption, IDirectoryProcessor {
+implements IDirectoryProcessor {
+	
+	final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
+	
+	private DirectoryPublisher pub =new DirectoryPublisher();
 
 	public SyncDirectoryProcessor(EncryptionAlgorithm<E> algo) {
 		super(algo);
-		
 	}
+	
 	@Override
-	public void encryptDirectory(String folderName) {
+	public void encryptDirectory(Directoryformat folderName) {
 		logger.debug("Encryption of folder starts.");
-		this.createNewFolder("\\Encrypted");
-		this.notifyObserver(this.EncryptionFolderStarted(folderName));
-		final File folder = new File(folderName);
-		ArrayList<String> files=this.listFilesForFolder(folder);
-		Algo.restartKey(folderName+"\\Encrypted");
-		for (final String fileEntry : files){
-			logger.debug("Encryption of the file "+fileEntry+" starts.");
-			String content;
-			String originalFilePath=folderName+"\\"+fileEntry;
-			String outputFilePath=folderName+"\\encrypted\\"+fileEntry;
+		
+		pub.notifyObserver(pub.EncryptionFolderStarted(folderName));
+		ArrayList<IntFileformat> formats=this.CreateFileFormat(folderName);
+		Algo.restartKey(folderName.getOutput());
+		for (final IntFileformat fileEntry : formats){
+			logger.debug("Encryption of the file "+fileEntry.getInput()+" starts.");
 			try {
-				content = FileEncryptor.readFile(originalFilePath, StandardCharsets.UTF_8);
-				this.notifyObserver(this.EncryptionStarted(originalFilePath));
+				String content = Analphabet.readFile(fileEntry.getInput(), StandardCharsets.UTF_8);
+				pub.getIntP().notifyObserver(
+						pub.getIntP().EncryptionStarted(fileEntry));
+				
 				String cipher=Algo.Encrypt(content);
-				FileEncryptor.writeFile(cipher,"encrypted" ,outputFilePath);
-				this.notifyObserver(this.EncryptionEnded(originalFilePath));
+				Analphabet.writeFile(cipher,"encrypted" ,fileEntry.getOutput());
+				
+				pub.getIntP().notifyObserver(
+						pub.getIntP().EncryptionEnded(fileEntry));
+				
 			} catch (IOException e) {
-				logger.error("The file "+fileEntry+" does not found.");
-				System.out.println("Path to "+fileEntry+" not founded");
-				this.notifyObserver(this.PathNotFound(originalFilePath, "Encryption"));
+				logger.error("The file "+fileEntry.getInput()+" does not found.");
+				System.out.println("Path to "+fileEntry.getInput()+" not founded");
+				pub.getIntP().notifyObserver(
+						pub.getIntP().PathNotFound(fileEntry));
 			}
-			logger.debug("Encryption of the file "+fileEntry+" ends.");
+			logger.debug("Encryption of the file "+fileEntry.getInput()+" ends.");
 		}
-		this.notifyObserver(this.EncryptionFolderEnded(folderName));
+		pub.notifyObserver(pub.EncryptionFolderEnded(folderName));
 		logger.debug("Encryption of folder ends.");
 	}
-	@Override
-	public void decryptDirectory(String folderName,String KeyPath){
-		logger.debug("Decryption of folder starts.");
-		this.createNewFolder("\\Decrypted");
-		this.notifyObserver(this.DecryptionFolderStarted(folderName));
-		final File folder = new File(folderName);
+	
+	private ArrayList<IntFileformat> CreateFileFormat(Directoryformat folderName) {
+		this.createNewFolder(folderName);
+		final File folder = new File(folderName.getInput());
 		ArrayList<String> files=this.listFilesForFolder(folder);
+		ArrayList<IntFileformat> formats=new ArrayList<IntFileformat>();
+		
+		for(final String file:files){
+			BuildEncryptor b=new BuildEncryptor();
+			b.setAlgorithm(folderName.getAlgoName());
+			b.setEDOperation(folderName.getEord());
+			b.setFileName(file);
+			b.setIsDouble(true);
+			formats.add(new IntFileformat(b));
+			
+		}
+		
+		
+		return formats;
+	}
+
+	@Override
+	public void decryptDirectory(Directoryformat folderName){
+		logger.debug("Decryption of folder starts.");
+		
+		pub.notifyObserver(pub.DecryptionFolderStarted(folderName));
+		
+		ArrayList<IntFileformat> files=this.CreateFileFormat(folderName);
 		try {
-			if(KeyPath==null){
-				Algo.getKey().setUserKey();
-			}
-			else{
-				Algo.getKey().getKeyFromFile(KeyPath);
-			}
+			Algo.getKey().getKeyFromFile(folderName.getKeyPath());
 		} catch (invalidEncryptionKeyException e1) {
 			logger.error("The inserted key was wrong.");
-			this.notifyObserver(this.InvalidKey(folderName, "Decryption"));
+			pub.notifyObserver(pub.InvalidKey(folderName));
 			System.out.println("Invalid key type (it is not a number"
 					+ "or it is negative");
 		}
+		
 		Algo.setKey(Algo.getKey());
-		for (final String fileEntry : files){
-			logger.debug("Decryption of the file "+fileEntry+" starts.");
+		
+		for (final IntFileformat fileEntry : files){
+			logger.debug("Decryption of the file "+fileEntry.getInput()+" starts.");
 			String content;
-			String encryptedFilePath=folderName+"\\"+fileEntry;
-			String outputFilePath=folderName+"\\decrypted\\"+fileEntry;
 			try {				
-				content = FileEncryptor.readFile(encryptedFilePath, StandardCharsets.UTF_8);
-				this.notifyObserver(this.DecryptionStarted(encryptedFilePath));
+				content = Analphabet.readFile(fileEntry.getInput(), StandardCharsets.UTF_8);
+				pub.getIntP().notifyObserver(
+						pub.getIntP().DecryptionStarted(fileEntry));
 				String plain=Algo.Decrypt(content);
-				FileEncryptor.writeFile(plain,"decrypted" ,outputFilePath);
-				this.notifyObserver(this.DecryptionEnded(encryptedFilePath));
+				Analphabet.writeFile(plain,"decrypted" ,fileEntry.getOutput());
+				pub.getIntP().notifyObserver(
+						pub.getIntP().DecryptionEnded(fileEntry));
 			} catch (IOException e) {
 				logger.error("The file does not found.");
 				System.out.println("Path not founded");
-				this.notifyObserver(this.PathNotFound(encryptedFilePath, "Decryption"));
+				pub.getIntP().notifyObserver(
+						pub.getIntP().PathNotFound(fileEntry));
 			}
-			logger.debug("Decryption of the file "+fileEntry+" ends.");
+			logger.debug("Decryption of the file "+fileEntry.getInput()+" ends.");
 		}
 		logger.debug("Decryption of folder ends.");
 
-		this.notifyObserver(this.DecryptionFolderEnded(folderName));
+		pub.notifyObserver(pub.DecryptionFolderEnded(folderName));
 	}
 
-	public void EncryptionMenu(SyncDirectoryProcessor<DoubleKey<SimpleKey>> Code) 
+/*	public void EncryptionMenu(SyncDirectoryProcessor<DoubleKey<SimpleKey>> Code) 
 			throws IOException{
 		BuildEncryptor Bu=new BuildEncryptor();
 		Bu.setFileORDirec("Directory");
@@ -149,6 +173,12 @@ implements ObservableEncryption, IDirectoryProcessor {
 				new SyncDirectoryProcessor<DoubleKey<SimpleKey>>(internalAlgo);
 		return Code;
 		
+	}*/
+	public DirectoryPublisher getPub() {
+		return pub;
+	}
+	public void setPub(DirectoryPublisher pub) {
+		this.pub = pub;
 	}
 	
 

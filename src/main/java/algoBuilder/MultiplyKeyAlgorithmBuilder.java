@@ -1,34 +1,43 @@
 package algoBuilder;
 
+import adService.FilePublisher;
+import adService.GeneralPublisher;
 import encryption.EncryptionAlgorithm;
 import encryption.ShiftMultiplyEncryption;
 import fileOperation.AsyncDirectoryProcessor;
 import fileOperation.FileEncryptor;
 import keyBuilding.MultiplyKey;
+import writingFormat.Fileformat;
 
 public class MultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 	private MultiplyKey key;
-	public MultiplyKeyAlgorithmBuilder(){
+	private GeneralPublisher pub;
+	private Fileformat form;
+	
+	
+	public MultiplyKeyAlgorithmBuilder(GeneralPublisher pub){
 		this.key=new MultiplyKey();
+		this.pub=pub;
 	}
 
 	public void MultiplyEncryptorBuilder(BuildEncryptor encrypt) {
 		
 		EncryptionAlgorithm<MultiplyKey> Algo=
 				this.MultiplyAlgoCreation(encrypt.Algorithm);
+
 		Algo.setKey(key);
 		if(encrypt.FileORDirec.equals("File")){
-			FileEncryptor<MultiplyKey> Code =new FileEncryptor<MultiplyKey>(Algo);
+			this.form=new Fileformat(encrypt);
+
+			FileEncryptor<MultiplyKey> Code =
+					new FileEncryptor<MultiplyKey>(Algo
+					,(FilePublisher) pub);
 
 			if (encrypt.EDOperation.equals("Encryption")){
-				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
-				String outputF=Code.NameConvert(inputF, "E");
-				Code.encrtptFile(inputF,outputF,encrypt.KeyPath);
+				Code.encrtptFile(form);
 			}
 			else if (encrypt.EDOperation.equals("Decryption")){
-				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
-				String outputF=Code.NameConvert(inputF, "D");
-				Code.decryptFile(inputF,outputF,encrypt.KeyPath);
+				Code.decryptFile(form);
 			}
 
 		}else if(encrypt.FileORDirec.equals("Directory")){

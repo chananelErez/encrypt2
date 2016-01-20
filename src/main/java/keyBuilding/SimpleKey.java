@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import encryption.invalidEncryptionKeyException;
-import fileOperation.FileEncryptor;
+import fileOperation.Analphabet;
 
 public class SimpleKey implements KeyType {
 	
@@ -26,7 +26,7 @@ public class SimpleKey implements KeyType {
 
 	@Override
 	public void printKeyToFile(String file) {
-		FileEncryptor.writeFile(String.valueOf(key), "key",file+"\\key.txt");
+		Analphabet.writeFile(String.valueOf(key), "key",file+"\\key.txt");
 		
 	}
 
@@ -56,15 +56,28 @@ public class SimpleKey implements KeyType {
 		this.key = key;
 	}
 	@Override
-	public void getKeyFromFile(String KeyPath) {
+	public void getKeyFromFile(String KeyPath) throws invalidEncryptionKeyException { 
 		try {
-			String k=FileEncryptor.readFile(KeyPath, StandardCharsets.UTF_8);
-			setKey(Integer.valueOf(k));
+			String k=Analphabet.readFile(KeyPath, StandardCharsets.UTF_8);
+			if(!this.isNumeric(k)){
+				throw new invalidEncryptionKeyException();
+			}
+			int Key=Integer.parseInt(k);
+			if(Key<=0){
+				throw new invalidEncryptionKeyException();
+			}
+			
+			setKey(Key);
 		} catch (IOException e) {
 			System.out.println("Failed to read the key.");
 		}
 		
 	}
+	
+	
+	public boolean isNumeric(String s) {  
+	    return s.matches("[-+]?\\d*\\.?\\d+");  
+	} 
 	
 
 }

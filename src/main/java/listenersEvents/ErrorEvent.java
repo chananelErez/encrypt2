@@ -1,9 +1,12 @@
 package listenersEvents;
 
+
+import writingFormat.Generalformat;
+
 public class ErrorEvent implements GeneralEvent {
 	private String errorKind;
-	private String file;
-	private String eORd;
+	private Generalformat file;
+	
 
 	
 	
@@ -15,20 +18,12 @@ public class ErrorEvent implements GeneralEvent {
 		this.errorKind = errorKind;
 	}
 
-	public String getFile() {
+	public Generalformat getFile() {
 		return file;
 	}
 
-	public void setFile(String file) {
+	public void setFile(Generalformat file) {
 		this.file = file;
-	}
-
-	public String geteORd() {
-		return eORd;
-	}
-
-	public void seteORd(String eORd) {
-		this.eORd = eORd;
 	}
 	
 

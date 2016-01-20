@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import encryption.invalidEncryptionKeyException;
-import fileOperation.FileEncryptor;
+import fileOperation.Analphabet;
 
 public class DoubleKey<T extends SimpleKey> implements KeyType{
 	
@@ -34,9 +34,9 @@ public class DoubleKey<T extends SimpleKey> implements KeyType{
 
 	@Override
 	public void printKeyToFile(String file) {
-		FileEncryptor.writeFile(String.valueOf(key1.getKey()), "key1", 
+		Analphabet.writeFile(String.valueOf(key1.getKey()), "key1", 
 				file+"\\key1.txt");
-		FileEncryptor.writeFile(String.valueOf(key2.getKey()), "key2",
+		Analphabet.writeFile(String.valueOf(key2.getKey()), "key2",
 				file+"\\key2.txt");
 		
 	}
@@ -83,16 +83,31 @@ public class DoubleKey<T extends SimpleKey> implements KeyType{
 	}
 
 	@Override
-	public void getKeyFromFile(String KeyPath) {
+	public void getKeyFromFile(String KeyPath) throws invalidEncryptionKeyException {
 		try {
-			String k=FileEncryptor.readFile(KeyPath, StandardCharsets.UTF_8);
+			String k=Analphabet.readFile(KeyPath, StandardCharsets.UTF_8);
 			String[] arr=(k.split(" "));
-			key1.setKey(Integer.valueOf(arr[0]));
-			key2.setKey(Integer.valueOf(arr[1]));
+			String keya=arr[0];
+			String keyb=arr[1];
+			if(!(this.isNumeric(keya)&&this.isNumeric(keyb))){
+				throw new invalidEncryptionKeyException();
+			}
+			int Keya=Integer.parseInt(keya);
+			int Keyb=Integer.parseInt(keyb);
+			if(Keya<=0||Keyb<=0){
+				throw new invalidEncryptionKeyException();
+			}
+			key1.setKey(Keya);
+			key2.setKey(Keyb);
+			
 		} catch (IOException e) {
 			System.out.println("Failed to read the key.");
 		}
 		
 	}
+	
+	public boolean isNumeric(String s) {  
+	    return s.matches("[-+]?\\d*\\.?\\d+");  
+	} 
 
 }

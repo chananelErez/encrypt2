@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.log4j.Logger;
 
+import adService.FilePublisher;
 import encryption.EncryptionAlgorithm;
 import keyBuilding.KeyType;
 import listenersEvents.EncryptionEvent;
@@ -19,6 +20,9 @@ public class AsyncEncryption<E extends KeyType>
 implements ObservableEncryption, Runnable {
 	
 	final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
+	private FilePublisher pub ;
+
+	
 	private String folderName;
 	private String fileName;
 	private SynchronizedCounter c;
@@ -102,85 +106,17 @@ implements ObservableEncryption, Runnable {
 		
 	}
 	
-	
-
-	@Override
-	public void addEncryptionObserver(EncryptionObserver observer) {
-		list.add(observer);
-		
-	}
-
-	@Override
-	public void removeEncryptionbserver(EncryptionObserver observer) {
-		list.remove(observer);
-		
-	}
-
-	@Override
-	public void notifyObserver(GeneralEvent event) {
-		for(EncryptionObserver observer : list)
-        {
-            observer.update(event);
-        }
-		
-	}
-
-	
-	@Override
-	public EncryptionEvent EncryptionStarted(String file) {
-		String output=folderName+"\\encrypted"+file;
-		EncryptionEvent eventES=new EncryptionEvent("Encryption",
-				                    file,Algo.toString(),output,
-				                    System.currentTimeMillis());
-		return eventES;
-	}
-
-	@Override
-	public EncryptionEvent DecryptionStarted(String file) {
-		String output=folderName+"\\decrypted"+file;
-		EncryptionEvent eventDS=new EncryptionEvent("Decryption",
-				                    file,Algo.toString(),output,
-				                    System.currentTimeMillis());
-		return eventDS;
-	}
-
-	@Override
-	public EncryptionEvent EncryptionEnded(String file) {
-		EncryptionEvent eventEE=new EncryptionEvent("Encryption",
-                file,null,null,
-                System.currentTimeMillis());
-		return eventEE;
-	}
-
-	@Override
-	public EncryptionEvent DecryptionEnded(String file) {
-		EncryptionEvent eventDE=new EncryptionEvent("Decryption",
-                file,null,null,
-                System.currentTimeMillis());
-		return eventDE;
-	}
-	
 	public ConcurrentLinkedQueue<EncryptionObserver> getList(){
 		return list;
 		
 	}
 
-	@Override
-	public ErrorEvent PathNotFound(String file,String eORd) {
-		ErrorEvent PNF=new ErrorEvent();
-		PNF.setErrorKind("The Path was not found");
-		PNF.setFile(file);
-		PNF.seteORd(eORd);
-		return PNF;
+	public FilePublisher getPub() {
+		return pub;
 	}
 
-	@Override
-	public ErrorEvent InvalidKey(String file,String eORd) {
-		ErrorEvent IK=new ErrorEvent();
-		IK.setErrorKind("The Key was not valid");
-		IK.setFile(file);
-		IK.seteORd(eORd);
-		return IK;
+	public void setPub(FilePublisher pub) {
+		this.pub = pub;
 	}
 
 }

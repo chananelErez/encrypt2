@@ -1,5 +1,7 @@
 package algoBuilder;
 
+import adService.FilePublisher;
+import adService.GeneralPublisher;
 import encryption.DoubleEncryption;
 import encryption.EncryptionAlgorithm;
 import encryption.ShiftMultiplyEncryption;
@@ -7,34 +9,38 @@ import fileOperation.AsyncDirectoryProcessor;
 import fileOperation.FileEncryptor;
 import keyBuilding.DoubleKey;
 import keyBuilding.MultiplyKey;
+import writingFormat.Fileformat;
 
 public class DoubleMultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 
 
 	private DoubleKey<MultiplyKey> key;
-	public DoubleMultiplyKeyAlgorithmBuilder(){
+	private Fileformat form;
+	private GeneralPublisher pub;
+	
+	public DoubleMultiplyKeyAlgorithmBuilder(GeneralPublisher pub){
 		MultiplyKey key1=new MultiplyKey();
 		MultiplyKey key2=new MultiplyKey();
 		this.key= new DoubleKey<MultiplyKey>(key1,key2);
+		this.pub=pub;
 	}
 	
 	public void DoubleMultiplyEncryptorBuilder(BuildEncryptor encrypt) {
 		DoubleEncryption<MultiplyKey> Algo=
-				this.DoubleMultiplyAlgoCreation(encrypt.Algorithm, encrypt.Repeat);
+				this.DoubleMultiplyAlgoCreation(encrypt.Algorithm);
 		Algo.setKey(key);
 		if(encrypt.FileORDirec.equals("File")){
+			this.form=new Fileformat(encrypt);
+			
 			FileEncryptor<DoubleKey<MultiplyKey>> Code =
-					new FileEncryptor<DoubleKey<MultiplyKey>>(Algo);
+					new FileEncryptor<DoubleKey<MultiplyKey>>(Algo,
+							(FilePublisher) pub);
 
 			if (encrypt.EDOperation.equals("Encryption")){
-				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
-				String outputF=Code.NameConvert(inputF, "E");
-				Code.encrtptFile(inputF,outputF,encrypt.KeyPath);
+				Code.encrtptFile(form);
 			}
 			else if (encrypt.EDOperation.equals("Decryption")){
-				String inputF=encrypt.SourceDirectory+"\\"+encrypt.FileName;
-				String outputF=Code.NameConvert(inputF, "D");
-				Code.decryptFile(inputF,outputF,encrypt.KeyPath);
+				Code.decryptFile(form);
 			}
 
 		}else if(encrypt.FileORDirec.equals("Directory")){
@@ -55,8 +61,7 @@ public class DoubleMultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 
 	}
 	
-	public DoubleEncryption<MultiplyKey> DoubleMultiplyAlgoCreation(String Algorithm,
-			int repeat){
+	public DoubleEncryption<MultiplyKey> DoubleMultiplyAlgoCreation(String Algorithm){
 		if(Algorithm.equals("ShiftMultiplyEncryption")){
 			EncryptionAlgorithm<MultiplyKey> intAlgo=new ShiftMultiplyEncryption();
 			DoubleEncryption<MultiplyKey> Algo=new DoubleEncryption<MultiplyKey>(intAlgo);

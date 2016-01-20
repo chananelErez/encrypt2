@@ -1,8 +1,10 @@
 package fileOperation;
 
+import writingFormat.Directoryformat;
+
 public interface IDirectoryProcessor {
 
-	void encryptDirectory(String folderName);
-	void decryptDirectory(String folderName,String KeyPath);
+	void encryptDirectory(Directoryformat folderName);
+	void decryptDirectory(Directoryformat folderName);
 	
 }

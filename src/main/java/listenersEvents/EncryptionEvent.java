@@ -1,4 +1,7 @@
 package listenersEvents;
+
+import writingFormat.Generalformat;
+
 public class EncryptionEvent implements GeneralEvent {
 	
 	private String eORd;/*Encryption or decryption */
@@ -7,12 +10,11 @@ public class EncryptionEvent implements GeneralEvent {
 	private String outputFile;/*Where is the output file */
 	private long currentTime;
 	
-	public EncryptionEvent(String eORd,String file,String algorithm,
-			String outputFile,long currentTime){
-		this.eORd=eORd;
-		this.file=file;
-		this.algorithm=algorithm;
-		this.outputFile=outputFile;
+	public EncryptionEvent(Generalformat file,long currentTime){
+		this.eORd=file.getEord();
+		this.file=file.getInput();
+		this.algorithm=file.getAlgoName();
+		this.outputFile=file.getOutput();
 		this.currentTime=currentTime;
 		
 		
