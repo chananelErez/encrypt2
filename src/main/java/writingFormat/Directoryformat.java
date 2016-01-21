@@ -19,6 +19,7 @@ final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
 	public Directoryformat(BuildEncryptor b) {
 		this.algoName=b.getAlgorithm();
 		this.eord=b.getEDOperation();
+		this.keyPath=b.getKeyPath();
 		this.input=b.getSourceDirectory();
 		this.output=NameConvert(input, eord);
 	}

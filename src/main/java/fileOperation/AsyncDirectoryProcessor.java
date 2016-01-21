@@ -5,6 +5,8 @@ import adService.DirectoryPublisher;
 import encryption.EncryptionAlgorithm;
 import encryption.invalidEncryptionKeyException;
 import keyBuilding.KeyType;
+import listenersEvents.GeneralEvent;
+import observer.EncryptionObserver;
 import synchronizedStaff.SynchronizedCounter;
 import writingFormat.Directoryformat;
 import writingFormat.IntFileformat;
@@ -15,7 +17,7 @@ import writingFormat.IntFileformat;
  * -Summing it all up. */
 
 public class AsyncDirectoryProcessor<E extends KeyType> extends FolderEncryption<E>
-implements IDirectoryProcessor {
+implements IDirectoryProcessor,ObservableEncryption {
 
 	private DirectoryPublisher pub =new DirectoryPublisher();
 	private SynchronizedCounter c=new SynchronizedCounter();
@@ -80,22 +82,25 @@ implements IDirectoryProcessor {
 		
 	}
 	
-	
-/*	
-	public static AsyncDirectoryProcessor<DoubleKey<SimpleKey>> buildOne(){
-		EncryptionAlgorithm<SimpleKey> algo=new ShiftUpEncryption();
-		DoubleEncryption<SimpleKey> internalAlgo=
-				                    new DoubleEncryption<SimpleKey>(algo);
-		SimpleKey key1=new SimpleKey();
-		SimpleKey key2=new SimpleKey();
-		DoubleKey<SimpleKey> k= new DoubleKey<SimpleKey>(key1,key2);
-		internalAlgo.setKey(k);
-		AsyncDirectoryProcessor<DoubleKey<SimpleKey>> Code=
-				new AsyncDirectoryProcessor<DoubleKey<SimpleKey>>(internalAlgo);
-		return Code;
+	@Override
+	public void addEncryptionObserver(EncryptionObserver observer) {
+		pub.addEncryptionObserver(observer);
 		
 	}
 
+	@Override
+	public void removeEncryptionbserver(EncryptionObserver observer) {
+		pub.removeEncryptionbserver(observer);
+		
+	}
+
+	@Override
+	public void notifyObserver(GeneralEvent event) {
+		pub.notifyObserver(event);
+		
+	}
+	
+/*	
 	public void EncryptionMenu(AsyncDirectoryProcessor<DoubleKey<SimpleKey>> Code) 
 			throws IOException{
 		BuildEncryptor Bu=new BuildEncryptor();

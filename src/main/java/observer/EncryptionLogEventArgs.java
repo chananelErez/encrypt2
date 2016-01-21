@@ -30,8 +30,8 @@ public class EncryptionLogEventArgs {
 	}
 	
 	public void printEncryptionMessage(EncryptionEvent event){
-		if(event.geteORd()=="Encryption"){
-			if(event.getAlgorithm()!=null){
+		if(event.geteORd().equals("Encryption")){
+			if(!databaseE.containsKey(event.getFile())){
 				databaseE.put(event.getFile(), event);
 				if(event.getFile().toLowerCase().endsWith(".txt")){
 				System.out.print("The Encryption of the file "+event.getFile()

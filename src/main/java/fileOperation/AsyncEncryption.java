@@ -48,9 +48,9 @@ implements  Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		if(this.fileName.equals("Encryption")){
+		if(this.fileName.getEord().equals("Encryption")){
 			this.encryptFile();
-		}else if(this.fileName.equals("Decryption")){
+		}else if(this.fileName.getEord().equals("Decryption")){
 			this.decryptFile();
 		}
 		c.increment();

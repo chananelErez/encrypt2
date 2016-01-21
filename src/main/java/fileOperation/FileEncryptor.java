@@ -8,10 +8,12 @@ import adService.FilePublisher;
 import encryption.EncryptionAlgorithm;
 import encryption.invalidEncryptionKeyException;
 import keyBuilding.KeyType;
+import listenersEvents.GeneralEvent;
 import logging.EncryptionLog4JLogger;
+import observer.EncryptionObserver;
 import writingFormat.Fileformat;
 
-public class FileEncryptor<E extends KeyType> {
+public class FileEncryptor<E extends KeyType> implements ObservableEncryption{
 	
 	final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
 	
@@ -116,19 +118,6 @@ public class FileEncryptor<E extends KeyType> {
 		logger.debug("Closing menu.");
 		user_input.close();
 	}
-	
-
-	public static FileEncryptor<DoubleKey<SimpleKey>> buildOne(){
-		EncryptionAlgorithm<SimpleKey> algo=new ShiftUpEncryption();
-		DoubleEncryption<SimpleKey> internalAlgo=
-				                    new DoubleEncryption<SimpleKey>(algo);
-		SimpleKey key1=new SimpleKey();
-		SimpleKey key2=new SimpleKey();
-		DoubleKey<SimpleKey> k= new DoubleKey<SimpleKey>(key1,key2);
-		internalAlgo.setKey(k);
-		FileEncryptor<DoubleKey<SimpleKey>> Code=
-				new FileEncryptor<DoubleKey<SimpleKey>>(internalAlgo);
-		return Code;
 		
 	}*/
 
@@ -138,6 +127,24 @@ public class FileEncryptor<E extends KeyType> {
 
 	public void setPub(FilePublisher pub) {
 		this.pub = pub;
+	}
+
+	@Override
+	public void addEncryptionObserver(EncryptionObserver observer) {
+		pub.addEncryptionObserver(observer);
+		
+	}
+
+	@Override
+	public void removeEncryptionbserver(EncryptionObserver observer) {
+		pub.removeEncryptionbserver(observer);
+		
+	}
+
+	@Override
+	public void notifyObserver(GeneralEvent event) {
+		pub.notifyObserver(event);
+		
 	}
 
 

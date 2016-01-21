@@ -9,12 +9,14 @@ import adService.DirectoryPublisher;
 import encryption.EncryptionAlgorithm;
 import encryption.invalidEncryptionKeyException;
 import keyBuilding.KeyType;
+import listenersEvents.GeneralEvent;
 import logging.EncryptionLog4JLogger;
+import observer.EncryptionObserver;
 import writingFormat.Directoryformat;
 import writingFormat.IntFileformat;
 
 public class SyncDirectoryProcessor<E extends KeyType> extends FolderEncryption<E> 
-implements IDirectoryProcessor {
+implements IDirectoryProcessor,ObservableEncryption {
 	
 	final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
 	
@@ -98,6 +100,24 @@ implements IDirectoryProcessor {
 		logger.debug("Decryption of folder ends.");
 
 		pub.notifyObserver(pub.DecryptionFolderEnded(folderName));
+	}
+	
+	@Override
+	public void addEncryptionObserver(EncryptionObserver observer) {
+		pub.addEncryptionObserver(observer);
+		
+	}
+
+	@Override
+	public void removeEncryptionbserver(EncryptionObserver observer) {
+		pub.removeEncryptionbserver(observer);
+		
+	}
+
+	@Override
+	public void notifyObserver(GeneralEvent event) {
+		pub.notifyObserver(event);
+		
 	}
 
 /*	public void EncryptionMenu(SyncDirectoryProcessor<DoubleKey<SimpleKey>> Code) 

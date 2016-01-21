@@ -19,6 +19,7 @@ public class Fileformat implements Generalformat,IntFormat{
 	public Fileformat(BuildEncryptor b){
 		this.algoName=b.getAlgorithm();
 		this.eord=b.getEDOperation();
+		this.keyPath=b.getKeyPath();
 		this.inputFile=b.getSourceDirectory()+"\\"+b.getFileName();
 		this.outputFile=NameConvert(inputFile, eord);
 		

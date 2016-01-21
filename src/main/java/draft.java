@@ -1,40 +1,19 @@
-import java.util.ArrayList;
-import java.util.List;
+import injection.BuildEncryptorInjection;
+import injection.DirectoryProcessorInjection;
+import writingFormat.Directoryformat;
 
 public class draft {
 
 	  public static void main(String[] args) {
-	        List<String> myList = new ArrayList<String>();
-	        myList.add("one");
-	        myList.add("two");
-	        myList.add("three");
-	        myList.add("four");
-	        myList.add("five");
+		  BuildEncryptorInjection b=new BuildEncryptorInjection();
+		  DirectoryProcessorInjection f=new DirectoryProcessorInjection();
+		  Directoryformat ff=new Directoryformat(b.getBuilder());
+		  f.getDirectoryEncryptor().encryptDirectory(ff);
+		  
+		  
 
-	        System.out.println("Inserted in 'order': ");
-	        printList(myList);
-	        System.out.println("\n");
-	        System.out.println("Inserted out of 'order': ");
-
-	        // Clear the list
-	        myList.clear();
-
-	        myList.add("four");
-	        myList.add("five");
-	        myList.add("one");
-	        myList.add("two");
-	        myList.add("three");
-
-	        printList(myList);
-	    }
-
-	    private static void printList(List<String> myList) {
-	        for (String string : myList) {
-	            System.out.println(string);
-	        }
-	    }
-		
-	
-
+		 
+		  
+	  }
 
 }

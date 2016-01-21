@@ -14,7 +14,7 @@ public class DirectoryPublisher implements GeneralPublisher {
 	private ConcurrentLinkedQueue<EncryptionObserver> list =
             new ConcurrentLinkedQueue<EncryptionObserver>();
 	
-	private FilePublisher intP;
+	private FilePublisher intP=new FilePublisher();
 
 	public EncryptionEvent EncryptionFolderStarted(Directoryformat folder){
 		EncryptionEvent eventEFS=new EncryptionEvent(folder,

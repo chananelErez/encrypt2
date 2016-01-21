@@ -15,7 +15,7 @@ import writingFormat.IntFileformat;
 get the names of the folder's files.
 Then we know how to open them ,and we should take care of the writing to new folder. 
 */
-public class FolderEncryption <E extends KeyType> {
+public class FolderEncryption <E extends KeyType>  {
 	final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
 	private String folderName;
 	
@@ -29,11 +29,11 @@ public class FolderEncryption <E extends KeyType> {
 		Boolean success;
 		String w=new String();
 		if(folderName.getEord().equals("Encryption")){
-			w="\\Encrypted";
+			w=folderName.getInput()+"\\Encrypted";
 		}else if(folderName.getEord().equals("Decryption")){
-			w="\\Decrypted";
+			w=folderName.getInput()+"\\Decrypted";
 		}
-		success = (new File(this.getFolderName()+w)).mkdirs();
+		success = (new File(w)).mkdirs();
 		if (!success) {
 		    logger.error("failed to build subdirectory");
 		}
@@ -62,6 +62,7 @@ public class FolderEncryption <E extends KeyType> {
 			b.setAlgorithm(folderName.getAlgoName());
 			b.setEDOperation(folderName.getEord());
 			b.setFileName(file);
+			b.setSourceDirectory(folderName.getInput());
 			b.setIsDouble(true);
 			formats.add(new IntFileformat(b));
 			
@@ -78,6 +79,8 @@ public class FolderEncryption <E extends KeyType> {
 	public void setFolderName(String folderName) {
 		this.folderName = folderName;
 	}
+	
+
 	
 
 }
