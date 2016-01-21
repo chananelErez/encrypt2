@@ -9,40 +9,34 @@ import org.apache.log4j.Logger;
 import adService.FilePublisher;
 import encryption.EncryptionAlgorithm;
 import keyBuilding.KeyType;
-import listenersEvents.EncryptionEvent;
-import listenersEvents.ErrorEvent;
-import listenersEvents.GeneralEvent;
 import logging.EncryptionLog4JLogger;
 import observer.EncryptionObserver;
 import synchronizedStaff.SynchronizedCounter;
+import writingFormat.IntFileformat;
 
 public class AsyncEncryption<E extends KeyType>
-implements ObservableEncryption, Runnable {
+implements  Runnable {
 	
 	final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
 	private FilePublisher pub ;
 
-	
-	private String folderName;
-	private String fileName;
+	private IntFileformat fileName;
 	private SynchronizedCounter c;
 	
 	private ConcurrentLinkedQueue<EncryptionObserver> list =
 			                          new ConcurrentLinkedQueue<EncryptionObserver>();
-	private boolean EorD;
+
 	public EncryptionAlgorithm<E> Algo;	
 	
 	public AsyncEncryption(SynchronizedCounter c,
-			String filename, boolean eord,String fName
+			IntFileformat form
 			,EncryptionAlgorithm<E> algo,
-			ConcurrentLinkedQueue<EncryptionObserver> list){
+			FilePublisher pub){
 		logger.debug("Thread was created.");
 		this.c=c;
-		this.fileName=filename;
+		this.fileName=form;
 		this.Algo=algo;
-		this.EorD=eord;
-		this.folderName=fName;
-		this.list=list;
+		this.pub=pub;
 		logger.debug("Thread creation was over.");
 		
 	}
@@ -54,9 +48,9 @@ implements ObservableEncryption, Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		if(EorD){
+		if(this.fileName.equals("Encryption")){
 			this.encryptFile();
-		}else{
+		}else if(this.fileName.equals("Decryption")){
 			this.decryptFile();
 		}
 		c.increment();
@@ -66,42 +60,40 @@ implements ObservableEncryption, Runnable {
 	}
 	
 	public void encryptFile() {
-		logger.debug("Encryption of the file "+fileName+" starts.");
-		String content;
-		String originalFilePath=folderName+"\\"+fileName;
-		String outputFilePath=folderName+"\\encrypted\\"+fileName;
+		logger.debug("Encryption of the file "+fileName.getFileName()+" starts.");
+		
 		try {
-			content = FileEncryptor.readFile(originalFilePath, StandardCharsets.UTF_8);
-			this.notifyObserver(this.EncryptionStarted(fileName));
+			String content = Analphabet.readFile(this.fileName.getInput(),
+					StandardCharsets.UTF_8);
+			pub.notifyObserver(pub.EncryptionStarted(fileName));
 			String cipher=Algo.Encrypt(content);
-			FileEncryptor.writeFile(cipher,"encrypted" ,outputFilePath);
-			this.notifyObserver(this.EncryptionEnded(fileName));
+			Analphabet.writeFile(cipher,"encrypted" ,this.fileName.getOutput());
+			pub.notifyObserver(pub.EncryptionEnded(fileName));
 		} catch (IOException e) {
 			logger.error("The file does not found.");
 			System.out.println("Path not founded");
-			this.notifyObserver(this.PathNotFound(originalFilePath, "Encryption"));
+			pub.notifyObserver(pub.PathNotFound(this.fileName));
 		}
-		logger.debug("Encryption of the file "+fileName+"  end.");
+		logger.debug("Encryption of the file "+fileName.getFileName()+"  end.");
 		
 	}
 	
 	public void decryptFile(){
-		logger.debug("Decryption of the file "+fileName+" start.");
-		String content;
-		String encryptedFilePath=folderName+"\\"+fileName;
-		String outputFilePath=folderName+"\\decrypted\\"+fileName;
+		logger.debug("Decryption of the file "+fileName.getFileName()+" start.");
+		
 		try {
-			content = FileEncryptor.readFile(encryptedFilePath, StandardCharsets.UTF_8);
-			this.notifyObserver(this.DecryptionStarted(fileName));
+			String content = Analphabet.readFile(this.fileName.getInput()
+					, StandardCharsets.UTF_8);
+			pub.notifyObserver(pub.DecryptionStarted(fileName));
 			String plain=Algo.Decrypt(content);
-			FileEncryptor.writeFile(plain,"decrypted" ,outputFilePath);
-			this.notifyObserver(this.DecryptionEnded(fileName));
+			Analphabet.writeFile(plain,"decrypted" ,this.fileName.getOutput());
+			pub.notifyObserver(pub.DecryptionEnded(fileName));
 		} catch (IOException e) {
 			logger.error("The file does not found.");
 			System.out.println("Path not founded");
-			this.notifyObserver(this.PathNotFound(encryptedFilePath, "Decryption"));
+			pub.notifyObserver(pub.PathNotFound(this.fileName));
 		}
-		logger.debug("Decryption of the file "+fileName+" end.");
+		logger.debug("Decryption of the file "+fileName.getFileName()+" end.");
 
 		
 	}

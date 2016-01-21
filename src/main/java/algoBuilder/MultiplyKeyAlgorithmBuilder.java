@@ -1,12 +1,12 @@
 package algoBuilder;
 
-import adService.FilePublisher;
 import adService.GeneralPublisher;
 import encryption.EncryptionAlgorithm;
 import encryption.ShiftMultiplyEncryption;
 import fileOperation.AsyncDirectoryProcessor;
 import fileOperation.FileEncryptor;
 import keyBuilding.MultiplyKey;
+import writingFormat.Directoryformat;
 import writingFormat.Fileformat;
 
 public class MultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
@@ -15,9 +15,8 @@ public class MultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 	private Fileformat form;
 	
 	
-	public MultiplyKeyAlgorithmBuilder(GeneralPublisher pub){
+	public MultiplyKeyAlgorithmBuilder(){
 		this.key=new MultiplyKey();
-		this.pub=pub;
 	}
 
 	public void MultiplyEncryptorBuilder(BuildEncryptor encrypt) {
@@ -30,8 +29,7 @@ public class MultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 			this.form=new Fileformat(encrypt);
 
 			FileEncryptor<MultiplyKey> Code =
-					new FileEncryptor<MultiplyKey>(Algo
-					,(FilePublisher) pub);
+					new FileEncryptor<MultiplyKey>(Algo);
 
 			if (encrypt.EDOperation.equals("Encryption")){
 				Code.encrtptFile(form);
@@ -43,13 +41,15 @@ public class MultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 		}else if(encrypt.FileORDirec.equals("Directory")){
 			AsyncDirectoryProcessor<MultiplyKey> Code =
 					new AsyncDirectoryProcessor<MultiplyKey>(Algo);
+			Directoryformat form=new Directoryformat(encrypt);
+
 			if (encrypt.EDOperation.equals("Encryption")){
-				String inputF=encrypt.SourceDirectory;
-				Code.encryptDirectory(inputF);
+				
+				Code.encryptDirectory(form);
 			}
 			if (encrypt.EDOperation.equals("Decryption")){
-				String inputF=encrypt.SourceDirectory;
-				Code.decryptDirectory(inputF,encrypt.KeyPath);
+				
+				Code.decryptDirectory(form);
 			}
 
 		}else{
@@ -65,6 +65,14 @@ public class MultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 		} else{
 		return null;
 		}
+	}
+
+	public GeneralPublisher getPub() {
+		return pub;
+	}
+
+	public void setPub(GeneralPublisher pub) {
+		this.pub = pub;
 	}
 
 }

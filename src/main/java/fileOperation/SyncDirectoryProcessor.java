@@ -1,13 +1,11 @@
 package fileOperation;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import adService.DirectoryPublisher;
-import algoBuilder.BuildEncryptor;
 import encryption.EncryptionAlgorithm;
 import encryption.invalidEncryptionKeyException;
 import keyBuilding.KeyType;
@@ -32,7 +30,7 @@ implements IDirectoryProcessor {
 		
 		pub.notifyObserver(pub.EncryptionFolderStarted(folderName));
 		ArrayList<IntFileformat> formats=this.CreateFileFormat(folderName);
-		Algo.restartKey(folderName.getOutput());
+		Algo.restartKey(folderName.getKeyPath());
 		for (final IntFileformat fileEntry : formats){
 			logger.debug("Encryption of the file "+fileEntry.getInput()+" starts.");
 			try {
@@ -58,25 +56,7 @@ implements IDirectoryProcessor {
 		logger.debug("Encryption of folder ends.");
 	}
 	
-	private ArrayList<IntFileformat> CreateFileFormat(Directoryformat folderName) {
-		this.createNewFolder(folderName);
-		final File folder = new File(folderName.getInput());
-		ArrayList<String> files=this.listFilesForFolder(folder);
-		ArrayList<IntFileformat> formats=new ArrayList<IntFileformat>();
-		
-		for(final String file:files){
-			BuildEncryptor b=new BuildEncryptor();
-			b.setAlgorithm(folderName.getAlgoName());
-			b.setEDOperation(folderName.getEord());
-			b.setFileName(file);
-			b.setIsDouble(true);
-			formats.add(new IntFileformat(b));
-			
-		}
-		
-		
-		return formats;
-	}
+
 
 	@Override
 	public void decryptDirectory(Directoryformat folderName){

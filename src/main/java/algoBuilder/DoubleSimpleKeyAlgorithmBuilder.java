@@ -1,6 +1,5 @@
 package algoBuilder;
 
-import adService.FilePublisher;
 import adService.GeneralPublisher;
 import encryption.DoubleEncryption;
 import encryption.EncryptionAlgorithm;
@@ -11,6 +10,7 @@ import fileOperation.AsyncDirectoryProcessor;
 import fileOperation.FileEncryptor;
 import keyBuilding.DoubleKey;
 import keyBuilding.SimpleKey;
+import writingFormat.Directoryformat;
 import writingFormat.Fileformat;
 
 public class DoubleSimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
@@ -19,12 +19,10 @@ public class DoubleSimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 	private GeneralPublisher pub;
 	private Fileformat form;
 	
-	public DoubleSimpleKeyAlgorithmBuilder(GeneralPublisher pub){
+	public DoubleSimpleKeyAlgorithmBuilder(){
 		SimpleKey key1=new SimpleKey();
 		SimpleKey key2=new SimpleKey();
 		this.key= new DoubleKey<SimpleKey>(key1,key2);
-		
-		this.pub=pub;
 		
 	}
 	
@@ -36,8 +34,7 @@ public class DoubleSimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 		if(encrypt.FileORDirec.equals("File")){
 			this.form=new Fileformat(encrypt);
 			FileEncryptor<DoubleKey<SimpleKey>> Code =
-					new FileEncryptor<DoubleKey<SimpleKey>>(Algo,
-							(FilePublisher) pub);
+					new FileEncryptor<DoubleKey<SimpleKey>>(Algo);
 
 			if (encrypt.EDOperation.equals("Encryption")){
 				Code.encrtptFile(form);
@@ -49,13 +46,15 @@ public class DoubleSimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 		}else if(encrypt.FileORDirec.equals("Directory")){
 			AsyncDirectoryProcessor<DoubleKey<SimpleKey>> Code =
 					new AsyncDirectoryProcessor<DoubleKey<SimpleKey>>(Algo);
+			Directoryformat form=new Directoryformat(encrypt);
+
 			if (encrypt.EDOperation.equals("Encryption")){
-				String inputF=encrypt.SourceDirectory;
-				Code.encryptDirectory(inputF);
+				
+				Code.encryptDirectory(form);
 			}
 			if (encrypt.EDOperation.equals("Decryption")){
-				String inputF=encrypt.SourceDirectory;
-				Code.decryptDirectory(inputF,encrypt.KeyPath);
+				
+				Code.decryptDirectory(form);
 			}
 
 		}else{
@@ -81,6 +80,14 @@ public class DoubleSimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 		} else{
 			return null;
 		}
+	}
+
+	public GeneralPublisher getPub() {
+		return pub;
+	}
+
+	public void setPub(GeneralPublisher pub) {
+		this.pub = pub;
 	}
 		
 	

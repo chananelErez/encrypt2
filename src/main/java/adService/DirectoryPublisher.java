@@ -48,12 +48,14 @@ public class DirectoryPublisher implements GeneralPublisher {
 	@Override
 	public void addEncryptionObserver(EncryptionObserver observer) {
 		list.add(observer);
+		intP.addEncryptionObserver(observer);
 		
 	}
 
 	@Override
 	public void removeEncryptionbserver(EncryptionObserver observer) {
 		list.remove(observer);
+		intP.addEncryptionObserver(observer);
 		
 	}
 

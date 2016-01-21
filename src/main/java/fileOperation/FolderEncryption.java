@@ -4,10 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
+import algoBuilder.BuildEncryptor;
 import encryption.EncryptionAlgorithm;
 import keyBuilding.KeyType;
 import logging.EncryptionLog4JLogger;
 import writingFormat.Directoryformat;
+import writingFormat.IntFileformat;
 
 /*We want to encrypt entire folder so we have to know how to
 get the names of the folder's files.
@@ -46,6 +48,27 @@ public class FolderEncryption <E extends KeyType> {
 	        
 	    }
 		return files;
+	}
+	
+	
+	public ArrayList<IntFileformat> CreateFileFormat(Directoryformat folderName) {
+		this.createNewFolder(folderName);
+		final File folder = new File(folderName.getInput());
+		ArrayList<String> files=this.listFilesForFolder(folder);
+		ArrayList<IntFileformat> formats=new ArrayList<IntFileformat>();
+		
+		for(final String file:files){
+			BuildEncryptor b=new BuildEncryptor();
+			b.setAlgorithm(folderName.getAlgoName());
+			b.setEDOperation(folderName.getEord());
+			b.setFileName(file);
+			b.setIsDouble(true);
+			formats.add(new IntFileformat(b));
+			
+		}
+		
+		
+		return formats;
 	}
 
 	public String getFolderName() {

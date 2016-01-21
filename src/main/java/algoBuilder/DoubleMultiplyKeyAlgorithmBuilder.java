@@ -1,6 +1,5 @@
 package algoBuilder;
 
-import adService.FilePublisher;
 import adService.GeneralPublisher;
 import encryption.DoubleEncryption;
 import encryption.EncryptionAlgorithm;
@@ -9,20 +8,21 @@ import fileOperation.AsyncDirectoryProcessor;
 import fileOperation.FileEncryptor;
 import keyBuilding.DoubleKey;
 import keyBuilding.MultiplyKey;
+import writingFormat.Directoryformat;
 import writingFormat.Fileformat;
 
 public class DoubleMultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 
 
 	private DoubleKey<MultiplyKey> key;
-	private Fileformat form;
+
 	private GeneralPublisher pub;
 	
-	public DoubleMultiplyKeyAlgorithmBuilder(GeneralPublisher pub){
+	public DoubleMultiplyKeyAlgorithmBuilder(){
 		MultiplyKey key1=new MultiplyKey();
 		MultiplyKey key2=new MultiplyKey();
 		this.key= new DoubleKey<MultiplyKey>(key1,key2);
-		this.pub=pub;
+		
 	}
 	
 	public void DoubleMultiplyEncryptorBuilder(BuildEncryptor encrypt) {
@@ -30,11 +30,10 @@ public class DoubleMultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 				this.DoubleMultiplyAlgoCreation(encrypt.Algorithm);
 		Algo.setKey(key);
 		if(encrypt.FileORDirec.equals("File")){
-			this.form=new Fileformat(encrypt);
+			Fileformat form=new Fileformat(encrypt);
 			
 			FileEncryptor<DoubleKey<MultiplyKey>> Code =
-					new FileEncryptor<DoubleKey<MultiplyKey>>(Algo,
-							(FilePublisher) pub);
+					new FileEncryptor<DoubleKey<MultiplyKey>>(Algo);
 
 			if (encrypt.EDOperation.equals("Encryption")){
 				Code.encrtptFile(form);
@@ -44,15 +43,16 @@ public class DoubleMultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 			}
 
 		}else if(encrypt.FileORDirec.equals("Directory")){
+			Directoryformat form=new Directoryformat(encrypt);
 			AsyncDirectoryProcessor<DoubleKey<MultiplyKey>> Code =
 					new AsyncDirectoryProcessor<DoubleKey<MultiplyKey>>(Algo);
 			if (encrypt.EDOperation.equals("Encryption")){
-				String inputF=encrypt.SourceDirectory;
-				Code.encryptDirectory(inputF);
+				
+				Code.encryptDirectory(form);
 			}
 			if (encrypt.EDOperation.equals("Decryption")){
-				String inputF=encrypt.SourceDirectory;
-				Code.decryptDirectory(inputF,encrypt.KeyPath);
+				
+				Code.decryptDirectory(form);
 			}
 
 		}else{
@@ -69,6 +69,14 @@ public class DoubleMultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 		} else{
 			return null;
 		}
+	}
+
+	public GeneralPublisher getPub() {
+		return pub;
+	}
+
+	public void setPub(GeneralPublisher pub) {
+		this.pub = pub;
 	}
 		
 

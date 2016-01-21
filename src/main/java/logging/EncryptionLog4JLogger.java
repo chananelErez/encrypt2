@@ -8,7 +8,7 @@ public class EncryptionLog4JLogger {
 	
 	public static void main(String args[]) throws IOException{
 		logger.info("This is logging message before the process begins.");
-		EncryptionLogger.main(args);
+		
 		logger.info("This is logging message after the process ends.");
 	}
 	

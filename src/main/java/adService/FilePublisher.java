@@ -1,6 +1,6 @@
 package adService;
 
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import listenersEvents.EncryptionEvent;
 import listenersEvents.ErrorEvent;
@@ -11,8 +11,8 @@ import writingFormat.IntFormat;
 public class FilePublisher implements GeneralPublisher,PopularEvents {
 
 	
-	private LinkedList<EncryptionObserver> list =
-            new LinkedList<EncryptionObserver>();
+	private  ConcurrentLinkedQueue<EncryptionObserver> list =
+            new  ConcurrentLinkedQueue<EncryptionObserver>();
 	
 	@Override
 	public void addEncryptionObserver(EncryptionObserver observer) {
@@ -63,7 +63,7 @@ public class FilePublisher implements GeneralPublisher,PopularEvents {
 		return eventDE;
 	}
 	
-	public LinkedList<EncryptionObserver> getList(){
+	public  ConcurrentLinkedQueue<EncryptionObserver> getList(){
 		return list;
 		
 	}

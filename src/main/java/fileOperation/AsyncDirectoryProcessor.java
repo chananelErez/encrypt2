@@ -1,20 +1,13 @@
 package fileOperation;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import algoBuilder.BuildEncryptor;
-import encryption.DoubleEncryption;
+import adService.DirectoryPublisher;
 import encryption.EncryptionAlgorithm;
-import encryption.ShiftUpEncryption;
 import encryption.invalidEncryptionKeyException;
-import keyBuilding.DoubleKey;
 import keyBuilding.KeyType;
-import keyBuilding.SimpleKey;
 import synchronizedStaff.SynchronizedCounter;
-import xmlexperimante.WriteXml;
+import writingFormat.Directoryformat;
+import writingFormat.IntFileformat;
 
 /*The idea of doing things simultaneously maybe something like this:
  * -getting the names of which files we want to encrypt.
@@ -22,8 +15,9 @@ import xmlexperimante.WriteXml;
  * -Summing it all up. */
 
 public class AsyncDirectoryProcessor<E extends KeyType> extends FolderEncryption<E>
-implements IDirectoryProcessor, ObservableEncryption {
+implements IDirectoryProcessor {
 
+	private DirectoryPublisher pub =new DirectoryPublisher();
 	private SynchronizedCounter c=new SynchronizedCounter();
 	
 	public AsyncDirectoryProcessor(EncryptionAlgorithm<E> algo) {
@@ -32,61 +26,62 @@ implements IDirectoryProcessor, ObservableEncryption {
 	}
 
 	@Override
-	public void encryptDirectory(String folderName) {
+	public void encryptDirectory(Directoryformat folderName) {
 		logger.debug("Encryption of folder starts.");
-		this.createNewFolder("\\Encrypted");
-		this.notifyObserver(this.EncryptionFolderStarted(folderName));
-		final File folder = new File(folderName);
-		ArrayList<String> files=this.listFilesForFolder(folder);
-		Algo.restartKey(folderName+"\\Encrypted");
-		for (final String fileEntry : files){
+		
+		ArrayList<IntFileformat> formats=this.CreateFileFormat(folderName);
+		pub.notifyObserver(pub.EncryptionFolderStarted(folderName));
+		
+		Algo.restartKey(folderName.getKeyPath());
+		
+		
+		for (final IntFileformat fileEntry : formats){
 			Thread t = new Thread(new AsyncEncryption<E>
-			(c, fileEntry, true, this.getFolderName(), Algo, this.getList()));
+			(c, fileEntry, Algo, pub.getIntP()));
 			t.start();
 		}
-		logger.debug("The counter should get to the value "+String.valueOf(files.size()));
-		while(c.value()<files.size()){
+		logger.debug("The counter should get to the value "+String.valueOf(formats.size()));
+		while(c.value()<formats.size()){
 			
 		}
-		this.notifyObserver(this.EncryptionFolderEnded(folderName));
+		pub.notifyObserver(pub.EncryptionFolderEnded(folderName));
 		logger.debug("Encryption of folder ends.");
 		
 	}
 
 	@Override
-	public void decryptDirectory(String folderName,String KeyPath) {
+	public void decryptDirectory(Directoryformat folderName) {
 		logger.debug("Decryption of folder starts.");
-		this.createNewFolder("\\Decrypted");
-		this.notifyObserver(this.DecryptionFolderStarted(folderName));
-		final File folder = new File(folderName);
-		ArrayList<String> files=this.listFilesForFolder(folder);
+		
+		pub.notifyObserver(pub.DecryptionFolderStarted(folderName));
+		ArrayList<IntFileformat> files=this.CreateFileFormat(folderName);
+		
 		try {
-			if(KeyPath==null){
-			Algo.getKey().setUserKey();
-			}
-			else{
-				Algo.getKey().getKeyFromFile(KeyPath);
-			}
+			Algo.getKey().getKeyFromFile(folderName.getKeyPath());
 		} catch (invalidEncryptionKeyException e1) {
 			logger.error("The inserted key was wrong.");
-			this.notifyObserver(this.InvalidKey(folderName, "Decryption"));
+			pub.notifyObserver(pub.InvalidKey(folderName));
 			System.out.println("Invalid key type (it is not a number"
 					+ "or it is negative");
 		}
 		Algo.setKey(Algo.getKey());
-		for (final String fileEntry : files){
+		
+		for (final IntFileformat fileEntry : files){
 			Thread t = new Thread(new AsyncEncryption<E>
-			(c, fileEntry, false, this.getFolderName(), Algo, this.getList()));
+			(c, fileEntry, Algo, pub.getIntP()));
 			t.start();
 		}
 		while(c.value()<files.size()){
 			
 		}
-		this.notifyObserver(this.DecryptionFolderEnded(folderName));
+		pub.notifyObserver(pub.DecryptionFolderEnded(folderName));
 		logger.debug("Decryption of folder ends.");
 
 		
 	}
+	
+	
+/*	
 	public static AsyncDirectoryProcessor<DoubleKey<SimpleKey>> buildOne(){
 		EncryptionAlgorithm<SimpleKey> algo=new ShiftUpEncryption();
 		DoubleEncryption<SimpleKey> internalAlgo=
@@ -140,6 +135,7 @@ implements IDirectoryProcessor, ObservableEncryption {
 		}
 		logger.debug("Closing menu.");
 		user_input.close();
-	}
+	}*/
+
 
 }

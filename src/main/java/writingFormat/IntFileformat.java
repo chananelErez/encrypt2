@@ -15,6 +15,7 @@ final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
 	private String keyPath;
 	private String algoName;
 	private String eord;
+	private String FileName;
 	
 	public IntFileformat(BuildEncryptor b){
 		this.algoName=b.getAlgorithm();
@@ -22,7 +23,7 @@ final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
 		this.inputFile=b.getSourceDirectory()+"\\"+b.getFileName();
 		this.outputFile=b.getSourceDirectory()+
 				NameConvert(inputFile, eord)+b.getFileName();
-		
+		this.FileName=b.getFileName();
 	}
 	
 	public String getInput() {
@@ -62,6 +63,10 @@ final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
 		logger.debug("The convert process finished.");
 		return convertName;
 		
+	}
+
+	public String getFileName() {
+		return FileName;
 	}
 	
 	

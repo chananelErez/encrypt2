@@ -15,7 +15,7 @@ public class FileEncryptor<E extends KeyType> {
 	
 	final static Logger logger = Logger.getLogger(EncryptionLog4JLogger.class);
 	
-	private FilePublisher pub ;
+	private FilePublisher pub =new FilePublisher();
 	
 	EncryptionAlgorithm<E> Algo;
 	

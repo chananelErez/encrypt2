@@ -1,6 +1,5 @@
 package algoBuilder;
 
-import adService.FilePublisher;
 import adService.GeneralPublisher;
 import encryption.EncryptionAlgorithm;
 import encryption.RepeatEncryption;
@@ -9,6 +8,7 @@ import encryption.XorEncryption;
 import fileOperation.AsyncDirectoryProcessor;
 import fileOperation.FileEncryptor;
 import keyBuilding.SimpleKey;
+import writingFormat.Directoryformat;
 import writingFormat.Fileformat;
 
 public class SimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
@@ -16,9 +16,8 @@ public class SimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 	private GeneralPublisher pub;
 	private Fileformat form;
 	
-	public SimpleKeyAlgorithmBuilder(GeneralPublisher pub){
+	public SimpleKeyAlgorithmBuilder(){
 		
-		this.pub=pub;
 	}
 	
 
@@ -31,8 +30,7 @@ public class SimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 		if(encrypt.FileORDirec.equals("File")){
 			this.form=new Fileformat(encrypt);
 			FileEncryptor<SimpleKey> Code =
-					new FileEncryptor<SimpleKey>(Algo,
-							(FilePublisher) pub);
+					new FileEncryptor<SimpleKey>(Algo);
 
 			if (encrypt.EDOperation.equals("Encryption")){
 				Code.encrtptFile(form);
@@ -44,13 +42,15 @@ public class SimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 		}else if(encrypt.FileORDirec.equals("Directory")){
 			AsyncDirectoryProcessor<SimpleKey> Code =
 					new AsyncDirectoryProcessor<SimpleKey>(Algo);
+			Directoryformat form=new Directoryformat(encrypt);
+
 			if (encrypt.EDOperation.equals("Encryption")){
-				String inputF=encrypt.SourceDirectory;
-				Code.encryptDirectory(inputF);
+				
+				Code.encryptDirectory(form);
 			}
 			if (encrypt.EDOperation.equals("Decryption")){
-				String inputF=encrypt.SourceDirectory;
-				Code.decryptDirectory(inputF,encrypt.KeyPath);
+				
+				Code.decryptDirectory(form);
 			}
 
 		}else{ 
@@ -79,6 +79,16 @@ public class SimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 		} else{
 		return null;
 		}
+	}
+
+
+	public GeneralPublisher getPub() {
+		return pub;
+	}
+
+
+	public void setPub(GeneralPublisher pub) {
+		this.pub = pub;
 	}
 
 
