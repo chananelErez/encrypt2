@@ -1,5 +1,11 @@
 package encryption;
 import mathOperation.MathOperation;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
+import com.google.inject.Inject;
+
 import keyBuilding.KeyType;
 
 
@@ -64,6 +70,7 @@ implements EncryptionAlgorithm<E>{
 		return key;
 	}
 
+	@Inject
 	@Override
 	public void setKey(E key) {
 		this.key=key;
@@ -77,13 +84,58 @@ implements EncryptionAlgorithm<E>{
 	}
 
 	@Override
-	public void restartKey(String target) {
+	public void restartKeyByRandom(String target) {
 		key.generateKey();
 		encryptMethod.setKey(key);
 		decryptMethod.setKey(key);
 		key.printKeyToFile(target);
 		
 	}
+	
+	
+	
+	
+
+	@Override
+	public int hashForKey(ArrayList<String> names) {
+		int result=17;
+		
+		for(String n:names){
+			result=31*result+n.hashCode();
+		}
+		
+		return result%256;
+		
+	}
+
+	@Override
+	public ArrayList<String> methodsNames() {
+		Method[] methods = GeneralEncryption.class.getMethods();
+
+		for(Method method : methods){
+		    System.out.println("method = " + method.getName());
+		}
+		return null;
+	}
+
+	@Override
+	public void restartKeyByHash(String target) {
+		ArrayList<String> list=this.methodsNames();
+		int k=this.hashForKey(list);
+		key.generateKeyFromHash(k);
+		encryptMethod.setKey(key);
+		decryptMethod.setKey(key);
+		key.printKeyToFile(target);
+		
+	}
+
+	@Override
+	public void restartKey(String target) {
+		restartKeyByHash(target);
+		
+	}
+	
+	
 	
 	
 

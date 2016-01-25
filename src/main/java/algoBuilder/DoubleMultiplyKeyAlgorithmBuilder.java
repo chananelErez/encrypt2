@@ -14,14 +14,14 @@ import writingFormat.Fileformat;
 public class DoubleMultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 
 
-	private DoubleKey<MultiplyKey> key;
+	private DoubleKey key;
 
 	private GeneralPublisher pub;
 	
 	public DoubleMultiplyKeyAlgorithmBuilder(){
 		MultiplyKey key1=new MultiplyKey();
 		MultiplyKey key2=new MultiplyKey();
-		this.key= new DoubleKey<MultiplyKey>(key1,key2);
+		this.key= new DoubleKey(key1,key2);
 		
 	}
 	
@@ -32,8 +32,8 @@ public class DoubleMultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 		if(encrypt.FileORDirec.equals("File")){
 			Fileformat form=new Fileformat(encrypt);
 			
-			FileEncryptor<DoubleKey<MultiplyKey>> Code =
-					new FileEncryptor<DoubleKey<MultiplyKey>>(Algo);
+			FileEncryptor<DoubleKey> Code =
+					new FileEncryptor<DoubleKey>(Algo);
 
 			if (encrypt.EDOperation.equals("Encryption")){
 				Code.encrtptFile(form);
@@ -44,8 +44,8 @@ public class DoubleMultiplyKeyAlgorithmBuilder implements AlgorithmBuilder {
 
 		}else if(encrypt.FileORDirec.equals("Directory")){
 			Directoryformat form=new Directoryformat(encrypt);
-			AsyncDirectoryProcessor<DoubleKey<MultiplyKey>> Code =
-					new AsyncDirectoryProcessor<DoubleKey<MultiplyKey>>(Algo);
+			AsyncDirectoryProcessor<DoubleKey> Code =
+					new AsyncDirectoryProcessor<DoubleKey>(Algo);
 			if (encrypt.EDOperation.equals("Encryption")){
 				
 				Code.encryptDirectory(form);

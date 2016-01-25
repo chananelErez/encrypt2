@@ -4,14 +4,20 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
 import algoBuilder.BuildEncryptor;
 
 
-public class JAXB implements XMLreader{
-	public BuildEncryptor ReadXML(String fileN){
+public class MyJAXB implements XMLreader{
+	private String fileName;
+	
+	
+	public BuildEncryptor ReadXML(){
 		try {
 
-			File file = new File(fileN);
+			File file = new File(fileName);
 			JAXBContext jaxbContext = JAXBContext.newInstance(BuildEncryptor.class);
 
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -26,4 +32,15 @@ public class JAXB implements XMLreader{
 
 	}
 
+	@Inject
+	@Override
+	public void setFileName(@Named("specific") String fileN) {
+		this.fileName=fileN;
+		
+	}
+	
+	
+
+	
 }
+

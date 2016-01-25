@@ -3,22 +3,23 @@ package keyBuilding;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+
+import com.google.inject.Inject;
 
 import encryption.invalidEncryptionKeyException;
 import fileOperation.Analphabet;
 
-public class DoubleKey<T extends SimpleKey> implements KeyType{
+public class DoubleKey implements KeyType{
 	
-	private T key1;
-	private T key2;
+	private SimpleKey key1=new SimpleKey();
+	private SimpleKey key2=new SimpleKey();
 /*	private Scanner user_input;*/
 	
-	public DoubleKey(T k1,T k2){
-		key1=k1;
-		key2=k2;
-		
+	@Inject
+	public DoubleKey(SimpleKey k1,SimpleKey k2){
+		this.key1=k1;
+		this.key2=k2;
 	}
 /*	
 	public void setUser_input(Scanner user_input) {
@@ -75,8 +76,8 @@ public class DoubleKey<T extends SimpleKey> implements KeyType{
 		key2.setKey(k2);
 	}
 	
-	public List<T> getKey(){
-		List<T> lst=new ArrayList<T>();
+	public ArrayList<SimpleKey> getKey(){
+		ArrayList<SimpleKey> lst=new ArrayList<SimpleKey>();
 		lst.add(key1);
 		lst.add(key2);
 		return lst;
@@ -108,6 +109,12 @@ public class DoubleKey<T extends SimpleKey> implements KeyType{
 	
 	public boolean isNumeric(String s) {  
 	    return s.matches("[-+]?\\d*\\.?\\d+");  
+	}
+
+	@Override
+	public void generateKeyFromHash(int k) {
+		setKey(k, k);
+		
 	} 
 
 }

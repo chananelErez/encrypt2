@@ -13,7 +13,8 @@ public class XmlParserDOMTest {
 		XmlParserDOM j=new XmlParserDOM();
 		String fileN="C:\\Users\\Public\\Documents\\openingexperiment"
 				+ "\\justfolder\\exec7.xml";
-		BuildEncryptor b=j.ReadXML(fileN);
+		j.setFileName(fileN);
+		BuildEncryptor b=j.ReadXML();
 		assertEquals(b.getAlgorithm(),"ShiftUpEncryption");
 		assertEquals(b.getIsDouble(), false);	}
 

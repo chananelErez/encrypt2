@@ -15,14 +15,14 @@ import writingFormat.Fileformat;
 
 public class DoubleSimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 
-	private DoubleKey<SimpleKey> key;
+	private DoubleKey key;
 	private GeneralPublisher pub;
 	private Fileformat form;
 	
 	public DoubleSimpleKeyAlgorithmBuilder(){
 		SimpleKey key1=new SimpleKey();
 		SimpleKey key2=new SimpleKey();
-		this.key= new DoubleKey<SimpleKey>(key1,key2);
+		this.key= new DoubleKey(key1,key2);
 		
 	}
 	
@@ -33,8 +33,8 @@ public class DoubleSimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 		Algo.setKey(key);
 		if(encrypt.FileORDirec.equals("File")){
 			this.form=new Fileformat(encrypt);
-			FileEncryptor<DoubleKey<SimpleKey>> Code =
-					new FileEncryptor<DoubleKey<SimpleKey>>(Algo);
+			FileEncryptor<DoubleKey> Code =
+					new FileEncryptor<DoubleKey>(Algo);
 
 			if (encrypt.EDOperation.equals("Encryption")){
 				Code.encrtptFile(form);
@@ -44,8 +44,8 @@ public class DoubleSimpleKeyAlgorithmBuilder implements AlgorithmBuilder {
 			}
 
 		}else if(encrypt.FileORDirec.equals("Directory")){
-			AsyncDirectoryProcessor<DoubleKey<SimpleKey>> Code =
-					new AsyncDirectoryProcessor<DoubleKey<SimpleKey>>(Algo);
+			AsyncDirectoryProcessor<DoubleKey> Code =
+					new AsyncDirectoryProcessor<DoubleKey>(Algo);
 			Directoryformat form=new Directoryformat(encrypt);
 
 			if (encrypt.EDOperation.equals("Encryption")){

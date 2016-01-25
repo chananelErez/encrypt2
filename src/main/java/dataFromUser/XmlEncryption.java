@@ -7,7 +7,8 @@ public class XmlEncryption {
 	
 	public BuildEncryptor GetData(XmlInfo inf){
 		if(XMLValidation.validateXMLSchema(inf.getXsdPath(), inf.getXmlPath())){
-			BuildEncryptor encrypt=inf.getReader().ReadXML(inf.getXmlPath());
+			inf.getReader().setFileName(inf.getXmlPath());
+			BuildEncryptor encrypt=inf.getReader().ReadXML();
 			return encrypt;
 		}
 		return null;

@@ -12,5 +12,7 @@ public interface KeyType {
 	
 	void getKeyFromFile(String KeyPath) throws invalidEncryptionKeyException;
 	
+	void generateKeyFromHash(int k);
+	
 	
 }

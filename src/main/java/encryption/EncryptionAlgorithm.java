@@ -1,5 +1,8 @@
 package encryption;
 import mathOperation.MathOperation;
+
+import java.util.ArrayList;
+
 import keyBuilding.KeyType;
 
 public interface EncryptionAlgorithm<E extends KeyType> {
@@ -22,6 +25,12 @@ public interface EncryptionAlgorithm<E extends KeyType> {
 	
 	void restartKey(String target);
 	
+	int hashForKey(ArrayList<String> names);
 	
+	ArrayList<String> methodsNames();
+	
+	void restartKeyByHash(String target);
+
+	void restartKeyByRandom(String target);
 
 }

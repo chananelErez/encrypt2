@@ -1,6 +1,11 @@
 package fileOperation;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
 import adService.DirectoryPublisher;
 import encryption.EncryptionAlgorithm;
 import encryption.invalidEncryptionKeyException;
@@ -22,7 +27,8 @@ implements IDirectoryProcessor,ObservableEncryption {
 	private DirectoryPublisher pub =new DirectoryPublisher();
 	private SynchronizedCounter c=new SynchronizedCounter();
 	
-	public AsyncDirectoryProcessor(EncryptionAlgorithm<E> algo) {
+	@Inject
+	public AsyncDirectoryProcessor(@Named("double") EncryptionAlgorithm<E> algo) {
 		super(algo);
 
 	}
@@ -82,6 +88,7 @@ implements IDirectoryProcessor,ObservableEncryption {
 		
 	}
 	
+	@Inject
 	@Override
 	public void addEncryptionObserver(EncryptionObserver observer) {
 		pub.addEncryptionObserver(observer);
@@ -98,6 +105,10 @@ implements IDirectoryProcessor,ObservableEncryption {
 	public void notifyObserver(GeneralEvent event) {
 		pub.notifyObserver(event);
 		
+	}
+	
+	public ConcurrentLinkedQueue<EncryptionObserver> getObserversList(){
+		return pub.getList();
 	}
 	
 /*	

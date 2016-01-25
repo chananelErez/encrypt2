@@ -9,7 +9,9 @@ import java.io.*;
 
 public class XmlParserDOM implements XMLreader{
 	
-	public BuildEncryptor ReadXML(String fileN) {
+	private String fileName;
+
+	public BuildEncryptor ReadXML() {
 		//Get Document Builder
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
@@ -19,7 +21,7 @@ public class XmlParserDOM implements XMLreader{
 		//Build Document
 		Document document;
 		try {
-			document = builder.parse(new File(fileN));
+			document = builder.parse(new File(fileName));
 			//Normalize the XML Structure; It's just too important !!
 			document.getDocumentElement().normalize();
 			 
@@ -73,5 +75,11 @@ public class XmlParserDOM implements XMLreader{
 		return null;
 	}
 	
+	@Override
+	public void setFileName(String fileN) {
+		this.fileName=fileN;
+		
+	}
+
 
 }

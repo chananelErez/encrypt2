@@ -1,4 +1,7 @@
 package encryption;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
 import keyBuilding.SimpleKey;
 import mathOperation.MyRepeatAddition;
 import mathOperation.MyRepeatSubstraction;
@@ -22,5 +25,17 @@ implements EncryptionAlgorithm<SimpleKey>{
 	@Override
 	public String toString(){
 		return "Repeat Encryption";
+	}
+	
+	@Override
+	public ArrayList<String> methodsNames() {
+		Method[] methods = RepeatEncryption.class.getMethods();
+
+		ArrayList<String> list=new ArrayList<String>();
+		for(Method method : methods){
+		    list.add(method.getName());
+		    
+		}
+		return list;
 	}
 }

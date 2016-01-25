@@ -1,11 +1,11 @@
 package mathOperation;
 
-import java.util.List;
-
+import java.util.ArrayList;
 import keyBuilding.DoubleKey;
+import keyBuilding.KeyType;
 import keyBuilding.SimpleKey;
 
-public class DoubleOperation<T extends SimpleKey> extends MathOperation<DoubleKey<T>> {
+public class DoubleOperation<T extends KeyType> extends MathOperation<DoubleKey> {
 	
 	public MathOperation<T> operator;
 	public DoubleOperation(MathOperation<T> oper){
@@ -13,11 +13,12 @@ public class DoubleOperation<T extends SimpleKey> extends MathOperation<DoubleKe
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int Operate(int a) {
-		List<T> keys=getKey().getKey();
-		T key1=keys.get(0);
-		T key2=keys.get(1);
+		ArrayList<SimpleKey> keys=getKey().getKey();
+		T key1=(T) keys.get(0);
+		T key2=(T) keys.get(1);
 		this.operator.setKey(key1);
 		int tmp=this.operator.Operate(a);
 		this.operator.setKey(key2);

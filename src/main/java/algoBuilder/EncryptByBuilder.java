@@ -1,5 +1,7 @@
 package algoBuilder;
 
+
+
 public class EncryptByBuilder {
 	
 	public static void Encrypt(BuildEncryptor encrypt){

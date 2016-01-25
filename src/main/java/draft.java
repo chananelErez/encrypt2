@@ -11,9 +11,6 @@ public class draft {
 		  f.getDirectoryEncryptor().encryptDirectory(ff);
 		  
 		  
-
-		 
-		  
 	  }
 
 }

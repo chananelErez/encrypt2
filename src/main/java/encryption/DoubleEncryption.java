@@ -1,4 +1,10 @@
 package encryption;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
 import encryption.EncryptionAlgorithm;
 import encryption.GeneralEncryption;
 import keyBuilding.DoubleKey;
@@ -7,11 +13,12 @@ import mathOperation.DoubleOperation;
 
 
 public class DoubleEncryption<T extends SimpleKey> extends 
-GeneralEncryption<DoubleKey<T>> 
-implements EncryptionAlgorithm<DoubleKey<T>> {
+GeneralEncryption<DoubleKey> 
+implements EncryptionAlgorithm<DoubleKey> {
 	EncryptionAlgorithm<T> Algo;
 	
-	public DoubleEncryption(EncryptionAlgorithm<T> algo) {
+	@Inject
+	public DoubleEncryption(@Named("simple") EncryptionAlgorithm<T> algo) {
 		Algo=algo;
 		encryptMethod=new DoubleOperation<T>(Algo.getEncryptMethod());
 		decryptMethod=new DoubleOperation<T>(Algo.getDecryptMethod());
@@ -23,7 +30,17 @@ implements EncryptionAlgorithm<DoubleKey<T>> {
 		return "Double "+Algo.toString()+" Encryption";
 	}
 	
-	
+	@Override
+	public ArrayList<String> methodsNames() {
+		Method[] methods = DoubleEncryption.class.getMethods();
+
+		ArrayList<String> list=new ArrayList<String>();
+		for(Method method : methods){
+		    list.add(method.getName());
+		    
+		}
+		return list;
+	}
 	
 
 

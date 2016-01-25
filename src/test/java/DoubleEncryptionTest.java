@@ -18,7 +18,7 @@ public class DoubleEncryptionTest {
 		DoubleEncryption<SimpleKey> tester=new DoubleEncryption<SimpleKey>(algo);
 		SimpleKey key1=new SimpleKey();
 		SimpleKey key2=new SimpleKey();
-		DoubleKey<SimpleKey> k= new DoubleKey<SimpleKey>(key1,key2);
+		DoubleKey k= new DoubleKey(key1,key2);
 		k.setKey(1, 2);
 		tester.setKey(k);
 		assertEquals(tester.Encrypt("ABCDE"),"DEFGH");
@@ -27,7 +27,7 @@ public class DoubleEncryptionTest {
 		DoubleEncryption<MultiplyKey> tester2=new DoubleEncryption<MultiplyKey>(algor);
 		MultiplyKey key11=new MultiplyKey();
 		MultiplyKey key21=new MultiplyKey();
-		DoubleKey<MultiplyKey> k1= new DoubleKey<MultiplyKey>(key11,key21);
+		DoubleKey k1= new DoubleKey(key11,key21);
 		k1.setKey(3, 5);
 		tester2.setKey(k1);
 		assertEquals(tester2.Encrypt("'()*"),"IXgv");
@@ -39,7 +39,7 @@ public class DoubleEncryptionTest {
 		DoubleEncryption<SimpleKey> tester=new DoubleEncryption<SimpleKey>(algo);
 		SimpleKey key1=new SimpleKey();
 		SimpleKey key2=new SimpleKey();
-		DoubleKey<SimpleKey> k= new DoubleKey<SimpleKey>(key1,key2);
+		DoubleKey k= new DoubleKey(key1,key2);
 		k.setKey(1, 2);
 		tester.setKey(k);
 		assertEquals(tester.Decrypt("DEFGH"),"ABCDE");
@@ -48,7 +48,7 @@ public class DoubleEncryptionTest {
 		DoubleEncryption<MultiplyKey> tester2=new DoubleEncryption<MultiplyKey>(algor);
 		MultiplyKey key11=new MultiplyKey();
 		MultiplyKey key21=new MultiplyKey();
-		DoubleKey<MultiplyKey> k1= new DoubleKey<MultiplyKey>(key11,key21);
+		DoubleKey k1= new DoubleKey(key11,key21);
 		k1.setKey(3,5);
 		tester2.setKey(k1);
 		assertEquals(tester2.Decrypt("IXgv"),"'()*");

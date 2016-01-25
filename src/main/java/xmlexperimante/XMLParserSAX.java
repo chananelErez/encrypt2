@@ -14,12 +14,15 @@ import algoBuilder.BuildEncryptor;
 import algoBuilder.SaxHandler;
 
 public class XMLParserSAX implements XMLreader{
-	public BuildEncryptor ReadXML(String fileN){
+	
+	private String fileName;
+
+	public BuildEncryptor ReadXML(){
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 		try {
 			SAXParser saxParser = saxParserFactory.newSAXParser();
 			SaxHandler handler = new SaxHandler();
-			saxParser.parse(new File(fileN), handler);
+			saxParser.parse(new File(fileName), handler);
 			List<BuildEncryptor> BuildList = handler.getList();
 			return BuildList.get(0);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
@@ -27,5 +30,11 @@ public class XMLParserSAX implements XMLreader{
 		}
 		return null;
 
+	}
+	
+	@Override
+	public void setFileName(String fileN) {
+		this.fileName=fileN;
+		
 	}
 }

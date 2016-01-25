@@ -11,17 +11,17 @@ public class CreationOfKeys {
 		return key;
 	}
 	
-	public static DoubleKey<SimpleKey> BuildDoubleKeyS(){
+	public static DoubleKey BuildDoubleKeyS(){
 		SimpleKey key1=new SimpleKey();
 		SimpleKey key2=new SimpleKey();
-		DoubleKey<SimpleKey> key=new DoubleKey<SimpleKey>(key1, key2);
+		DoubleKey key=new DoubleKey(key1, key2);
 		return key;
 	}
 	
-	public static DoubleKey<MultiplyKey> BuildDoubleKeyM(){
+	public static DoubleKey BuildDoubleKeyM(){
 		MultiplyKey key1=new MultiplyKey();
 		MultiplyKey key2=new MultiplyKey();
-		DoubleKey<MultiplyKey> key=new DoubleKey<MultiplyKey>(key1, key2);
+		DoubleKey key=new DoubleKey(key1, key2);
 		return key;
 	}
 	

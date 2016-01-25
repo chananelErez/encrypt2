@@ -1,15 +1,16 @@
 package injection;
 
 import algoBuilder.BuildEncryptor;
-import xmlexperimante.JAXB;
+import xmlexperimante.MyJAXB;
 
 public class BuildEncryptorInjection {
 	
 	public BuildEncryptor getBuilder(){
-		JAXB j =new JAXB();
+		MyJAXB j =new MyJAXB();
 		String fileN="C:\\Users\\Public\\Documents\\openingexperiment"
 				+ "\\justfolder\\zetha.xml";
-		BuildEncryptor b=j.ReadXML(fileN);
+		j.setFileName(fileN);
+		BuildEncryptor b=j.ReadXML();
 		
 		return b;
 	}

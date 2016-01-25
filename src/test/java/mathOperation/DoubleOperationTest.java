@@ -16,7 +16,7 @@ public class DoubleOperationTest {
 		(new MyAddition<SimpleKey>());
 		SimpleKey key1=new SimpleKey();
 		SimpleKey key2=new SimpleKey();
-		DoubleKey<SimpleKey> k= new DoubleKey<SimpleKey>(key1,key2);
+		DoubleKey k= new DoubleKey(key1,key2);
 		k.setKey(3, 5);
 		tester.setKey(k);
 		assertEquals(tester.Operate(4),12);

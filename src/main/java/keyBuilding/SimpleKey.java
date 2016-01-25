@@ -77,6 +77,12 @@ public class SimpleKey implements KeyType {
 	
 	public boolean isNumeric(String s) {  
 	    return s.matches("[-+]?\\d*\\.?\\d+");  
+	}
+	
+	@Override
+	public void generateKeyFromHash(int k) {
+		setKey(k);
+		
 	} 
 	
 
